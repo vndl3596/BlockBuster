@@ -83,7 +83,7 @@
                     <li class="btn"><a href="/register">Đăng ký</a></li>
                 </ul>
                 <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse != null}">
-                    <li><img th:src="@{'/images/uploads/' + ${loginAcc.avatar}}" alt=""
+                    <li><img th:src="${loginAcc.avatar}" alt=""
                              style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;" th:if="${loginAcc.avatar != ''}"></li>
                     <li><img th:src="@{'/images/uploads/user.png'}" alt=""
                              style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;" th:if="${loginAcc.avatar == ''}"></li>
@@ -154,7 +154,7 @@
                         </div>
                         <div class="col-md-4 col-sm-12 col-xs-12">
                             <div class="mv-img-2">
-                                <img th:src="'/images/uploads/' + ${movie.getKey().poster}" alt=""
+                                <img th:src="${movie.getKey().poster}" alt=""
                                      style="width: 300px; height: 500px;">
                             </div>
                         </div>
@@ -184,7 +184,7 @@
                                 <div class="slide-it" th:each="movie, state : ${listMovieShowing}">
                                     <div class="movie-item">
                                         <div class="mv-img">
-                                            <img th:src="'/images/uploads/' + ${movie.poster}" alt="">
+                                            <img th:src="${movie.poster}" alt="">
                                         </div>
                                         <div class="hvr-inner">
                                             <a th:href="'/movie-detail/id=' + ${movie.id}"> xem ngay <i
@@ -215,7 +215,7 @@
                                 <div class="slide-it" th:each="movie, state : ${listMovieNew}">
                                     <div class="movie-item">
                                         <div class="mv-img">
-                                            <img th:src="'/images/uploads/' + ${movie.poster}" alt="">
+                                            <img th:src="${movie.poster}" alt="">
                                         </div>
                                         <div class="hvr-inner">
                                             <a th:href="'/movie-detail/id=' + ${movie.id}"> xem ngay <i
@@ -246,7 +246,7 @@
                                 <div class="slide-it" th:each="movie, state : ${listMovieComing}">
                                     <div class="movie-item">
                                         <div class="mv-img">
-                                            <img th:src="'/images/uploads/' + ${movie.poster}" alt="">
+                                            <img th:src="${movie.poster}" alt="">
                                         </div>
                                         <div class="hvr-inner">
                                             <a th:href="'/movie-detail/id=' + ${movie.id}"> xem ngay <i
@@ -283,7 +283,7 @@
                 <div class="slider-nav-2 thumb-ft">
                     <div class="item" th:each="movie, state : ${listTrailer}">
                         <div class="trailer-img">
-                            <img th:src="'/images/uploads/' + ${movie.poster}" alt="photo by Barn Images" width="4096"
+                            <img th:src="${movie.poster}" alt="photo by Barn Images" width="4096"
                                  height="2737">
                         </div>
                         <div class="trailer-infor">

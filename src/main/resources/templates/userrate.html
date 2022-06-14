@@ -80,7 +80,7 @@
 					<li class="btn"><a href="/register">Đăng ký</a></li>
 				</ul>
 				<ul class="nav navbar-nav flex-child-menu menu-right">
-					<li><img th:src="@{'/images/uploads/' + ${acc.avatar}}" alt=""
+					<li><img th:src="${acc.getAvatar()}" alt=""
 							 style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;" th:if="${acc.avatar != ''}"></li>
 					<li><img th:src="@{'/images/uploads/user.png'}" alt=""
 							 style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;" th:if="${acc.avatar == ''}"></li>
@@ -118,7 +118,7 @@
 			<div class="col-md-3 col-sm-12 col-xs-12">
 				<div class="user-information">
 					<div class="user-img">
-						<img th:src="@{'/images/uploads/' + ${acc.avatar}}" alt=""
+						<img th:src="${acc.getAvatar()}" alt=""
 							 style="width: 120px; height: 120px; border-radius: 60px;" th:if="${acc.avatar != ''}">
 						<img th:src="@{'/images/uploads/user.png'}" alt=""
 							 style="width: 120px; height: 120px; border-radius: 60px;" th:if="${acc.avatar == ''}">

@@ -82,7 +82,7 @@
 						<li class="btn"><a href="/register">Đăng ký</a></li>
 					</ul>
 					<ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse != null}">
-						<li><img th:src="@{'/images/uploads/' + ${loginAcc.avatar}}" alt=""
+						<li><img th:src="${loginAcc.avatar}" alt=""
 								 style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;" th:if="${loginAcc.avatar != ''}"></li>
 						<li><img th:src="@{'/images/uploads/user.png'}" alt=""
 								 style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;" th:if="${loginAcc.avatar == ''}"></li>

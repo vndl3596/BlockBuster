@@ -82,9 +82,9 @@ public class WatchMovieController {
             String urlSaveUserHistory = "http://localhost:8080/api/history/add-history/" + loginAcc.getId() + "/" + id;
             restTemplate.getForEntity(urlSaveUserHistory, UserHistoryDTO.class);
 
-            HttpEntity<MovieDTO> requestBody = new HttpEntity<>(mv);
-            String urlIncreaseView = "http://localhost:8080/api/movieDetail/editMovie";
-            restTemplate.exchange(urlIncreaseView, HttpMethod.PUT, requestBody, MovieDTO.class);
+//            HttpEntity<MovieDTO> requestBody = new HttpEntity<>(mv);
+//            String urlIncreaseView = "http://localhost:8080/api/movieDetail/editMovie";
+//            restTemplate.exchange(urlIncreaseView, HttpMethod.PUT, requestBody, MovieDTO.class);
         }
         else {
             session.setAttribute("oldUrl","/watch-movie/id=" + id);

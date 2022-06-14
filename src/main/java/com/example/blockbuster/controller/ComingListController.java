@@ -59,8 +59,8 @@ public class ComingListController {
         });
         for (MovieDTO mv: showList){
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
-            ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv,responseMVRate.getBody());
+            ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
+            showMap.put(mv,responseMVRate.getBody().getRate());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;

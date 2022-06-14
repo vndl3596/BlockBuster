@@ -45,6 +45,7 @@ public class UserRatingController {
         }
         AccountDTO loginAcc;
         loginAcc = (AccountDTO) session.getAttribute("loginAcc");
+        System.out.println("\n\n\n\n RATE LOGIN: " + loginAcc.getAvatar());
         acc = loginAcc;
 
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");

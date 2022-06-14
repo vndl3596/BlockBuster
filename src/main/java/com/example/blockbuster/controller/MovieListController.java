@@ -1,10 +1,10 @@
 package com.example.blockbuster.controller;
 
 import com.example.blockbuster.apiCall.DataCall;
-import com.example.blockbuster.dto.AccountDTO;
-import com.example.blockbuster.dto.GenreDTO;
-import com.example.blockbuster.dto.LoginResponse;
-import com.example.blockbuster.dto.MovieDTO;
+import com.example.blockbuster.dto.*;
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -59,10 +59,12 @@ public class MovieListController {
                 else return compare;
             }
         });
-        for (MovieDTO mv: showList){
+        for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
-            ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv,responseMVRate.getBody());
+            System.out.println("\n\n\n\n URL: " + uriMVRate);
+            ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
+            System.out.println("\n\n\n\n RATE: " + responseMVRate.getBody());
+            showMap.put(mv, responseMVRate.getBody().getRate());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
@@ -80,7 +82,7 @@ public class MovieListController {
 
         LoginResponse loginResponse;
         loginResponse = (LoginResponse) session.getAttribute("loginResponse");
-        if(loginResponse != null){
+        if (loginResponse != null) {
             AccountDTO loginAcc;
             loginAcc = (AccountDTO) session.getAttribute("loginAcc");
 
@@ -88,8 +90,8 @@ public class MovieListController {
         }
 
         session.setAttribute("oldUrl", "/movie-grid/showing/page=" + page);
-        model.addAttribute("df",df);
-        model.addAttribute("loginResponse",loginResponse);
+        model.addAttribute("df", df);
+        model.addAttribute("loginResponse", loginResponse);
         model.addAttribute("mvNum", list.size());
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("pageList", pageList);
@@ -156,10 +158,10 @@ public class MovieListController {
                 else return compare;
             }
         });
-        for (MovieDTO mv: showList){
+        for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
             ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv,responseMVRate.getBody());
+            showMap.put(mv, responseMVRate.getBody());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
@@ -177,7 +179,7 @@ public class MovieListController {
 
         LoginResponse loginResponse;
         loginResponse = (LoginResponse) session.getAttribute("loginResponse");
-        if(loginResponse != null){
+        if (loginResponse != null) {
             AccountDTO loginAcc;
             loginAcc = (AccountDTO) session.getAttribute("loginAcc");
 
@@ -186,7 +188,7 @@ public class MovieListController {
 
         session.setAttribute("oldUrl", "/movie-grid/showing/genre=" + idGenre + "&page=" + page);
         model.addAttribute("df", df);
-        model.addAttribute("loginResponse",loginResponse);
+        model.addAttribute("loginResponse", loginResponse);
         model.addAttribute("mvNum", list.size());
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("pageList", pageList);
@@ -269,10 +271,10 @@ public class MovieListController {
                 else return compare;
             }
         });
-        for (MovieDTO mv: showList){
+        for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
             ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv,responseMVRate.getBody());
+            showMap.put(mv, responseMVRate.getBody());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
@@ -290,7 +292,7 @@ public class MovieListController {
 
         LoginResponse loginResponse;
         loginResponse = (LoginResponse) session.getAttribute("loginResponse");
-        if(loginResponse != null){
+        if (loginResponse != null) {
             AccountDTO loginAcc;
             loginAcc = (AccountDTO) session.getAttribute("loginAcc");
 
@@ -299,7 +301,7 @@ public class MovieListController {
 
         session.setAttribute("oldUrl", "/movie-list/showing/page=" + page);
         model.addAttribute("df", df);
-        model.addAttribute("loginResponse",loginResponse);
+        model.addAttribute("loginResponse", loginResponse);
         model.addAttribute("format", format);
         model.addAttribute("mvNum", list.size());
         model.addAttribute("totalPage", totalPage);
@@ -366,10 +368,10 @@ public class MovieListController {
                 else return compare;
             }
         });
-        for (MovieDTO mv: showList){
+        for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
             ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv,responseMVRate.getBody());
+            showMap.put(mv, responseMVRate.getBody());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
@@ -387,7 +389,7 @@ public class MovieListController {
 
         LoginResponse loginResponse;
         loginResponse = (LoginResponse) session.getAttribute("loginResponse");
-        if(loginResponse != null){
+        if (loginResponse != null) {
             AccountDTO loginAcc;
             loginAcc = (AccountDTO) session.getAttribute("loginAcc");
             model.addAttribute("loginAcc", loginAcc);
@@ -395,7 +397,7 @@ public class MovieListController {
 
         session.setAttribute("oldUrl", "/movie-list/showing/genre=" + idGenre + "&page=" + page);
         model.addAttribute("df", df);
-        model.addAttribute("loginResponse",loginResponse);
+        model.addAttribute("loginResponse", loginResponse);
         model.addAttribute("format", format);
         model.addAttribute("mvNum", list.size());
         model.addAttribute("totalPage", totalPage);

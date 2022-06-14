@@ -66,15 +66,15 @@ public class UserProfileController {
         loginAcc = (AccountDTO) session.getAttribute("loginAcc");
         acc = loginAcc;
         RestTemplate restTemplate = new RestTemplate();
-        String urlTown = "http://localhost:8080/api/address/getAddressByTownId/" + acc.getTown();
+        String urlTown = "http://localhost:8080/api/address/getTownById/" + acc.getTown();
         ResponseEntity<TownDTO> responseTown = restTemplate.getForEntity(urlTown, TownDTO.class);
-
+        System.out.println("\n\n\n\n" + responseTown.getBody().getDistrictId());
         String urlListTownByDistrict = "http://localhost:8080/api/address/get-town/" + responseTown.getBody().getDistrictId();
         ResponseEntity<TownDTO[]> responseTownByDistrict = restTemplate.getForEntity(urlListTownByDistrict, TownDTO[].class);
         ArrayList<TownDTO> listTownByDistrict = new ArrayList<>();
         Collections.addAll(listTownByDistrict, responseTownByDistrict.getBody());
 
-        String urlDistrict = "http://localhost:8080/api/address/getAddressByDistrictId/" + responseTown.getBody().getDistrictId();
+        String urlDistrict = "http://localhost:8080/api/address/getDistrictById/" + responseTown.getBody().getDistrictId();
         ResponseEntity<DistrictDTO> responseDistrict = restTemplate.getForEntity(urlDistrict, DistrictDTO.class);
 
         String urlListDistrictByCity = "http://localhost:8080/api/address/get-district/" + responseDistrict.getBody().getCityId();

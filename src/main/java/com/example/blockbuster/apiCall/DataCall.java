@@ -2,7 +2,12 @@ package com.example.blockbuster.apiCall;
 
 import com.example.blockbuster.dto.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import javax.servlet.http.HttpSession;
@@ -25,13 +30,23 @@ public class DataCall {
     ArrayList<CastDTO> listCast = new ArrayList<>();
     ArrayList<DirectorDTO> listDirector = new ArrayList<>();
     ArrayList<FKCastDTO> listFKCast = new ArrayList<>();
-
     ArrayList<MovieDTO> listTrailer = new ArrayList<>();
+    HashMap<Integer, String> imageHash = new HashMap<Integer, String>();
 
     public void dataCall(HttpSession session) {
         String uriAllMovie = "http://localhost:8080/api/movieDetail/getMovieDetailAll";
         ResponseEntity<MovieDTO[]> responseAllMovie = restTemplate.getForEntity(uriAllMovie, MovieDTO[].class);
         Collections.addAll(listAllMovie, responseAllMovie.getBody());
+        for (MovieDTO mv : listAllMovie) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+            map.add("url", mv.getPoster());
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+            String urlImage = "http://localhost:8080/getImage";
+            ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+            mv.setPoster(response.getBody().getUrl());
+        }
 
         String uriAllGenre = "http://localhost:8080/api/genre/getAll";
         ResponseEntity<GenreDTO[]> responseAllGenre = restTemplate.getForEntity(uriAllGenre, GenreDTO[].class);
@@ -68,8 +83,8 @@ public class DataCall {
         ArrayList<MovieDTO> listTmpSlider = new ArrayList<>();
         listTmpSlider = listAllMovie;
         Collections.shuffle(listTmpSlider);
-        for (MovieDTO mv: listTmpSlider) {
-            if(bigSliderList.size() < 6){
+        for (MovieDTO mv : listTmpSlider) {
+            if (bigSliderList.size() < 6) {
                 bigSliderList.add(mv);
             }
         }
@@ -77,7 +92,7 @@ public class DataCall {
         ArrayList<MovieDTO> listTmpTrailer = new ArrayList<>();
         Collections.shuffle(listTmpTrailer);
         listTmpTrailer.addAll(listAllMovie);
-        for(int i = 0; listTrailer.size() < 7; i++){
+        for (int i = 0; listTrailer.size() < 7; i++) {
             listTrailer.add(listTmpTrailer.get(i));
         }
         session.setAttribute("listTrailer", listTrailer);
@@ -89,6 +104,7 @@ public class DataCall {
         session.setAttribute("listMovieComing", listMovieComing);
         session.setAttribute("listCast", listCast);
         session.setAttribute("listDirector", listDirector);
-        session.setAttribute("listFKCast",listFKCast);
+        session.setAttribute("listFKCast", listFKCast);
+        session.setAttribute("imageHash", imageHash);
     }
 }
