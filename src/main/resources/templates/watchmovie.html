@@ -190,15 +190,10 @@
             </div>
         </div>
         <div class="row ipad-width">
-            <div class="col-md-12 col-sm-12 col-xs-12 plyr__video-embed" id="player" th:if="${movie.getLinkMovie().contains('youtube') == true}">
-                <iframe height="600" width="1000" th:src="${movie.getLinkMovie()}"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowfullscreen></iframe>
-            </div>
-            <div class="col-md-12 col-sm-12 col-xs-12" th:if="${movie.getLinkMovie().contains('youtube') == false}">
-                <video id="player" playsinline controls th:data-poster="'/images/uploads/' + ${movie.getPoster()}">
-                    <source th:src="${movie.getLinkMovie()}" type="video/mp4" />
-                </video>
+            <div class="col-md-12 col-sm-12 col-xs-12 plyr__video-embed" id="player">
+                <iframe style="height: 530px; width: 100%" th:src="${movie.getLinkMovie()}"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen></iframe>
             </div>
         </div>
     </div>
