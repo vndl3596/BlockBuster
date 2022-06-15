@@ -186,7 +186,7 @@
                             <p th:if="${starList.size()>0}"><span th:utext="${df.format(rate)}"></span> /5<br>
                                 <span class="rv" th:utext="${evaluateList.size() + ' đánh giá'}"></span>
                             </p>
-                            <p th:if="${starList.size()==0}"><span>5/5</span><br>
+                            <p th:if="${starList.size()==0}"><span>0/5</span><br>
                                 <span class="rv" th:utext="${evaluateList.size() + ' đánh giá'}"></span>
                             </p>
                         </div>
@@ -198,11 +198,11 @@
                                 <i class="ion-ios-star-outline" th:if="${star == 0}"></i>
                             </div>
                             <div th:if="${starList.size()==0}">
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
                             </div>
                         </div>
                     </div>

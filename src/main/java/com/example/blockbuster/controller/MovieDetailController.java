@@ -121,9 +121,9 @@ public class MovieDetailController {
         }
         Map<MovieDTO, Float> showMap = new HashMap<>();
         for (MovieDTO m: relateMovieList){
-            String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + m.getId();
-            ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(m,responseMVRate.getBody());
+            String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
+            ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
+            showMap.put(mv, responseMVRate.getBody().getRate());
         }
 
         float rate = 0;
@@ -211,7 +211,8 @@ public class MovieDetailController {
         HttpEntity<MovieEvaluateDTO> requestBody = new HttpEntity<>(mvE);
         String urlEvaluate = "http://localhost:8080/api/movieDetail/saveEvaluate";
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.exchange(urlEvaluate, HttpMethod.PUT, requestBody, MovieEvaluateDTO.class);
+        ResponseEntity<MovieEvaluateDTO> responseEntity = restTemplate.exchange(urlEvaluate, HttpMethod.PUT, requestBody, MovieEvaluateDTO.class);
+        System.out.println("\n\n\n\n\n\n" + responseEntity.getBody());
         response.sendRedirect("/movie-detail/id=" + id);
         return null;
     }

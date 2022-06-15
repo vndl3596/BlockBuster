@@ -2,8 +2,13 @@ package com.example.blockbuster.controller;
 
 import com.example.blockbuster.apiCall.DataCall;
 import com.example.blockbuster.dto.*;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -57,10 +62,10 @@ public class ComingListController {
                 else return compare;
             }
         });
-        for (MovieDTO mv: showList){
+        for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
             ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
-            showMap.put(mv,responseMVRate.getBody().getRate());
+            showMap.put(mv, responseMVRate.getBody().getRate());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
@@ -78,14 +83,14 @@ public class ComingListController {
 
         LoginResponse loginResponse;
         loginResponse = (LoginResponse) session.getAttribute("loginResponse");
-        if(loginResponse != null){
+        if (loginResponse != null) {
             AccountDTO loginAcc;
             loginAcc = (AccountDTO) session.getAttribute("loginAcc");
             model.addAttribute("loginAcc", loginAcc);
         }
 
         session.setAttribute("oldUrl", "/movie-grid/coming/page=" + page);
-        model.addAttribute("loginResponse",loginResponse);
+        model.addAttribute("loginResponse", loginResponse);
         model.addAttribute("mvNum", list.size());
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("pageList", pageList);
@@ -128,6 +133,16 @@ public class ComingListController {
         String uriGenreMovie = "http://localhost:8080/api/fkGenre/getAllMovie/" + idGenre;
         ResponseEntity<MovieDTO[]> responseGenreMovie = restTemplate.getForEntity(uriGenreMovie, MovieDTO[].class);
         Collections.addAll(tmpList, responseGenreMovie.getBody());
+        for (MovieDTO mv : tmpList) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+            map.add("url", mv.getPoster());
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+            String urlImage = "http://localhost:8080/getImage";
+            ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+            mv.setPoster(response.getBody().getUrl());
+        }
         for (MovieDTO movie : tmpList) {
             if (movie.getMovieStatus() == false) {
                 list.add(movie);
@@ -150,10 +165,10 @@ public class ComingListController {
                 else return compare;
             }
         });
-        for (MovieDTO mv: showList){
+        for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
-            ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv,responseMVRate.getBody());
+            ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
+            showMap.put(mv, responseMVRate.getBody().getRate());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
@@ -171,7 +186,7 @@ public class ComingListController {
 
         LoginResponse loginResponse;
         loginResponse = (LoginResponse) session.getAttribute("loginResponse");
-        if(loginResponse != null){
+        if (loginResponse != null) {
             AccountDTO loginAcc;
             loginAcc = (AccountDTO) session.getAttribute("loginAcc");
 
@@ -179,7 +194,7 @@ public class ComingListController {
         }
 
         session.setAttribute("oldUrl", "/movie-grid/coming/genre=" + idGenre + "&page=" + page);
-        model.addAttribute("loginResponse",loginResponse);
+        model.addAttribute("loginResponse", loginResponse);
         model.addAttribute("mvNum", list.size());
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("pageList", pageList);
@@ -262,10 +277,10 @@ public class ComingListController {
                 else return compare;
             }
         });
-        for (MovieDTO mv: showList){
+        for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
-            ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv,responseMVRate.getBody());
+            ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
+            showMap.put(mv, responseMVRate.getBody().getRate());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
@@ -283,7 +298,7 @@ public class ComingListController {
 
         LoginResponse loginResponse;
         loginResponse = (LoginResponse) session.getAttribute("loginResponse");
-        if(loginResponse != null){
+        if (loginResponse != null) {
             AccountDTO loginAcc;
             loginAcc = (AccountDTO) session.getAttribute("loginAcc");
 
@@ -292,7 +307,7 @@ public class ComingListController {
 
         session.setAttribute("oldUrl", "/movie-list/coming/page=" + page);
         model.addAttribute("df", df);
-        model.addAttribute("loginResponse",loginResponse);
+        model.addAttribute("loginResponse", loginResponse);
         model.addAttribute("format", format);
         model.addAttribute("mvNum", list.size());
         model.addAttribute("totalPage", totalPage);
@@ -336,6 +351,16 @@ public class ComingListController {
         String uriGenreMovie = "http://localhost:8080/api/fkGenre/getAllMovie/" + idGenre;
         ResponseEntity<MovieDTO[]> responseGenreMovie = restTemplate.getForEntity(uriGenreMovie, MovieDTO[].class);
         Collections.addAll(tmpList, responseGenreMovie.getBody());
+        for (MovieDTO mv : tmpList) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+            map.add("url", mv.getPoster());
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+            String urlImage = "http://localhost:8080/getImage";
+            ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+            mv.setPoster(response.getBody().getUrl());
+        }
         for (MovieDTO movie : tmpList) {
             if (movie.getMovieStatus() == false) {
                 list.add(movie);
@@ -358,10 +383,10 @@ public class ComingListController {
                 else return compare;
             }
         });
-        for (MovieDTO mv: showList){
+        for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
-            ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv,responseMVRate.getBody());
+            ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
+            showMap.put(mv, responseMVRate.getBody().getRate());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
@@ -379,7 +404,7 @@ public class ComingListController {
 
         LoginResponse loginResponse;
         loginResponse = (LoginResponse) session.getAttribute("loginResponse");
-        if(loginResponse != null){
+        if (loginResponse != null) {
             AccountDTO loginAcc;
             loginAcc = (AccountDTO) session.getAttribute("loginAcc");
 
@@ -388,7 +413,7 @@ public class ComingListController {
 
         session.setAttribute("oldUrl", "/movie-list/coming/genre=" + idGenre + "&page=" + page);
         model.addAttribute("df", df);
-        model.addAttribute("loginResponse",loginResponse);
+        model.addAttribute("loginResponse", loginResponse);
         model.addAttribute("format", format);
         model.addAttribute("mvNum", list.size());
         model.addAttribute("totalPage", totalPage);

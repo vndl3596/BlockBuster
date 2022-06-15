@@ -5,8 +5,13 @@ import com.example.blockbuster.dto.*;
 import com.fasterxml.jackson.databind.util.JSONPObject;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -61,9 +66,7 @@ public class MovieListController {
         });
         for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
-            System.out.println("\n\n\n\n URL: " + uriMVRate);
             ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
-            System.out.println("\n\n\n\n RATE: " + responseMVRate.getBody());
             showMap.put(mv, responseMVRate.getBody().getRate());
         }
 
@@ -160,8 +163,8 @@ public class MovieListController {
         });
         for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
-            ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv, responseMVRate.getBody());
+            ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
+            showMap.put(mv, responseMVRate.getBody().getRate());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
@@ -273,8 +276,8 @@ public class MovieListController {
         });
         for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
-            ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv, responseMVRate.getBody());
+            ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
+            showMap.put(mv, responseMVRate.getBody().getRate());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
@@ -346,6 +349,16 @@ public class MovieListController {
         String uriGenreMovie = "http://localhost:8080/api/fkGenre/getAllMovie/" + idGenre;
         ResponseEntity<MovieDTO[]> responseGenreMovie = restTemplate.getForEntity(uriGenreMovie, MovieDTO[].class);
         Collections.addAll(tmpList, responseGenreMovie.getBody());
+        for (MovieDTO mv : tmpList) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+            map.add("url", mv.getPoster());
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+            String urlImage = "http://localhost:8080/getImage";
+            ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+            mv.setPoster(response.getBody().getUrl());
+        }
         for (MovieDTO movie : tmpList) {
             if (movie.getMovieStatus() == true) {
                 list.add(movie);
@@ -370,8 +383,8 @@ public class MovieListController {
         });
         for (MovieDTO mv : showList) {
             String uriMVRate = "http://localhost:8080/api/movieDetail/getMovieRate/" + mv.getId();
-            ResponseEntity<Float> responseMVRate = restTemplate.getForEntity(uriMVRate, Float.class);
-            showMap.put(mv, responseMVRate.getBody());
+            ResponseEntity<MovieRateDTO> responseMVRate = restTemplate.getForEntity(uriMVRate, MovieRateDTO.class);
+            showMap.put(mv, responseMVRate.getBody().getRate());
         }
 
         float totalPageFloat = (float) list.size() / pageNum;
