@@ -50,7 +50,7 @@ public class ContactUsController {
 
         String fromMail = "votieubach3596@gmail.com";
         String passWord = "Anhyeuem3596";
-        String toMail = "vonguyenduylong92.1415@gmail.com";
+        String toMail = "dangtinnhatroCongNghePhanMem@gmail.com";
         String subject = "Liên hệ từ " + name + " có mail " + mail;
 
         Properties props = new Properties();

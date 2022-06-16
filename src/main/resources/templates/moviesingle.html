@@ -186,7 +186,7 @@
                             <p th:if="${starList.size()>0}"><span th:utext="${df.format(rate)}"></span> /5<br>
                                 <span class="rv" th:utext="${evaluateList.size() + ' đánh giá'}"></span>
                             </p>
-                            <p th:if="${starList.size()==0}"><span>0/5</span><br>
+                            <p th:if="${starList.size()==0}"><span>0</span> /5<br>
                                 <span class="rv" th:utext="${evaluateList.size() + ' đánh giá'}"></span>
                             </p>
                         </div>
@@ -232,9 +232,9 @@
                                             <div class="mvcast-item">
                                                 <div class="cast-it">
                                                     <div class="cast-left" th:each="cast, state : ${directorList}">
-                                                        <img th:src="'/images/uploads/' + ${cast.getAvatar()}" alt="" width="40px"
+                                                        <img th:src="${cast.getAvatar()}" alt="" width="40px"
                                                              height="40px">
-                                                        <p><strong style="font-size: 15px;" th:utext="${cast.getName()}">Joss Whedon</strong></p>
+                                                        <p><strong style="font-size: 15px;" th:utext="${cast.getName()}"></strong></p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -245,7 +245,7 @@
                                             <div class="mvcast-item">
                                                 <div class="cast-it"  th:each="cast, state : ${characterList}">
                                                     <div class="cast-left">
-                                                        <img th:src="'/images/uploads/' + ${cast.getValue().getAvatar()}" alt="" width="40px"
+                                                        <img th:src="${cast.getValue().getAvatar()}" alt="" width="40px"
                                                              height="40px">
                                                         <p><strong style="font-size: 15px;" th:utext="${cast.getValue().getName()}">Joss Whedon</strong></p>
                                                     </div>
@@ -268,7 +268,7 @@
                                             </div>
                                             <div class="sb-it">
                                                 <h6>Ngôi sao: </h6>
-                                                <p><a style="cursor: pointer;" th:each="cast, state : ${castList}" th:utext="' ' + ${cast.getName()} + ','" th:href="'/celebrity/actor/id=' + ${cast.getId()} + '&page=1'"></a>...</p>
+                                                <p><a style="cursor: pointer;" th:each="cast, state : ${characterList}" th:utext="' ' + ${cast.getValue().getName()} + ','" th:href="'/celebrity/actor/id=' + ${cast.getValue().getId()} + '&page=1'"></a>...</p>
                                             </div>
                                             <div class="sb-it">
                                                 <h6>Thể loại:</h6>
@@ -479,9 +479,9 @@
                                         </div>
                                         <div class="mv-user-review-item" th:each="eva, state : ${evaluateList}">
                                             <div class="user-infor">
-                                                <img th:src="'/images/uploads/' + ${eva.accountDTO.avatar}" alt="" style="width: 70px; height: 70px;">
+                                                <img th:src="${eva.accId.avatar}" alt="" style="width: 70px; height: 70px;">
                                                 <div>
-                                                    <h3 th:utext="${eva.accountDTO.lastname + ' ' + eva.accountDTO.firstname}"></h3>
+                                                    <h3 th:utext="${eva.accId.lastname + ' ' + eva.accId.firstname}"></h3>
                                                     <div class="no-star" th:if="${eva.evaluateRate == 0}">
                                                         <i class="ion-android-star last"></i>
                                                         <i class="ion-android-star last"></i>
@@ -524,7 +524,7 @@
                                                         <i class="ion-android-star"></i>
                                                         <i class="ion-android-star"></i>
                                                     </div>
-                                                    <p class="time" th:utext="${evaFormatter.format(eva.evaluateTime) + ' bởi ' + eva.accountDTO.username}">
+                                                    <p class="time" th:utext="${evaFormatter.format(eva.evaluateTime) + ' bởi ' + eva.accId.username}">
                                                     </p>
                                                 </div>
                                             </div>
@@ -541,7 +541,7 @@
                                         <div class="topbar-filter">
                                         </div>
                                         <div class="movie-item-style-2" th:each="movie, state : ${relateMovieList}">
-                                            <img th:src="'/images/uploads/' + ${movie.getKey().getPoster()}" alt=""
+                                            <img th:src="${movie.getKey().getPoster()}" alt=""
                                                  style="width: 170px; height: 261px;">
                                             <div class="mv-item-infor">
                                                 <h6><a th:href="@{'/movie-detail/id=' + ${movie.getKey().getId()}}"

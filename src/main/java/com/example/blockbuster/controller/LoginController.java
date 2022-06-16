@@ -23,8 +23,10 @@ import java.io.IOException;
 @RequestMapping("/")
 public class LoginController {
 
+    LoginAcc acc = new LoginAcc();
     @RequestMapping(method = RequestMethod.GET, path = "login")
-    public ModelAndView loginShow() {
+    public ModelAndView loginShow(Model model) {
+        model.addAttribute("acc", acc);
         return new ModelAndView("login");
     }
 
@@ -36,8 +38,9 @@ public class LoginController {
             HttpServletResponse res,
             HttpSession session
     ) throws IOException {
+        acc.setUsername(username);
+        acc.setPassword(password);
         String urlLogin = "http://localhost:8080/api/auth/login";
-        LoginAcc acc = new LoginAcc(username, password);
 
         RestTemplate restTemplate = new RestTemplate();
         HttpEntity<LoginAcc> requestBody = new HttpEntity<>(acc);
@@ -73,6 +76,7 @@ public class LoginController {
                 model.addAttribute("error", "Tài khoản chưa được kích hoạt!");
             } else model.addAttribute("error", "Sai tài khoản hoặc mật khẩu!");
         }
+        model.addAttribute("acc", acc);
         return new ModelAndView("login");
     }
 }

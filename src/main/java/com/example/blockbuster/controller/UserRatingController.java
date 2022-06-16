@@ -1,13 +1,16 @@
 package com.example.blockbuster.controller;
 
-import com.example.blockbuster.dto.AccountDTO;
-import com.example.blockbuster.dto.LoginResponse;
-import com.example.blockbuster.dto.MovieDTO;
-import com.example.blockbuster.dto.MovieEvaluateDTO;
+import com.example.blockbuster.apiCall.DataCall;
+import com.example.blockbuster.dto.*;
 import com.example.blockbuster.dto.address.TownDTO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
@@ -45,7 +48,6 @@ public class UserRatingController {
         }
         AccountDTO loginAcc;
         loginAcc = (AccountDTO) session.getAttribute("loginAcc");
-        System.out.println("\n\n\n\n RATE LOGIN: " + loginAcc.getAvatar());
         acc = loginAcc;
 
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
@@ -61,10 +63,23 @@ public class UserRatingController {
                 return -o1.getEvaluateTime().compareTo(o2.getEvaluateTime());
             }
         });
+
         ArrayList<MovieEvaluateDTO> showList = new ArrayList<>();
         for (int i = pageNum * (page - 1); i < pageNum * page; i++) {
             if (i == list.size()) break;
             else showList.add(list.get(i));
+        }
+
+        for (MovieEvaluateDTO me: showList) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+            map.add("url", me.getMovieId().getPoster());
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+            String urlImage = "http://localhost:8080/getImage";
+            ResponseEntity<ImageDTO> responseIMG = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+            MovieDTO tmpMV = new MovieDTO(me.getMovieId().getId(), me.getMovieId().getTitle(), responseIMG.getBody().getUrl(), me.getMovieId().getDetail(), me.getMovieId().getMovieStatus(), me.getMovieId().getLinkTrailer(), me.getMovieId().getLinkMovie(), me.getMovieId().getReleaseDate(), me.getMovieId().getMovieDuration(), me.getMovieId().getViewNumber());
+            me.setMovieId(tmpMV);
         }
 
         float totalPageFloat = (float) list.size() / pageNum;

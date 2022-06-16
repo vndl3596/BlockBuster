@@ -133,16 +133,6 @@ public class ComingListController {
         String uriGenreMovie = "http://localhost:8080/api/fkGenre/getAllMovie/" + idGenre;
         ResponseEntity<MovieDTO[]> responseGenreMovie = restTemplate.getForEntity(uriGenreMovie, MovieDTO[].class);
         Collections.addAll(tmpList, responseGenreMovie.getBody());
-        for (MovieDTO mv : tmpList) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-            map.add("url", mv.getPoster());
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-            String urlImage = "http://localhost:8080/getImage";
-            ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
-            mv.setPoster(response.getBody().getUrl());
-        }
         for (MovieDTO movie : tmpList) {
             if (movie.getMovieStatus() == false) {
                 list.add(movie);
@@ -157,6 +147,16 @@ public class ComingListController {
             else showList.add(list.get(i));
         }
 
+        for (MovieDTO mv : showList) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+            map.add("url", mv.getPoster());
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+            String urlImage = "http://localhost:8080/getImage";
+            ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+            mv.setPoster(response.getBody().getUrl());
+        }
         Map<MovieDTO, Float> showMap = new TreeMap<>(new Comparator<MovieDTO>() {
             @Override
             public int compare(MovieDTO o1, MovieDTO o2) {
@@ -351,16 +351,6 @@ public class ComingListController {
         String uriGenreMovie = "http://localhost:8080/api/fkGenre/getAllMovie/" + idGenre;
         ResponseEntity<MovieDTO[]> responseGenreMovie = restTemplate.getForEntity(uriGenreMovie, MovieDTO[].class);
         Collections.addAll(tmpList, responseGenreMovie.getBody());
-        for (MovieDTO mv : tmpList) {
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-            map.add("url", mv.getPoster());
-            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-            String urlImage = "http://localhost:8080/getImage";
-            ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
-            mv.setPoster(response.getBody().getUrl());
-        }
         for (MovieDTO movie : tmpList) {
             if (movie.getMovieStatus() == false) {
                 list.add(movie);
@@ -374,7 +364,16 @@ public class ComingListController {
             if (i == list.size()) break;
             else showList.add(list.get(i));
         }
-
+        for (MovieDTO mv : showList) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+            map.add("url", mv.getPoster());
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+            String urlImage = "http://localhost:8080/getImage";
+            ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+            mv.setPoster(response.getBody().getUrl());
+        }
         Map<MovieDTO, Float> showMap = new TreeMap<>(new Comparator<MovieDTO>() {
             @Override
             public int compare(MovieDTO o1, MovieDTO o2) {

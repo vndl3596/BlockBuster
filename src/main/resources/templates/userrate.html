@@ -144,9 +144,9 @@
 					<p>Đã đánh giá <span th:utext="${mvNum + ' đánh giá'}"></span> tất cả</p>
 				</div>
 				<div class="movie-item-style-2 userrate" th:each="eva , state: ${list}">
-					<img th:src="${'/images/uploads/' + eva.movieDetailDTO.poster}" alt="">
+					<img th:src="${eva.movieId.poster}" alt="">
 					<div class="mv-item-infor">
-						<h6><a th:href="${'/movie-detail/id=' + eva.movieDetailDTO.id}" th:utext="${eva.movieDetailDTO.title}"></a></h6>
+						<h6><a th:href="${'/movie-detail/id=' + eva.movieId.id}" th:utext="${eva.movieId.title}"></a></h6>
 						<p class="time sm-text">Đánh giá:</p>
 						<p class="rate"><i class="ion-android-star"></i><span th:utext="${eva.evaluateRate}"></span> /5</p>
 						<p class="time sm" th:utext="${format.format(eva.evaluateTime)}"></p>

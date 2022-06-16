@@ -55,10 +55,30 @@ public class DataCall {
         String uriAllCast = "http://localhost:8080/api/cast/getAll";
         ResponseEntity<CastDTO[]> responseAllCast = restTemplate.getForEntity(uriAllCast, CastDTO[].class);
         Collections.addAll(listCast, responseAllCast.getBody());
+        for (CastDTO castDTO: listCast) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+            map.add("url", castDTO.getAvatar());
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+            String urlImage = "http://localhost:8080/getImage";
+            ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+            castDTO.setAvatar(response.getBody().getUrl());
+        }
 
         String uriAllDirector = "http://localhost:8080/api/director/getAll";
         ResponseEntity<DirectorDTO[]> responseAllDirector = restTemplate.getForEntity(uriAllDirector, DirectorDTO[].class);
         Collections.addAll(listDirector, responseAllDirector.getBody());
+        for (DirectorDTO directorDTO: listDirector) {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+            map.add("url", directorDTO.getAvatar());
+            HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+            String urlImage = "http://localhost:8080/getImage";
+            ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+            directorDTO.setAvatar(response.getBody().getUrl());
+        }
 
         String uriAllFkCast = "http://localhost:8080/api/fkCast/getAllFkCast";
         ResponseEntity<FKCastDTO[]> responseAllFkCast = restTemplate.getForEntity(uriAllFkCast, FKCastDTO[].class);
@@ -74,10 +94,11 @@ public class DataCall {
             if (movie.getMovieStatus() == true) {
                 listMovieShowing.add(movie);
             } else listMovieComing.add(movie);
+        }
 
-            if (movie.getViewNumber() > 0) {
-                listMovieNew.add(movie);
-            }
+        for(int i = 0; i < 10; i++){
+            if(i == listMovieShowing.size() - 1) break;
+            listMovieNew.add(listMovieShowing.get(i));
         }
 
         ArrayList<MovieDTO> listTmpSlider = new ArrayList<>();

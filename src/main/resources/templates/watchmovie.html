@@ -56,19 +56,19 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" href="/home">
+                        <a class="btn btn-default lv1" href="/home">
                             Trang chủ</a>
                     </li>
                     <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" href="/movie-grid/showing/page=1">
+                        <a class="btn btn-default lv1" href="/movie-grid/showing/page=1">
                             Phim</a>
                     </li>
                     <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" href="/movie-grid/coming/page=1">
+                        <a class="btn btn-default lv1" href="/movie-grid/coming/page=1">
                             Sắp ra mắt</a>
                     </li>
                     <li class="dropdown first" th:if="${loginResponse != null}">
-                        <a class="btn btn-default dropdown-toggle lv1" href="/user-history/page=1">
+                        <a class="btn btn-default lv1" href="/user-history/page=1">
                             Lịch sử</a>
                     </li>
                     <li class="dropdown first">
@@ -145,7 +145,7 @@
                             <p th:if="${starList.size()>0}"><span th:utext="${df.format(rate)}"></span> /5<br>
                                 <span class="rv" th:utext="${evaluateList.size() + ' đánh giá'}"></span>
                             </p>
-                            <p th:if="${starList.size()==0}"><span>5/5</span><br>
+                            <p th:if="${starList.size()==0}"><span>0</span> /5<br>
                                 <span class="rv" th:utext="${evaluateList.size() + ' đánh giá'}"></span>
                             </p>
                         </div>
@@ -157,11 +157,11 @@
                                 <i class="ion-ios-star-outline" th:if="${star == 0}"></i>
                             </div>
                             <div th:if="${starList.size()==0}">
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
-                                <i class="ion-ios-star"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
                             </div>
                         </div>
                     </div>
@@ -190,10 +190,15 @@
             </div>
         </div>
         <div class="row ipad-width">
-            <div class="col-md-12 col-sm-12 col-xs-12 plyr__video-embed" id="player">
-                <iframe style="height: 530px; width: 100%" th:src="${movie.getLinkMovie()}"
+            <div class="col-md-12 col-sm-12 col-xs-12 plyr__video-embed" id="player" th:if="${(movie.getLinkMovie().contains('youtube.com') == true) || (movie.getLinkMovie().contains('gdplayer.dev') == true)}">
+                <iframe style="height: 600px; width: 100%" th:src="${movie.getLinkMovie()}"
                         allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen></iframe>
+                        allowfullscreen></iframe>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12" th:if="${(movie.getLinkMovie().contains('youtube.com') == false) && (movie.getLinkMovie().contains('gdplayer.dev') == false)}">
+                <video id="player" playsinline controls th:data-poster="${movie.getPoster()}">
+                    <source th:src="${movie.getLinkMovie()}" type="video/mp4" />
+                </video>
             </div>
         </div>
     </div>

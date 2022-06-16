@@ -24,7 +24,7 @@
         <div class="login_box">
             <form th:action="@{login}" method="post" onsubmit="return loginSubmit()" name="login">
                 <div class="input_wrap">
-                    <input type="text" name="username" placeholder="Tài khoản" autocomplete="off" value="">
+                    <input type="text" name="username" placeholder="Tài khoản" autocomplete="off" th:value="${acc.getUsername()}">
                 </div>
                 <div class="input_wrap">
                     <input type="password" name="password" id="password" placeholder="Mật khẩu" value="">

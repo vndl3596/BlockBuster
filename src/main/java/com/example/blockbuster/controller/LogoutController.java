@@ -34,7 +34,7 @@ public class LogoutController {
             session.removeAttribute("loginAcc");
             res.sendRedirect((String) session.getAttribute("oldUrl"));
         }
-        else res.sendRedirect("/login");
+        else res.sendRedirect("/home");
         return null;
     }
 }

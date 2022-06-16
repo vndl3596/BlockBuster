@@ -11,8 +11,8 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MovieEvaluateDTO {
-    MovieDTO movieDetailDTO;
-    AccountDTO accountDTO;
+    MovieDTO movieId;
+    AccountDTO accId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy' 'HH:mm:ss")
     private Date evaluateTime;
