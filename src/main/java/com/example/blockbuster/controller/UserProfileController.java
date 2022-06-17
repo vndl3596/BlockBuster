@@ -1,6 +1,7 @@
 package com.example.blockbuster.controller;
 
 import com.example.blockbuster.dto.AccountDTO;
+import com.example.blockbuster.dto.ImageDTO;
 import com.example.blockbuster.dto.LoginAcc;
 import com.example.blockbuster.dto.LoginResponse;
 import com.example.blockbuster.dto.address.CityDTO;
@@ -10,11 +11,13 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.io.Resource;
+import org.springframework.http.*;
 import org.springframework.ui.Model;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -163,6 +166,8 @@ public class UserProfileController {
         ResponseEntity<CityDTO[]> responseListCity = restTemplate.getForEntity(urlListCity, CityDTO[].class);
         ArrayList<CityDTO> listCity = new ArrayList<>();
         Collections.addAll(listCity, responseListCity.getBody());
+
+        session.setAttribute("loginAcc", acc);
         model.addAttribute("acc", acc);
         model.addAttribute("accTown", responseTown.getBody().getId());
         model.addAttribute("accDistrict", responseDistrict.getBody().getId());
@@ -267,31 +272,35 @@ public class UserProfileController {
             response.sendRedirect("/login");
             return null;
         }
-
-        Path sourPath = Paths.get("src");
-        Path mainPath = Paths.get("main");
-        Path resPath = Paths.get("resources");
-        Path staticPath = Paths.get("static");
-        Path imagePath = Paths.get("images");
-        Path uploadsPath = Paths.get("uploads");
-
-        if (!Files.exists(CURRENT_FOLDER.resolve(sourPath).resolve(mainPath).resolve(resPath).resolve(staticPath).resolve(imagePath).resolve(uploadsPath))) {
-            Files.exists(CURRENT_FOLDER.resolve(sourPath).resolve(mainPath).resolve(resPath).resolve(staticPath).resolve(imagePath).resolve(uploadsPath));
-        }
         String fs = avt.getOriginalFilename();
         String filenameL = fs.substring(fs.indexOf("."), fs.length());
-
-
-        Path file = CURRENT_FOLDER.resolve(sourPath).resolve(mainPath).resolve(resPath).resolve(staticPath).resolve(imagePath).resolve(uploadsPath).resolve("user-" + acc.getId() + filenameL);
-        try (OutputStream os = Files.newOutputStream(file)) {
-            os.write(avt.getBytes());
-        }
-        acc.setAvatar("user-" + acc.getId() + filenameL);
         RestTemplate restTemplate = new RestTemplate();
-        HttpEntity<AccountDTO> requestBody = new HttpEntity<>(acc);
-        String urlChangeImage = "http://localhost:8080/api/acc/edit";
-        ResponseEntity<AccountDTO> responseChangeImage = restTemplate.exchange(urlChangeImage, HttpMethod.PUT, requestBody, AccountDTO.class);
+        AccountDTO sendAcc;
 
+        sendAcc = new AccountDTO(acc.getId(), acc.getUsername(), acc.getPassword(), acc.isEnabled(), acc.getEmail(), "./data_image/account/user-" + acc.getId() + filenameL, acc.getFirstname(), acc.getLastname(), acc.getBirthday(), acc.getTown(), acc.getAddress(), acc.getPhoneNumber(), acc.isGender());
+        HttpEntity<AccountDTO> requestBody = new HttpEntity<>(sendAcc);
+        String urlChangeImageForEmpty = "http://localhost:8080/api/acc/edit";
+        ResponseEntity<AccountDTO> responseChangeImageForEmpty = restTemplate.exchange(urlChangeImageForEmpty, HttpMethod.PUT, requestBody, AccountDTO.class);
+
+        HttpHeaders headersUploadImage = new HttpHeaders();
+        headersUploadImage.setContentType(MediaType.MULTIPART_FORM_DATA);
+        Resource muti = avt.getResource();
+        MultiValueMap<String, Object> mapUp = new LinkedMultiValueMap<String, Object>();
+        mapUp.add("image", muti);
+        HttpEntity<MultiValueMap<String, Object>> requestUp = new HttpEntity<>(mapUp, headersUploadImage);
+        String urlUpdateImage = "http://localhost:8080/uploadimage/" + "user-" + sendAcc.getId() + "/121";
+        ResponseEntity<JSONObject> responseUpdateImage = restTemplate.postForEntity(urlUpdateImage, requestUp, JSONObject.class);
+
+        HttpHeaders headersGetImage = new HttpHeaders();
+        headersGetImage.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+        MultiValueMap<String, String> mapGet = new LinkedMultiValueMap<String, String>();
+        mapGet.add("url", sendAcc.getAvatar());
+        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(mapGet, headersGetImage);
+        String urlImage = "http://localhost:8080/getImage";
+        ResponseEntity<ImageDTO> responseGetImage = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+        acc.setAvatar(responseGetImage.getBody().getUrl());
+
+        session.setAttribute("loginAcc", acc);
         response.sendRedirect("/user-profile");
         return null;
     }

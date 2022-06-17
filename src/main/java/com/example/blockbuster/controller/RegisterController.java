@@ -55,10 +55,10 @@ public class RegisterController {
                                  HttpServletResponse res) throws ParseException, IOException {
         //thêm API đăng ký vào đây
         RestTemplate restTemplate = new RestTemplate();
-        String urlTown = "http://localhost:8080/api/address/getAddressByTownId/" + town;
+        String urlTown = "http://localhost:8080/api/address/getTownById/" + town;
         ResponseEntity<TownDTO> responseTown = restTemplate.getForEntity(urlTown, TownDTO.class);
 
-        RegisterRequest signUpAcc = new RegisterRequest(username, password, email,"",firstname,lastname,responseTown.getBody(),"",new SimpleDateFormat("yyyy-MM-dd").parse(birth),true,true);
+        RegisterRequest signUpAcc = new RegisterRequest(username, password, email,"",firstname,lastname,responseTown.getBody(),"",new SimpleDateFormat("yyyy-MM-dd").parse(birth),false,true);
         if(gender.equals("Male")){
             signUpAcc.setGender(true);
         }else signUpAcc.setGender(false);
@@ -80,6 +80,11 @@ public class RegisterController {
                 model.addAttribute("error", "Đăng ký thất bại!!! Tài khoản đã có người sử dụng!");
             } else model.addAttribute("error", "Đăng ký thất bại!!! Email đã có người sử dụng!");
         }
+        ArrayList<CityDTO> listCity = new ArrayList<>();
+        String urlCity = "http://localhost:8080/api/address/get-all-city";
+        ResponseEntity<CityDTO[]> response = restTemplate.getForEntity(urlCity, CityDTO[].class);
+        Collections.addAll(listCity, response.getBody());
+        model.addAttribute("listCity",listCity);
         return new ModelAndView("register");
     }
 }

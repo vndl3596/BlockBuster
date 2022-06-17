@@ -56,18 +56,20 @@ public class LoginController {
             ResponseEntity<AccountDTO> responseAccount = restTemplate.getForEntity(urlAccount, AccountDTO.class);
             loginAcc = responseAccount.getBody();
             if (loginAcc.getId() > 0) {
+                if (loginAcc.getAvatar().equals("") == false){
+                    HttpHeaders headers = new HttpHeaders();
+                    headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+                    MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
+                    map.add("url", loginAcc.getAvatar());
+                    HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
+                    String urlImage = "http://localhost:8080/getImage";
+                    ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
+                    loginAcc.setAvatar(response.getBody().getUrl());
+                }
                 session.setAttribute("loginResponse", reponse);
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
-                MultiValueMap<String, String> map = new LinkedMultiValueMap<String, String>();
-                map.add("url", loginAcc.getAvatar());
-                HttpEntity<MultiValueMap<String, String>> request = new HttpEntity<MultiValueMap<String, String>>(map, headers);
-                String urlImage = "http://localhost:8080/getImage";
-                ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
-                loginAcc.setAvatar(response.getBody().getUrl());
                 session.setAttribute("loginAcc", loginAcc);
                 res.sendRedirect((String) session.getAttribute("oldUrl"));
-            } else model.addAttribute("error", "Tài khoản chưa được kích hoạt!");
+            } else if (loginAcc.isEnabled() == false) model.addAttribute("error", "Tài khoản chưa được kích hoạt!");
         } else {
             String urlCheckUsername = "http://localhost:8080/api/acc/getAccoutByUsername/" + username;
             ResponseEntity<AccountDTO> responseCheckUsername = restTemplate.getForEntity(urlCheckUsername, AccountDTO.class);
