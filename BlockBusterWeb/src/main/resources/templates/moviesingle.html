@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <!-- Basic need -->
+    <title th:utext="${movie.getTitle()}"></title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="profile" href="#">
+
+    <!--Google Font-->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <link rel="stylesheet" type="text/css" href="/css/magnific-popup.css">
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no">
+
+    <!-- CSS files -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+<div id="preloader" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
+    <img class="logo" src="/images/logo1.png" alt="" width="119" height="58">
+    <div id="status">
+        <span></span>
+        <span></span>
+    </div>
+</div>
+<div class="login-wrapper" id="signup-content">
+    <div class="login-content">
+        <br>
+        <br>
+        <h3>Đánh giá phim</h3>
+        <h4 th:utext="${movie.getTitle()}"></h4>
+        <form method="post" th:action="${'/movie-detail/evaluate/id=' + movie.getId()}" name="">
+            <div class="row">
+                <label style="color: #dd003f;">
+                    Bình luận:
+                    <textarea name="content" style="height: 200px;" autocomplete="off"></textarea>
+                </label>
+            </div>
+            <div class="row">
+                <label style="color: #dd003f;">
+                    Rating:
+                    <i class="ion-ios-star-outline rating-start" value="1" style="color: yellow;"></i>
+                    <i class="ion-ios-star-outline rating-start" value="2" style="color: yellow;"></i>
+                    <i class="ion-ios-star-outline rating-start" value="3" style="color: yellow;"></i>
+                    <i class="ion-ios-star-outline rating-start" value="4" style="color: yellow;"></i>
+                    <i class="ion-ios-star-outline rating-start" value="5" style="color: yellow;"></i>
+                    <input type="hidden" name="rating" id="rating" value="0"/>
+                    <script>
+                        function rating(rating) {
+                            var ratingStart = document.getElementsByClassName("rating-start");
+                            for (var i = 0; i < ratingStart.length; i++) {
+                                if (ratingStart[i].getAttribute("value") <= rating) {
+                                    ratingStart[i].classList.remove("ion-ios-star-outline");
+                                    ratingStart[i].classList.add("ion-ios-star");
+                                } else {
+                                    if (!ratingStart[i].classList.contains("ion-ios-star-outline")) {
+                                        ratingStart[i].classList.add("ion-ios-star-outline");
+                                        ratingStart[i].classList.remove("ion-ios-star");
+                                    }
+                                }
+                            }
+                            document.getElementById("rating").value = rating;
+                        }
+
+                        function ratingHover(rating) {
+                            var ratingStart = document.getElementsByClassName("rating-start");
+                            for (var i = 0; i < ratingStart.length; i++) {
+                                if (ratingStart[i].getAttribute("value") <= rating) {
+                                    ratingStart[i].classList.remove("ion-ios-star-outline");
+                                    ratingStart[i].classList.add("ion-ios-star");
+                                } else {
+                                    if ((!ratingStart[i].classList.contains("ion-ios-star-outline"))
+                                        && (ratingStart[i].getAttribute("value") > document.getElementById("rating").value)) {
+                                        ratingStart[i].classList.add("ion-ios-star-outline");
+                                        ratingStart[i].classList.remove("ion-ios-star");
+                                    }
+                                }
+                            }
+                        }
+
+                        function ratingOut(rating) {
+                            var ratingStart = document.getElementsByClassName("rating-start");
+                            for (var i = 0; i < ratingStart.length; i++) {
+                                if ((!ratingStart[i].classList.contains("ion-ios-star-outline"))
+                                    && (ratingStart[i].getAttribute("value") > document.getElementById("rating").value)) {
+                                    ratingStart[i].classList.add("ion-ios-star-outline");
+                                    ratingStart[i].classList.remove("ion-ios-star");
+                                }
+                            }
+                        }
+
+                        var ratingStart = document.getElementsByClassName("rating-start");
+                        for (var i = 0; i < ratingStart.length; i++) {
+                            ratingStart[i].addEventListener("click", function () {
+                                rating(this.getAttribute("value"));
+                            })
+                            ratingStart[i].addEventListener("mouseover", function () {
+                                ratingHover(this.getAttribute("value"));
+                            })
+                            ratingStart[i].addEventListener("mouseout", function () {
+                                ratingOut(this.getAttribute("value"));
+                            })
+                        }
+                    </script>
+                </label>
+            </div>
+            <div class="row">
+                <button type="submit" onclick="comment(); return true;" th:if="${loginResponse != null}">Bình luận
+                </button>
+                <button type="submit" th:if="${loginResponse == null}">Bình luận</button>
+            </div>
+        </form>
+    </div>
+</div>
+<header class="ht-header full-width-hd">
+    <div class="row">
+        <nav id="mainNav" class="navbar navbar-default navbar-custom">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header logo">
+                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <div id="nav-icon1">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt="" width="119" height="58"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav flex-child-menu menu-left">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/home">
+                            Trang chủ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/showing/page=1">
+                            Đang công chiếu</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/coming/page=1">
+                            Sắp ra mắt</a>
+                    </li>
+                    <li class="dropdown first" th:if="${loginResponse != null}">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/user-history/page=1">
+                            Lịch sử</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/contact-us">
+                            Liên hệ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/about">
+                            Giới thiệu</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse == null}">
+                    <li class="btnLo"><a href="/login">Đăng nhập</a></li>
+                    <li class="btnRe"><a href="/register">Đăng ký</a></li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse != null}">
+                    <li><img th:src="${loginAcc.avatar}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar != ''}"></li>
+                    <li><img th:src="@{'/images/uploads/user.png'}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar == ''}"></li>
+                    <li><label><a href="/user-profile"
+                                  th:utext="${loginAcc.getLastname() + ' ' + loginAcc.getFirstname()}"></a>
+                        <p><i>Thành viên</i></p></label></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <!-- search form -->
+    </div>
+
+</header>
+
+<div class="hero mv-single-hero" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-single movie-single movie_single">
+    <div class="container">
+        <div class="row ipad-width2">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="movie-img sticky-sb" id="sticky">
+                    <img th:src="${movie.getPoster()}" style="height: 500px;" alt="">
+                    <div class="movie-btn">
+                        <div class="btn-transform transform-vertical red" th:if="${movie.getMovieStatus() == true}">
+                            <div><a th:href="'/watch-movie/id=' + ${movie.getId()}" class="item item-1 redbtn"> <i
+                                    class="ion-play"></i> Xem Ngay</a></div>
+                            <div><a th:href="'/watch-movie/id=' + ${movie.getId()}" class="item item-2 redbtn"
+                                    style="box-shadow: 0 0 20px #dd003f;"><i class="ion-play"></i></a></div>
+                        </div>
+                        <div class="btn-transform transform-vertical red" th:if="${movie.getMovieStatus() == false}">
+                            <div><a href="/comingsoon" class="item item-1 redbtn"> <i class="ion-play"></i> Xem Ngay</a>
+                            </div>
+                            <div><a href="/comingsoon" class="item item-2 redbtn"
+                                    style="box-shadow: 0 0 20px #dd003f;"><i class="ion-play"></i></a></div>
+                        </div>
+                        <div class="btn-transform transform-vertical">
+                            <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Xem Trailer</a>
+                            </div>
+                            <div><a th:href="'https://www.youtube.com/watch?v=' + ${movie.getLinkTrailer()}"
+                                    class="item item-2 yellowbtn popup-youtube" style="box-shadow: 0 0 20px #dcf836;"><i
+                                    class="ion-card"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="movie-single-ct main-content">
+                    <h1 class="bd-hd" th:text="${movie.getTitle()}"></h1>
+                    <h3 class="bd-hd3" th:utext="${movie.getRequireMember().getDetail()}"
+                        th:if="${movie.getRequireMember().getId() != 0}"></h3>
+                    <h3 class="bd-hd3" th:utext="Free" th:if="${movie.getRequireMember().getId() == 0}"></h3>
+                    <div class="social-btn">
+                        <a href="#" class="parent-btn" th:if="${movie.getMovieStatus()==true}"><i class="ion-heart"></i>
+                            Đang công chiếu</a>
+                        <a href="#" class="parent-btn" th:if="${movie.getMovieStatus()==false}"><i
+                                class="ion-heart"></i> Sắp ra mắt</a>
+                        <div class="hover-bnt">
+                            <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>Chia sẻ</a>
+                            <div class="hvr-item">
+                                <a href="https://www.facebook.com/" class="hvr-grow"><i class="ion-social-facebook"></i></a>
+                                <a href="https://www.instagram.com/" class="hvr-grow"><i
+                                        class="ion-social-instagram"></i></a>
+                                <a href="https://twitter.com/" class="hvr-grow"><i class="ion-social-twitter"></i></a>
+                                <a href="https://www.youtube.com/" class="hvr-grow"><i
+                                        class="ion-social-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-rate">
+                        <div class="rate">
+                            <i class="ion-android-star"></i>
+                            <p th:if="${starList.size()>0}"><span th:utext="${df.format(rate)}"></span> /5<br>
+                                <span class="rv" th:utext="${evaluateList.size() + ' đánh giá'}"></span>
+                            </p>
+                            <p th:if="${starList.size()==0}"><span>0</span> /5<br>
+                                <span class="rv" th:utext="${evaluateList.size() + ' đánh giá'}"></span>
+                            </p>
+                        </div>
+                        <div class="rate-star">
+                            <p>IDMB: </p>
+                            <div th:each="star, state: ${starList}" th:if="${starList.size()>0}">
+                                <i class="ion-ios-star" th:if="${star == 1.0}"></i>
+                                <i class="ion-ios-star-half" th:if="${star == 0.5}"></i>
+                                <i class="ion-ios-star-outline" th:if="${star == 0}"></i>
+                            </div>
+                            <div th:if="${starList.size()==0}">
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-tabs">
+                        <div class="tabs">
+                            <ul class="tab-links tabs-mv">
+                                <li class="active"><a href="#overview">Thông tin</a></li>
+                                <li><a href="#media"> Giới thiệu</a></li>
+                                <li><a href="#reviews"> Đánh giá</a></li>
+                                <li><a href="#moviesrelated"> Cùng chuyên mục</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="overview" class="tab active">
+                                    <div class="row">
+                                        <div class="div col-md-12 col-sm-12 col-xs-12">
+                                            <h3>Thông tin</h3>
+                                            <h2 th:utext="${movie.getTitle()}"></h2>
+                                        </div>
+                                        <div class="col-md-8 col-sm-12 col-xs-12">
+                                            <div class="title-hd-sm">
+                                                <h4>Nội dung phim</h4>
+                                            </div>
+                                            <p th:text="${movie.getDetail()}"></p>
+                                            <div class="title-hd-sm">
+                                                <h4>Đạo diễn</h4>
+                                            </div>
+                                            <div class="mvcast-item">
+                                                <div class="cast-it">
+                                                    <div class="cast-left" th:each="cast, state : ${directorList}">
+                                                        <img th:src="${cast.getAvatar()}" alt="" width="40px"
+                                                             height="40px">
+                                                        <p><strong style="font-size: 15px;"
+                                                                   th:utext="${cast.getName()}"></strong></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="title-hd-sm">
+                                                <h4>Diễn viên</h4>
+                                            </div>
+                                            <!-- movie cast -->
+                                            <div class="mvcast-item">
+                                                <div class="cast-it" th:each="cast, state : ${characterList}">
+                                                    <div class="cast-left">
+                                                        <img th:src="${cast.getKey().getAvatar()}" alt="" width="40px"
+                                                             height="40px">
+                                                        <p><strong style="font-size: 15px;"
+                                                                   th:utext="${cast.getKey().getName()}"></strong></p>
+                                                    </div>
+                                                    <p th:utext="'trong vai ' + ${cast.getValue()}"></p>
+                                                </div>
+                                            </div>
+                                            <!-- movie user review -->
+                                        </div>
+                                        <div class="col-md-4 col-xs-12 col-sm-12">
+                                            <div class="title-hd-sm">
+                                                <h4>Chi tiết</h4>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Lượt xem: </h6>
+                                                <p th:utext="${movie.getViewNumber()}"></p>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Đạo diễn: </h6>
+                                                <p><a style="cursor: pointer;" th:each="cast, state : ${directorList}"
+                                                      th:utext="' ' + ${cast.getName()} + ','"
+                                                      th:href="'/celebrity/director/id=' + ${cast.getId()} + '&page=1'"></a>...
+                                                </p>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Ngôi sao: </h6>
+                                                <p><a style="cursor: pointer;" th:each="cast, state : ${characterList}"
+                                                      th:utext="' ' + ${cast.getKey().getName()} + ','"
+                                                      th:href="'/celebrity/actor/id=' + ${cast.getKey().getId()} + '&page=1'"></a>...
+                                                </p>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Thể loại:</h6>
+                                                <p><a style="cursor: pointer;" th:each="genre, state : ${genreList}"
+                                                      th:utext="' ' + ${genre.getName()} + ','"
+                                                      th:href="'/movie-grid/showing/genre=' + ${genre.getId()} + '&page=1'"></a>...
+                                                </p>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Ngày khởi chiếu:</h6>
+                                                <p th:utext="${format.format(movie.getReleaseDate())}"></p>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Thời lượng:</h6>
+                                                <p th:utext="${movie.getMovieDuration()}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="media" class="tab">
+                                    <div class="row">
+                                        <div class="rv-hd">
+                                            <div>
+                                                <h3>Giới thiệu</h3>
+                                                <h2 th:utext="${movie.getTitle()}"></h2>
+                                            </div>
+                                        </div>
+                                        <div class="title-hd-sm">
+                                            <h4>Videos <span>(8)</span></h4>
+                                        </div>
+                                        <div class="mvsingle-item media-item">
+                                            <div class="vd-item">
+                                                <div class="vd-it">
+                                                    <img class="vd-img" src="/images/uploads/vd-item1.jpg" alt="">
+                                                    <a class="fancybox-media hvr-grow"
+                                                       href="https://www.youtube.com/embed/o-0hcF97wy0"><img
+                                                            src="images/uploads/play-vd.png" alt=""></a>
+                                                </div>
+                                                <div class="vd-infor">
+                                                    <h6><a href="#">Trailer: Watch New Scenes</a></h6>
+                                                    <p class="time"> 1: 31</p>
+                                                </div>
+                                            </div>
+                                            <div class="vd-item">
+                                                <div class="vd-it">
+                                                    <img class="vd-img" src="/images/uploads/vd-item2.jpg" alt="">
+                                                    <a class="fancybox-media hvr-grow"
+                                                       href="https://www.youtube.com/embed/o-0hcF97wy0"><img
+                                                            src="images/uploads/play-vd.png" alt=""></a>
+                                                </div>
+                                                <div class="vd-infor">
+                                                    <h6><a href="#">Featurette: “Avengers Re-Assembled</a></h6>
+                                                    <p class="time"> 1: 03</p>
+                                                </div>
+                                            </div>
+                                            <div class="vd-item">
+                                                <div class="vd-it">
+                                                    <img class="vd-img" src="/images/uploads/vd-item3.jpg" alt="">
+                                                    <a class="fancybox-media hvr-grow"
+                                                       href="https://www.youtube.com/embed/o-0hcF97wy0"><img
+                                                            src="images/uploads/play-vd.png" alt=""></a>
+                                                </div>
+                                                <div class="vd-infor">
+                                                    <h6><a href="#">Interview: Robert Downey Jr</a></h6>
+                                                    <p class="time"> 3:27</p>
+                                                </div>
+                                            </div>
+                                            <div class="vd-item">
+                                                <div class="vd-it">
+                                                    <img class="vd-img" src="/images/uploads/vd-item4.jpg" alt="">
+                                                    <a class="fancybox-media hvr-grow"
+                                                       href="https://www.youtube.com/embed/o-0hcF97wy0"><img
+                                                            src="images/uploads/play-vd.png" alt=""></a>
+                                                </div>
+                                                <div class="vd-infor">
+                                                    <h6><a href="#">Interview: Scarlett Johansson</a></h6>
+                                                    <p class="time"> 3:27</p>
+                                                </div>
+                                            </div>
+                                            <div class="vd-item">
+                                                <div class="vd-it">
+                                                    <img class="vd-img" src="/images/uploads/vd-item1.jpg" alt="">
+                                                    <a class="fancybox-media hvr-grow"
+                                                       href="https://www.youtube.com/embed/o-0hcF97wy0"><img
+                                                            src="images/uploads/play-vd.png" alt=""></a>
+                                                </div>
+                                                <div class="vd-infor">
+                                                    <h6><a href="#">Featurette: Meet Quicksilver & The Scarlet Witch</a>
+                                                    </h6>
+                                                    <p class="time"> 1: 31</p>
+                                                </div>
+                                            </div>
+                                            <div class="vd-item">
+                                                <div class="vd-it">
+                                                    <img class="vd-img" src="/images/uploads/vd-item2.jpg" alt="">
+                                                    <a class="fancybox-media hvr-grow"
+                                                       href="https://www.youtube.com/embed/o-0hcF97wy0"><img
+                                                            src="images/uploads/play-vd.png" alt=""></a>
+                                                </div>
+                                                <div class="vd-infor">
+                                                    <h6><a href="#">Interview: Director Joss Whedon</a></h6>
+                                                    <p class="time"> 1: 03</p>
+                                                </div>
+                                            </div>
+                                            <div class="vd-item">
+                                                <div class="vd-it">
+                                                    <img class="vd-img" src="/images/uploads/vd-item3.jpg" alt="">
+                                                    <a class="fancybox-media hvr-grow"
+                                                       href="https://www.youtube.com/embed/o-0hcF97wy0"><img
+                                                            src="images/uploads/play-vd.png" alt=""></a>
+                                                </div>
+                                                <div class="vd-infor">
+                                                    <h6><a href="#">Interview: Mark Ruffalo</a></h6>
+                                                    <p class="time"> 3:27</p>
+                                                </div>
+                                            </div>
+                                            <div class="vd-item">
+                                                <div class="vd-it">
+                                                    <img class="vd-img" src="/images/uploads/vd-item4.jpg" alt="">
+                                                    <a class="fancybox-media hvr-grow"
+                                                       href="https://www.youtube.com/embed/o-0hcF97wy0"><img
+                                                            src="images/uploads/play-vd.png" alt=""></a>
+                                                </div>
+                                                <div class="vd-infor">
+                                                    <h6><a href="#">Official Trailer #2</a></h6>
+                                                    <p class="time"> 3:27</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="title-hd-sm">
+                                            <h4>Photos <span> (21)</span></h4>
+                                        </div>
+                                        <div class="mvsingle-item">
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image11.jpg"><img src="/images/uploads/image1.jpg"
+                                                                                       alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image21.jpg"><img src="/images/uploads/image2.jpg"
+                                                                                       alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image31.jpg"><img src="/images/uploads/image3.jpg"
+                                                                                       alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image41.jpg"><img src="/images/uploads/image4.jpg"
+                                                                                       alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image51.jpg"><img src="/images/uploads/image5.jpg"
+                                                                                       alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image61.jpg"><img src="/images/uploads/image6.jpg"
+                                                                                       alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image71.jpg"><img src="/images/uploads/image7.jpg"
+                                                                                       alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image81.jpg"><img src="/images/uploads/image8.jpg"
+                                                                                       alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image91.jpg"><img src="/images/uploads/image9.jpg"
+                                                                                       alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image101.jpg"><img
+                                                    src="/images/uploads/image10.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image111.jpg"><img
+                                                    src="/images/uploads/image1-1.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image121.jpg"><img
+                                                    src="/images/uploads/image12.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image131.jpg"><img
+                                                    src="/images/uploads/image13.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image141.jpg"><img
+                                                    src="/images/uploads/image14.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image151.jpg"><img
+                                                    src="/images/uploads/image15.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image161.jpg"><img
+                                                    src="/images/uploads/image16.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image171.jpg"><img
+                                                    src="/images/uploads/image17.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image181.jpg"><img
+                                                    src="/images/uploads/image18.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image191.jpg"><img
+                                                    src="/images/uploads/image19.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image201.jpg"><img
+                                                    src="/images/uploads/image20.jpg" alt=""></a>
+                                            <a class="img-lightbox" data-fancybox-group="gallery"
+                                               href="/images/uploads/image211.jpg"><img
+                                                    src="/images/uploads/image2-1.jpg" alt=""></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="reviews" class="tab review">
+                                    <div class="row">
+                                        <div class="rv-hd">
+                                            <div class="div">
+                                                <h3>Đánh giá phim</h3>
+                                                <h2 th:utext="${movie.getTitle()}"></h2>
+                                            </div>
+                                            <a href="#" class="redbtn signupLink" th:if="${loginResponse != null}">Đánh
+                                                giá</a>
+                                            <a href="/login" class="redbtn" th:if="${loginResponse == null}">Đánh
+                                                giá</a>
+                                        </div>
+                                        <div class="topbar-filter">
+                                            <p>Tìm thấy <span th:utext="${evaluateList.size()} + ' đánh giá'"></span>
+                                                tất cả</p>
+                                        </div>
+                                        <div class="mv-user-review-item" th:each="eva, state : ${evaluateList}">
+                                            <div class="user-infor">
+                                                <img th:src="${eva.accId.avatar}" alt=""
+                                                     style="width: 70px; height: 70px; border-radius: 70px;">
+                                                <div>
+                                                    <h3 th:utext="${eva.accId.lastname + ' ' + eva.accId.firstname}"></h3>
+                                                    <div class="no-star" th:if="${eva.evaluateRate == 0}">
+                                                        <i class="ion-android-star last"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                    </div>
+                                                    <div class="no-star" th:if="${eva.evaluateRate == 1}">
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                    </div>
+                                                    <div class="no-star" th:if="${eva.evaluateRate == 2}">
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star"></i>>
+                                                        <i class="ion-android-star last"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                    </div>
+                                                    <div class="no-star" th:if="${eva.evaluateRate == 3}">
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                    </div>
+                                                    <div class="no-star" th:if="${eva.evaluateRate == 4}">
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star last"></i>
+                                                    </div>
+                                                    <div class="no-star" th:if="${eva.evaluateRate == 5}">
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star"></i>
+                                                        <i class="ion-android-star"></i>
+                                                    </div>
+                                                    <p class="time"
+                                                       th:utext="${evaFormatter.format(eva.evaluateTime) + ' bởi ' + eva.accId.username}">
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <p th:utext="${eva.evaluateContent}"></p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="moviesrelated" class="tab">
+                                    <div class="row">
+                                        <div class="div">
+                                            <h3>Cùng chuyên mục</h3>
+                                            <h2 th:utext="${movie.getTitle()}"></h2>
+                                        </div>
+                                        <div class="topbar-filter">
+                                        </div>
+                                        <div class="movie-item-style-2" th:each="movie, state : ${relateMovieList}">
+                                            <img th:src="${movie.getKey().getPoster()}" alt=""
+                                                 style="width: 170px; height: 261px;">
+                                            <div class="mv-item-infor">
+                                                <h6><a th:href="@{'/movie-detail/id=' + ${movie.getKey().getId()}}"
+                                                       th:text="${movie.getKey().getTitle()}"></a></h6>
+                                                <h7 th:utext="${movie.getKey().requireMember.detail}"
+                                                    th:if="${movie.getKey().requireMember.id != 0}"></h7>
+                                                <h7 th:utext="'Free'"
+                                                    th:if="${movie.getKey().requireMember.id == 0}"></h7>
+                                                <p class="rate"><i class="ion-android-star"></i><span
+                                                        th:utext="${df.format(movie.getValue())}"></span> /5</p>
+                                                <p class="describe" th:text="${movie.getKey().getDetail()}"></p>
+                                            </div>
+                                        </div>
+                                        <div class="topbar-filter">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="ht-footer full-width-ft">
+    <div class="row">
+        <div class="flex-parent-ft">
+            <div class="flex-child-ft item1">
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt=""></a>
+                <p>Thiết kế bởi Võ Nguyễn Duy Long<br>
+                    N18DCCN116</p>
+            </div>
+            <div class="flex-child-ft item2">
+                <h4>Trợ giúp</h4>
+                <ul>
+                    <li><a href="/about">Giới thiệu</a></li>
+                    <li><a href="/contact-us">Liên hệ</a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100009028664531">Diễn đàn</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item3">
+                <h4>Pháp lý</h4>
+                <ul>
+                    <li><a href="/termuses">Điều khoản sử dụng</a></li>
+                    <li><a href="/privacy">Quyền riêng tư</a></li>
+                    <li><a href="/sercurity">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item4">
+                <h4>Tài khoản</h4>
+                <ul>
+                    <li><a href="/user-profile">Tài khoản của tôi</a></li>
+                    <li><a href="/change-pass">Đổi mật khẩu</a></li>
+                    <li><a href="/logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item5">
+                <h4>Thông tin</h4>
+                <p>Kết nối với chúng tôi để nhận được các tin tức mới nhất <br> về chương trình khuyễn mãi và các bộ
+                    phim sắp ra mắt.</p>
+                <div class="social-link">
+                    <a href="https://www.facebook.com/profile.php?id=100009028664531"><i
+                            class="ion-social-facebook"></i></a>
+                    <a href="https://www.instagram.com/vonguyenduylong92.1415/"><i class="ion-social-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCKblgclkd5s3L3-oOLT8KVg"><i
+                            class="ion-social-youtube"></i></a>
+                </div>
+            </div>
+            <div class="flex-child-ft item6">
+                <h4>Chăm sóc khách hàng</h4>
+                <ul>
+                    <li><p>Hotline: (+84)937220747</p></li>
+                    <li><p>Giờ làm việc: 7:00 -> 22:00(Trừ ngày Chủ Nhật)</p></li>
+                    <li><p>Email hỗ trợ: vonguyenduylong92.1415@gmail.com</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<div class="scrollTop" onclick="scrollToTop()"></div>
+<script src="/js/jquery.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/plugins2.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script>
+    $('.popup-youtube').magnificPopup({type: 'iframe'});
+    $.extend(true, $.magnificPopup.defaults, {
+        iframe: {
+            patterns: {
+                youtube: {
+                    index: 'youtube.com/',
+                    id: 'v=',
+                    src: 'https://www.youtube.com/embed/%id%?autoplay=1',
+                }
+            }
+        }
+    });
+</script>
+<script>
+    $(window).on('resize', function () {
+        var windowWidth = $(window).width();
+        if (windowWidth < 1024) {
+            div = document.getElementById("sticky");
+            div.classList.remove("sticky-sb");
+        } else {
+            div = document.getElementById("sticky");
+            div.classList.add("sticky-sb");
+        }
+    })
+</script>
+<script>
+    window.addEventListener('scroll', function () {
+        var scroll = document.querySelector('.scrollTop');
+        scroll.classList.toggle("active", window.scrollY > 500)
+    })
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0
+        })
+    }
+
+    function comment() {
+        alert("Bình luận thành công");
+    }
+</script>
+</body>
+
+<!-- moviesingle11:03-->
+</html>

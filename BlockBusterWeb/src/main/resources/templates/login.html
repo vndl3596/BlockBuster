@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+    <title>Đăng nhập</title>
+    <link rel="stylesheet" href="/css/login/style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body background="/images/loginbg.jpg">
+<div class="wrapper">
+    <div class="header">
+        <div class="logo">
+            <a href="/home"><img src="/images/logo1.png"></a>
+        </div>
+    </div>
+    <div class="login_body">
+        <h2>Đăng nhập</h2>
+        <div class="login_box">
+            <form th:action="@{login}" method="post" onsubmit="return loginSubmit()" name="login">
+                <div class="input_wrap">
+                    <input type="text" name="username" placeholder="Tài khoản" autocomplete="off"
+                           th:value="${acc.getUsername()}">
+                </div>
+                <div class="input_wrap">
+                    <input type="password" name="password" id="password" placeholder="Mật khẩu" value="">
+                </div>
+                <div class="error">
+                    <p style="color: red; text-align: center;" th:utext="${error}"></p>
+                </div>
+                <div class="input_wrap">
+                    <button type="submit">Đăng nhập</button>
+                </div>
+                <div class="support">
+                    <div class="show">
+                        <input type="checkbox" onclick="show()"> <label style="margin-bottom: 1px;"> Hiện mật
+                        khẩu</label>
+                    </div>
+                    <div class="forget">
+                        <a href="/forget-pass">Quên mật khẩu?</a>
+                    </div>
+                </div>
+                <br>
+                <br>
+                <br>
+                <div class="login_footer">
+                    <div class="sign_up">
+                        <p>Chưa phải thành viên? <a href="/register">Đăng ký ngay.</a></p>
+                    </div>
+                    <div class="term">
+                        <p><small>BlockBuster được bảo vệ bởi Google để đảm bảo bạn không phải một người máy.</small>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function show() {
+        var x = document.getElementById("password");
+        if (x.type === "password") {
+            x.type = "text";
+        } else {
+            x.type = "password";
+        }
+    }
+</script>
+<script>
+    function loginSubmit() {
+        let name = document.forms["login"]["username"].value;
+        if (name == "") {
+            document.forms["login"]["username"].focus();
+            alert("Tài khoản không được trống!");
+            return false;
+        }
+        let password = document.forms["login"]["password"].value;
+        if (password == "") {
+            document.forms["login"]["password"].focus();
+            alert("Mật khẩu không được trống!");
+            return false;
+        }
+    }
+</script>
+
+</body>
+</html>

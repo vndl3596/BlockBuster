@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <!-- Basic need -->
+    <title th:utext="${'Xem phim - ' + movie.getTitle()}"></title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="profile" href="#">
+
+    <!--Google Font-->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <link rel="stylesheet" type="text/css" href="/css/magnific-popup.css">
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no">
+
+    <!-- CSS files -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/plyr.css">
+
+</head>
+<body onbeforeunload="save()">
+<div id="preloader" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
+    <img class="logo" src="/images/logo1.png" alt="" width="119" height="58">
+    <div id="status">
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<header class="ht-header full-width-hd">
+    <div class="row">
+        <nav id="mainNav" class="navbar navbar-default navbar-custom">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header logo">
+                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <div id="nav-icon1">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt="" width="119" height="58"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav flex-child-menu menu-left">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default lv1" href="/home">
+                            Trang chủ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default lv1" href="/movie-grid/showing/page=1">
+                            Đang công chiếu</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default lv1" href="/movie-grid/coming/page=1">
+                            Sắp ra mắt</a>
+                    </li>
+                    <li class="dropdown first" th:if="${loginResponse != null}">
+                        <a class="btn btn-default lv1" href="/user-history/page=1">
+                            Lịch sử</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/contact-us">
+                            Liên hệ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/about">
+                            Giới thiệu</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right">
+                    <li><img th:src="${loginAcc.avatar}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar != ''}"></li>
+                    <li><img th:src="@{'/images/uploads/user.png'}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar == ''}"></li>
+                    <li><label><a href="/user-profile"
+                                  th:utext="${loginAcc.getLastname() + ' ' + loginAcc.getFirstname()}"></a>
+                        <p><i>Thành viên</i></p></label></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <!-- search form -->
+    </div>
+
+</header>
+
+<div class="hero mv-single-hero" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-single movie-single movie_single">
+    <div class="container">
+        <div class="row ipad-width2" style="margin-bottom: 50px; border-bottom: 1px solid #233a50">
+            <div class="col-md-4 col-sm-12 col-xs-12">
+                <div class="movie-img">
+                    <img th:src="${movie.getPoster()}" style="height: 500px;" alt="">
+                    <div class="movie-btn">
+                        <div class="btn-transform transform-vertical">
+                            <div><a href="#" class="item item-1 yellowbtn"> <i class="ion-card"></i> Xem Trailer</a>
+                            </div>
+                            <div><a th:href="'https://www.youtube.com/watch?v=' + ${movie.getLinkTrailer()}"
+                                    class="item item-2 yellowbtn popup-youtube"><i class="ion-card"></i></a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-sm-12 col-xs-12">
+                <div class="movie-single-ct main-content">
+                    <h1 class="bd-hd" th:text="${movie.getTitle()}"></h1>
+                    <h3 class="bd-hd3" th:utext="${movie.getRequireMember().getDetail()}"
+                        th:if="${movie.getRequireMember().getId() != 0}"></h3>
+                    <h3 class="bd-hd3" th:utext="Free" th:if="${movie.getRequireMember().getId() == 0}"></h3>
+                    <div class="social-btn">
+                        <a href="#" class="parent-btn"><i class="ion-heart"></i> Đang công chiếu</a>
+                        <div class="hover-bnt">
+                            <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>Chia sẻ</a>
+                            <div class="hvr-item">
+                                <a href="https://www.facebook.com/" class="hvr-grow"><i class="ion-social-facebook"></i></a>
+                                <a href="https://www.instagram.com/" class="hvr-grow"><i
+                                        class="ion-social-instagram"></i></a>
+                                <a href="https://twitter.com/" class="hvr-grow"><i class="ion-social-twitter"></i></a>
+                                <a href="https://www.youtube.com/" class="hvr-grow"><i
+                                        class="ion-social-youtube"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-rate">
+                        <div class="rate">
+                            <i class="ion-android-star"></i>
+                            <p th:if="${starList.size()>0}"><span th:utext="${df.format(rate)}"></span> /5<br>
+                                <span class="rv" th:utext="${evaluateList.size() + ' đánh giá'}"></span>
+                            </p>
+                            <p th:if="${starList.size()==0}"><span>0</span> /5<br>
+                                <span class="rv" th:utext="${evaluateList.size() + ' đánh giá'}"></span>
+                            </p>
+                        </div>
+                        <div class="rate-star">
+                            <p>IDMB: </p>
+                            <div th:each="star, state: ${starList}" th:if="${starList.size()>0}">
+                                <i class="ion-ios-star" th:if="${star == 1.0}"></i>
+                                <i class="ion-ios-star-half" th:if="${star == 0.5}"></i>
+                                <i class="ion-ios-star-outline" th:if="${star == 0}"></i>
+                            </div>
+                            <div th:if="${starList.size()==0}">
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                                <i class="ion-ios-star-outline"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="movie-tabs">
+                        <div class="tabs">
+                            <ul class="tab-links tabs-mv">
+                                <li class="active"><a href="#overview">Thông tin</a></li>
+                                <li><a href="#cast"> Tham gia</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div id="overview" class="tab active">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-12 col-xs-12">
+                                            <div class="title-hd-sm">
+                                                <h4>Nội dung phim</h4>
+                                            </div>
+                                            <p th:utext="${movie.getDetail()}"></p>
+                                        </div>
+                                        <div class="col-md-6 col-xs-12 col-sm-12">
+                                            <div class="title-hd-sm">
+                                                <h4>Chi tiết</h4>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Thể loại:</h6>
+                                                <p><a style="cursor: pointer;" th:each="genre, state : ${genreList}"
+                                                      th:utext="' ' + ${genre.getName()} + ','"
+                                                      th:href="'/movie-grid/showing/genre=' + ${genre.getId()} + '&page=1'"></a>...
+                                                </p>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Ngày khởi chiếu:</h6>
+                                                <p th:utext="${format.format(movie.getReleaseDate())}"></p>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Thời lượng:</h6>
+                                                <p th:utext="${movie.getMovieDuration()}"></p>
+                                            </div>
+                                            <div class="sb-it">
+                                                <h6>Lượt xem: </h6>
+                                                <p th:utext="${movie.getViewNumber()}"></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div id="cast" class="tab">
+                                    <div class="row">
+                                        <div class="col-md-12 col-sm-12 col-xs-12">
+                                            <div class="title-hd-sm">
+                                                <h4>Đạo diễn</h4>
+                                            </div>
+                                            <div class="mvcast-item">
+                                                <div class="cast-it">
+                                                    <div class="cast-left" th:each="cast, state : ${directorList}">
+                                                        <img th:src="${cast.getAvatar()}" alt="" width="40px"
+                                                             height="40px">
+                                                        <p><strong style="font-size: 15px;"
+                                                                   th:utext="${cast.getName()}"></strong></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="title-hd-sm">
+                                                <h4>Diễn viên</h4>
+                                            </div>
+                                            <!-- movie cast -->
+                                            <div class="mvcast-item">
+                                                <div class="cast-it" th:each="mapItem, state : ${characterList}">
+                                                    <div class="cast-left"
+                                                         th:each="cast, state : ${mapItem.getValue()}">
+                                                        <img th:src="${cast.getAvatar()}" alt="" width="40px"
+                                                             height="40px">
+                                                        <p><strong style="font-size: 15px;"
+                                                                   th:utext="${cast.getName()}"></strong></p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row ipad-width">
+            <div class="col-md-12 col-sm-12 col-xs-12 plyr__video-embed" onclick="firstClick()" id="player"
+                 th:if="${(movie.getLinkMovie().contains('youtube.com') == true) || (movie.getLinkMovie().contains('gdplayer.dev') == true)}">
+                <iframe style="height: 600px; width: 100%" th:src="${movie.getLinkMovie()}"
+                        allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowfullscreen></iframe>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12"
+                 th:if="${(movie.getLinkMovie().contains('youtube.com') == false) && (movie.getLinkMovie().contains('gdplayer.dev') == false)}">
+                <video playsinline controls th:data-poster="${movie.getPoster()}">
+                    <source th:src="${movie.getLinkMovie()}" type="video/mp4"/>
+                </video>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="ht-footer full-width-ft">
+    <div class="row">
+        <div class="flex-parent-ft">
+            <div class="flex-child-ft item1">
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt=""></a>
+                <p>Thiết kế bởi Võ Nguyễn Duy Long<br>
+                    N18DCCN116</p>
+            </div>
+            <div class="flex-child-ft item2">
+                <h4>Trợ giúp</h4>
+                <ul>
+                    <li><a href="/about">Giới thiệu</a></li>
+                    <li><a href="/contact-us">Liên hệ</a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100009028664531">Diễn đàn</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item3">
+                <h4>Pháp lý</h4>
+                <ul>
+                    <li><a href="/termuses">Điều khoản sử dụng</a></li>
+                    <li><a href="/privacy">Quyền riêng tư</a></li>
+                    <li><a href="/sercurity">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item4">
+                <h4>Tài khoản</h4>
+                <ul>
+                    <li><a href="/user-profile">Tài khoản của tôi</a></li>
+                    <li><a href="/change-pass">Đổi mật khẩu</a></li>
+                    <li><a href="/logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item5">
+                <h4>Thông tin</h4>
+                <p>Kết nối với chúng tôi để nhận được các tin tức mới nhất <br> về chương trình khuyễn mãi và các bộ
+                    phim sắp ra mắt.</p>
+                <div class="social-link">
+                    <a href="https://www.facebook.com/profile.php?id=100009028664531"><i
+                            class="ion-social-facebook"></i></a>
+                    <a href="https://www.instagram.com/vonguyenduylong92.1415/"><i class="ion-social-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCKblgclkd5s3L3-oOLT8KVg"><i
+                            class="ion-social-youtube"></i></a>
+                </div>
+            </div>
+            <div class="flex-child-ft item6">
+                <h4>Chăm sóc khách hàng</h4>
+                <ul>
+                    <li><p>Hotline: (+84)937220747</p></li>
+                    <li><p>Giờ làm việc: 7:00 -> 22:00(Trừ ngày Chủ Nhật)</p></li>
+                    <li><p>Email hỗ trợ: vonguyenduylong92.1415@gmail.com</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<script src="/js/jquery.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/plugins2.js"></script>
+<script src="/js/custom.js"></script>
+<script src="/js/jquery.magnific-popup.min.js"></script>
+<script src="https://cdn.plyr.io/3.6.2/plyr.js"></script>
+<script th:inline="javascript">
+    const player = new Plyr('#player');
+    var firstclick = true;
+
+    function firstClick() {
+        if (firstclick == true) {
+            firstclick = false;
+            var time = [[${history.movieTime}]];
+            var timeArr = time.split(":");
+            var hour = timeArr[0];
+            var min = timeArr[1];
+            var second = timeArr[2];
+
+            if ((parseFloat(hour) > 0) || (parseFloat(min) > 0) || (parseFloat(second) > 0)) {
+                let check = confirm("Tiếp tục!!!");
+                if (check == true) {
+                    player.currentTime = parseFloat(hour) * 60 * 60 + parseFloat(min) * 60 + parseFloat(second);
+                    player.play();
+                } else player.play();
+            } else player.play();
+        }
+    };
+
+    player.on("pause", (event) => {
+        var hour;
+        var minute;
+        var second;
+        if (player.currentTime < 60 * 60) {
+            hour = 0;
+        } else {
+            hour = Math.floor((Math.floor(player.currentTime) / 60) / 60);
+        }
+
+        if ((Math.floor(player.currentTime) - hour * 60 * 60) < 60) {
+            minute = 0;
+        } else {
+            minute = Math.floor((Math.floor(player.currentTime) - hour * 60 * 60) / 60);
+        }
+
+        second = Math.floor(Math.floor(player.currentTime) - hour * 60 * 60 - minute * 60);
+
+        var userId = [[${loginAcc.id}]];
+        var movieId = [[${movie.id}]];
+        var time = hour + ":" + minute + ":" + second;
+
+        fetch(`http://localhost:8080/api/history/add/${userId}/${movieId}/${time}`, {method: "get"})
+            .then(function (reponse) {
+                return reponse.json();
+            })
+            .catch(function (error) {
+            });
+    });
+
+    function save() {
+        var hour;
+        var minute;
+        var second;
+        if (player.currentTime < 60 * 60) {
+            hour = 0;
+        } else {
+            hour = Math.floor((Math.floor(player.currentTime) / 60) / 60);
+        }
+
+        if ((Math.floor(player.currentTime) - hour * 60 * 60) < 60) {
+            minute = 0;
+        } else {
+            minute = Math.floor((Math.floor(player.currentTime) - hour * 60 * 60) / 60);
+        }
+
+        second = Math.floor(Math.floor(player.currentTime) - hour * 60 * 60 - minute * 60);
+
+        var userId = [[${loginAcc.id}]];
+        var movieId = [[${movie.id}]];
+        var time = hour + ":" + minute + ":" + second;
+
+        fetch(`http://localhost:8080/api/history/add/${userId}/${movieId}/${time}`, {method: "get"})
+            .then(function (reponse) {
+                return reponse.json();
+            })
+            .catch(function (error) {
+            });
+    };
+</script>
+<script>
+    var theVideo = document.getElementById('player');
+    document.onkeydown = function (event) {
+        switch (event.keyCode) {
+            case 37:
+                event.preventDefault();
+
+                var vid_currentTime = theVideo.currentTime;
+                theVideo.currentTime = vid_currentTime - 5;
+                save();
+                break;
+
+            case 39:
+                event.preventDefault();
+
+                var vid_currentTime = theVideo.currentTime;
+                theVideo.currentTime = vid_currentTime + 5;
+                save();
+                break;
+
+        }
+    }
+</script>
+<script>
+    $('.popup-youtube').magnificPopup({type: 'iframe'});
+    $.extend(true, $.magnificPopup.defaults, {
+        iframe: {
+            patterns: {
+                youtube: {
+                    index: 'youtube.com/',
+                    id: 'v=',
+                    src: 'https://www.youtube.com/embed/%id%?autoplay=1'
+                }
+            }
+        }
+    });
+</script>
+</body>
+
+<!-- moviesingle11:03-->
+</html>

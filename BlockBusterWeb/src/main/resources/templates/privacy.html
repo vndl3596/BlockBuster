@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <title>BlockBuster - Quyền riêng tư</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="profile" href="#">
+
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no">
+
+    <link rel="stylesheet" href="/css/plugins.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body style="background-color: #020d18;">
+<div id="preloader" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
+    <img class="logo" src="/images/logo1.png" alt="" width="119" height="58">
+    <div id="status">
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<header class="ht-header full-width-hd">
+    <div class="row">
+        <nav id="mainNav" class="navbar navbar-default navbar-custom">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header logo">
+                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <div id="nav-icon1">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt="" width="119" height="58"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav flex-child-menu menu-left">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/home">
+                            Trang chủ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/showing/page=1">
+                            Đang công chiếu</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/coming/page=1">
+                            Sắp ra mắt</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/contact-us">
+                            Liên hệ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/about">
+                            Giới thiệu</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse == null}">
+                    <li class="btnLo"><a href="/login">Đăng nhập</a></li>
+                    <li class="btnRe"><a href="/register">Đăng ký</a></li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse != null}">
+                    <li><img th:src="${loginAcc.avatar}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar != ''}"></li>
+                    <li><img th:src="@{'/images/uploads/user.png'}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar == ''}"></li>
+                    <li><label><a href="/user-profile"
+                                  th:utext="${loginAcc.getLastname() + ' ' + loginAcc.getFirstname()}"></a>
+                        <p><i>Thành viên</i></p></label></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <!-- search form -->
+    </div>
+
+</header>
+
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    <h1> Trung tâm trợ giúp</h1>
+                    <ul class="breadcumb">
+                        <li class="active"><a href="/home">Trang chủ</a></li>
+                        <li><span class="ion-ios-arrow-right"></span> Trung tâm trợ giúp</li>
+                        <li><span class="ion-ios-arrow-right"></span> Quyền riêng tư</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="global-content">
+    <div class="container">
+        <div class="breadcrumb-container multi-crumbs">
+            <ul class="breadcrumb help-center-breadcrumb">
+            </ul>
+        </div>
+        <br>
+        <br>
+        <br>
+
+
+        <h1 style="color: white;">Tuyên bố về quyền riêng tư</h1>
+        <br>
+        <br>
+
+        <div class="pane-wrapper">
+            <div class="left-pane">
+                <section dir="LTR" class="kb-article kb-article-variant gradient"
+                         data-countries=",BD,TV,NP,TW,HK,PW,FM,NU,BN,NZ,SB,WF,BT,SG,ID,MH,WS,KH,KI,CC,MM,MN,MO,MP,CK,MV,MY,GU,AS,TH,CX,LA,NC,PF,TK,PG,TL,VN,NF,PH,TO,PK,PN,VU,LK,">
+                    <div class="page-block">
+                        <div class="c-wrapper">
+                            <div>
+                                <p>Tuyên bố về quyền riêng tư này giải thích các cách thức hoạt động của chúng tôi, bao
+                                    gồm cả các lựa chọn của bạn, liên quan đến việc thu thập, sử dụng và tiết lộ các
+                                    thông tin nhất định, bao gồm cả thông tin cá nhân của bạn liên quan đến dịch vụ
+                                    BlockBuster.</p>
+                                <br>
+                                <h3 style="color: white;">Liên hệ với chúng tôi</h3>
+                                <p>Nếu bạn có câu hỏi chung về tài khoản của mình hoặc về cách liên hệ với dịch vụ khách
+                                    hàng để được hỗ trợ, vui lòng truy cập trung tâm trợ giúp trực tuyến của chúng tôi
+                                    qua số điện thoại <b>(+84)0937220747</b> hoặc email <b>vonguyenduylong92.1415@gmail.com</b>.
+                                </p>
+                                <p>Xin lưu ý rằng nếu bạn liên hệ với chúng tôi để yêu cầu hỗ trợ, chúng tôi có thể cần
+                                    xác thực danh tính của bạn trước khi thực hiện yêu cầu của bạn để đảm bảo an toàn
+                                    cho cả bạn và chúng tôi.</p>
+                                <br>
+                                <h3 style="color: white;">Thu thập thông tin</h3>
+                                <p>Chúng tôi tiếp nhận và lưu trữ thông tin về bạn như:</p>
+                                <ul>
+                                    <li><p><strong>Thông tin bạn cung cấp cho chúng tôi:</strong> Chúng tôi thu thập
+                                        thông tin mà bạn cung cấp cho chúng tôi, bao gồm:</p>
+                                        <ul>
+                                            <li style="margin-left: 30px;"><p>- Tên, chứng minh nhân dân, (các) phương
+                                                thức thanh toán và số điện thoại của bạn. Chúng tôi thu thập thông tin
+                                                này theo một số cách thức, bao gồm cả thông tin bạn nhập khi sử dụng
+                                                dịch vụ của chúng tôi, tương tác với dịch vụ khách hàng của chúng tôi
+                                                hoặc tham gia vào các cuộc khảo sát hoặc quảng cáo tiếp thị.</p>
+                                            </li>
+                                            <li style="margin-left: 30px;"><p>- Thông tin bạn chọn về cài đặt tài khoản
+                                                (bao gồm cả các tùy chọn được thiết đặt trong phần "Tài khoản" trên
+                                                trang web của chúng tôi), hoặc thông tin bạn cung cấp thông qua dịch vụ
+                                                của chúng tôi.</p>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <h3 style="color: white;">Sử dụng Thông tin</h3>
+                                <p>Chúng tôi sử dụng thông tin để cung cấp, phân tích, quản trị, nâng cao và cá nhân hóa
+                                    các dịch vụ và nỗ lực tiếp thị, để quản lý các lượt giới thiệu thành viên, xử lý yêu
+                                    cầu đăng ký, đặt hàng và thanh toán của bạn, và liên lạc với bạn về những vấn đề này
+                                    và các chủ đề khác. Chẳng hạn, chúng tôi sử dụng thông tin nói trên để:</p>
+                                <ul>
+                                    <li style="margin-left: 30px;"><p>- Phối hợp với Các đối tác để cung cấp dịch vụ
+                                        BlockBuster cho các thành viên và cung cấp thông tin cho những người không phải
+                                        thành viên về tình trạng sẵn có của dịch vụ BlockBuster, dựa trên mối quan hệ cụ
+                                        thể của bạn với Đối tác.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>- Bảo mật hệ thống của chúng tôi, ngăn chặn lừa
+                                        đảo và giúp chúng tôi bảo vệ tính bảo mật của các tài khoản BlockBuster.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>- Ngăn chặn, phát hiện và điều tra các hoạt động
+                                        có khả năng bị cấm hoặc bất hợp pháp, bao gồm cả gian lận, cũng như để thực thi
+                                        các điều khoản của chúng tôi.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>- Phân tích và tìm hiểu khán giả, cải thiện dịch
+                                        vụ của chúng tôi (bao gồm cả trải nghiệm giao diện người dùng và hiệu suất dịch
+                                        vụ) cũng như tối ưu hóa lựa chọn, các thuật toán đề xuất và phân phối nội
+                                        dung.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>- Liên lạc với bạn về dịch vụ của chúng tôi để
+                                        chúng tôi có thể gửi cho bạn tin tức về BlockBuster, chi tiết về các tính năng
+                                        và nội dung mới hiện có trên BlockBuster, ưu đãi đặc biệt, thông báo quảng cáo,
+                                        khảo sát người tiêu dùng, và hỗ trợ bạn xử lý các yêu cầu về vận hành, chẳng hạn
+                                        như yêu cầu đặt lại mật khẩu. Các thông tin liên lạc này có thể được thực hiện
+                                        bằng nhiều phương thức như thư điện tử, thông báo đẩy, tin nhắn văn bản, các
+                                        kênh nhắn tin trực tuyến và thông tin mã định danh trùng khớp (theo mô tả dưới
+                                        đây).</p>
+                                    </li>
+                                </ul>
+                                <h3 style="color: white;">Tiết lộ thông tin</h3>
+                                <p>Chúng tôi tiết lộ thông tin của bạn cho các bên thứ ba nhằm thực hiện các mục đích
+                                    nhất định như được mô tả dưới đây:</p>
+                                <ul>
+                                    <li><p><strong>Các công ty thành viên của BlockBuster:</strong> Chúng tôi chia sẻ
+                                        thông tin của bạn giữa các công ty thành viên của BlockBuster khi cần thiết
+                                        nhằm: cung cấp cho bạn quyền truy cập vào các dịch vụ của chúng tôi; hỗ trợ
+                                        khách hàng; đưa ra quyết định về cải tiến dịch vụ; phát triển nội dung; và cho
+                                        các mục đích khác được mô tả trong mục Sử dụng thông tin của Tuyên bố về quyền
+                                        riêng tư này.</p>
+                                    </li>
+                                    <li><p><strong>Các nhà cung cấp dịch vụ:</strong> Chúng tôi sử dụng các công ty, đại
+                                        lý hoặc nhà thầu khác ("Các nhà cung cấp dịch vụ") để thay mặt chúng tôi thực
+                                        hiện dịch vụ hoặc hỗ trợ chúng tôi cung cấp các dịch vụ cho bạn. Chẳng hạn,
+                                        chúng tôi thuê Các nhà cung cấp dịch vụ để cung cấp các dịch vụ tiếp thị, quảng
+                                        cáo, truyền thông, bảo mật, hạ tầng cơ sở và công nghệ thông tin, nhằm tùy
+                                        chỉnh, cá nhân hóa và tối ưu hóa dịch vụ của chúng tôi, cung cấp thông tin số dư
+                                        hoặc tài khoản ngân hàng, xử lý giao dịch thẻ tín dụng hoặc các phương thức
+                                        thanh toán khác, cung cấp dịch vụ khách hàng, phân tích và cải thiện dữ liệu
+                                        (bao gồm cả dữ liệu về tương tác của người dùng với dịch vụ của chúng tôi) cũng
+                                        như xử lý và quản lý khảo sát người tiêu dùng. Trong quá trình cung cấp các dịch
+                                        vụ đó, Các nhà cung cấp dịch vụ này có thể có quyền truy cập vào thông tin cá
+                                        nhân hoặc thông tin khác của bạn. Chúng tôi không cho phép họ sử dụng hoặc tiết
+                                        lộ thông tin cá nhân của bạn, trừ khi các thông tin này có liên quan đến việc
+                                        cung cấp các dịch vụ của họ (bao gồm cả việc bảo trì và cải thiện dịch vụ của
+                                        họ).</p>
+                                    </li>
+                                    <li><p><strong>Các đối tác:</strong> Như được mô tả ở trên, bạn có thể có mối quan
+                                        hệ với một hoặc nhiều Đối tác của chúng tôi, trong trường hợp đó chúng tôi có
+                                        thể chia sẻ một số thông tin nhất định với họ nhằm phối hợp với họ trong việc
+                                        cung cấp dịch vụ BlockBuster cho các thành viên, cũng như cung cấp thông tin về
+                                        tình trạng sẵn có của dịch vụ BlockBuster. Chẳng hạn, tùy thuộc vào các dịch vụ
+                                        của Đối tác mà bạn sử dụng, chúng tôi có thể chia sẻ thông tin:</p>
+                                        <ul>
+                                            <li style="margin-left: 30px;"><p>- Để hỗ trợ Đối tác áp dụng chương trình
+                                                khuyến mãi trả trước hoặc thu tiền thanh toán dịch vụ BlockBuster để
+                                                giao cho chúng tôi.</p>
+                                            </li>
+                                            <li style="margin-left: 30px;"><p>- Với Các đối tác vận hành nền tảng trợ lý
+                                                thoại mà nhờ đó bạn có thể tương tác với dịch vụ của chúng tôi bằng lệnh
+                                                thoại.</p>
+                                            </li>
+                                            <li style="margin-left: 30px;"><p>- Để đề xuất cho bạn về nội dung và tính
+                                                năng hiện có trong dịch vụ BlockBuster trong giao diện người dùng của
+                                                Đối tác. Đối với thành viên, những đề xuất này là một phần của dịch vụ
+                                                BlockBuster và có thể bao gồm các khuyến nghị xem được tùy chỉnh và cá
+                                                nhân hóa.</p>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                    <li><p><strong>Các ưu đãi khuyến mại:</strong> Chúng tôi có thể đưa ra các chương
+                                        trình hợp tác khuyến mãi hoặc các chương trình khác mà sự tham gia của bạn buộc
+                                        chúng tôi phải chia sẻ thông tin của bạn với các bên thứ ba. Khi triển khai các
+                                        hình thức khuyến mãi này, chúng tôi có thể chia sẻ tên của bạn và các thông tin
+                                        khác liên quan đến việc triển khai ưu đãi. Xin lưu ý rằng các bên thứ ba này
+                                        chịu trách nhiệm về các chính sách về quyền riêng tư của riêng họ.</p>
+                                    </li>
+                                    <li><p><strong>Bảo vệ BlockBuster và các bên khác:</strong> BlockBuster và Các nhà
+                                        cung cấp dịch vụ của mình có thể tiết lộ và sử dụng thông tin cá nhân và thông
+                                        tin khác của bạn trong trường hợp chúng tôi hoặc họ có lý do chính đáng để tin
+                                        rằng việc tiết lộ đó là cần thiết để (a) tuân thủ bất kỳ luật, quy định, quy
+                                        trình pháp lý hoặc yêu cầu nào của chính phủ, (b) thực thi các điều khoản sử
+                                        dụng hiện hành, bao gồm cả việc điều tra về các hành vi vi phạm tiềm ẩn, (c)
+                                        phát hiện, ngăn chặn hoặc giải quyết các hoạt động bất hợp pháp hoặc bị nghi ngờ
+                                        là bất hợp pháp (bao gồm cả gian lận thanh toán), các vấn đề an ninh hoặc kỹ
+                                        thuật, hoặc (d) bảo vệ chống lại tổn hại đến quyền, tài sản hoặc sự an toàn của
+                                        BlockBuster, người dùng của BlockBuster hoặc công chúng, theo yêu cầu hoặc được
+                                        pháp luật cho phép.</p>
+                                    </li>
+                                </ul>
+                                <h3 style="color: white;">Thông tin và các Quyền của bạn</h3>
+                                <p>Bạn có quyền được tiếp cận thông tin cá nhân của mình hoặc đính chính hay cập nhật
+                                    thông tin cá nhân đã cũ hay không chính xác mà chúng tôi đang lưu giữ. Bạn cũng có
+                                    thể yêu cầu chúng tôi xóa thông tin cá nhân mà chúng tôi đang lưu giữ.</p>
+                                <p>Khi bạn truy cập mục "Tài khoản" trên trang web của chúng tôi, bạn có thể truy cập và
+                                    cập nhật một số lượng lớn thông tin về tài khoản của mình, bao gồm cả thông tin liên
+                                    hệ, thông tin thanh toán BlockBuster và nhiều thông tin liên quan khác về tài khoản
+                                    của mình (như nội dung bạn đã xem và xếp hạng). Bạn phải đăng nhập để truy cập mục
+                                    "Tài khoản".</p>
+                                <p>Chúng tôi có thể từ chối những yêu cầu không chính đáng hoặc không bắt buộc theo
+                                    luật, bao gồm cả những yêu cầu hoàn toàn bất khả thi, hay đòi hỏi phải tốn quá nhiều
+                                    công sức về mặt kỹ thuật, hay có thể đẩy chúng tôi vào những rủi ro vận hành như
+                                    gian lận về dùng thử miễn phí. Chúng tôi có thể lưu giữ thông tin theo yêu cầu hoặc
+                                    trong thời gian được phép theo các điều luật và quy định hiện hành, bao gồm cả việc
+                                    tuân theo các lựa chọn của bạn, cho mục đích lập hóa đơn hoặc lưu trữ thông tin và
+                                    để đáp ứng các mục đích đã mô tả trong Tuyên bố về quyền riêng tư này. Chúng tôi
+                                    cũng thực hiện các biện pháp hợp lý để hủy hoặc xóa thông tin nhận dạng cá nhân một
+                                    cách cẩn trọng khi chúng không còn cần thiết.</p>
+                                <br>
+                                <h3 style="color: white;">Bảo mật</h3>
+                                <p>Chúng tôi sử dụng các biện pháp hành chính, logic, vật lý và quản lý hợp lý để bảo vệ
+                                    thông tin cá nhân của bạn khỏi mất mát, trộm cắp và truy cập, sử dụng và sửa đổi
+                                    trái phép. Các biện pháp này được thiết lập để đưa ra mức độ bảo mật phù hợp đối với
+                                    các rủi ro của quá trình xử lý thông tin cá nhân của bạn.</p>
+                                <br>
+                                <h3 style="color: white;">Thay đổi đối với Tuyên bố về quyền riêng tư này</h3>
+                                <p>Chúng tôi sẽ cập nhật Tuyên bố về quyền riêng tư này tùy từng thời điểm để đáp ứng
+                                    các yêu cầu thay đổi về pháp lý, quy định hoặc vận hành. Chúng tôi sẽ đưa ra thông
+                                    báo về bất kỳ thay đổi nào như vậy (bao gồm cả thời điểm sẽ có hiệu lực) theo quy
+                                    định của pháp luật. Việc bạn tiếp tục sử dụng dịch vụ BlockBuster sau khi bất kỳ cập
+                                    nhật nào có hiệu lực sẽ cấu thành sự xác nhận và (nếu áp dụng) chấp nhận những thay
+                                    đổi đó. Nếu không muốn xác nhận hoặc chấp nhận bất kỳ nội dung cập nhật nào đối với
+                                    Tuyên bố về quyền riêng tư này, bạn có thể hủy bỏ việc sử dụng dịch vụ
+                                    BlockBuster.</p>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <p style="text-align: right;"> Thân ái! Cám ơn bạn đã tin dùng và sử dụng dịch vụ của
+                                    chúng tôi.</p>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <div class="right-pane">
+                <div class="wrapper page-block">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<footer class="ht-footer full-width-ft">
+    <div class="row">
+        <div class="flex-parent-ft">
+            <div class="flex-child-ft item1">
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt=""></a>
+                <p>Thiết kế bởi Võ Nguyễn Duy Long<br>
+                    N18DCCN116</p>
+            </div>
+            <div class="flex-child-ft item2">
+                <h4>Trợ giúp</h4>
+                <ul>
+                    <li><a href="/about">Giới thiệu</a></li>
+                    <li><a href="/contact-us">Liên hệ</a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100009028664531">Diễn đàn</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item3">
+                <h4>Pháp lý</h4>
+                <ul>
+                    <li><a href="/termuses">Điều khoản sử dụng</a></li>
+                    <li><a href="/privacy">Quyền riêng tư</a></li>
+                    <li><a href="/sercurity">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item4">
+                <h4>Tài khoản</h4>
+                <ul>
+                    <li><a href="/user-profile">Tài khoản của tôi</a></li>
+                    <li><a href="/change-pass">Đổi mật khẩu</a></li>
+                    <li><a href="/logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item5">
+                <h4>Thông tin</h4>
+                <p>Kết nối với chúng tôi để nhận được các tin tức mới nhất <br> về chương trình khuyễn mãi và các bộ
+                    phim sắp ra mắt.</p>
+                <div class="social-link">
+                    <a href="https://www.facebook.com/profile.php?id=100009028664531"><i
+                            class="ion-social-facebook"></i></a>
+                    <a href="https://www.instagram.com/vonguyenduylong92.1415/"><i class="ion-social-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCKblgclkd5s3L3-oOLT8KVg"><i
+                            class="ion-social-youtube"></i></a>
+                </div>
+            </div>
+            <div class="flex-child-ft item6">
+                <h4>Chăm sóc khách hàng</h4>
+                <ul>
+                    <li><p>Hotline: (+84)937220747</p></li>
+                    <li><p>Giờ làm việc: 7:00 -> 22:00(Trừ ngày Chủ Nhật)</p></li>
+                    <li><p>Email hỗ trợ: vonguyenduylong92.1415@gmail.com</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="scrollTop" onclick="scrollToTop()"></div>
+<script>
+    window.addEventListener('scroll', function () {
+        var scroll = document.querySelector('.scrollTop');
+        scroll.classList.toggle("active", window.scrollY > 500)
+    })
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0
+        })
+    }
+</script>
+<script src="/js/jquery.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/plugins2.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+</html>

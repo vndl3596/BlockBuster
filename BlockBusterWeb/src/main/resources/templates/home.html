@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+    <!-- Basic need -->
+    <title>BlockBuster - Trang chủ</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="profile" href="#">
+
+    <!--Google Font-->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no">
+
+    <!-- CSS files -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+
+<!--<div id="preloader" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
+    <img class="logo" src="/images/logo1.png" alt="" width="238" height="116">
+    <div id="status">
+        <span></span>
+        <span></span>
+    </div>
+</div>-->
+
+<header class="ht-header full-width-hd">
+    <div class="row">
+        <nav id="mainNav" class="navbar navbar-default navbar-custom">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header logo">
+                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <div id="nav-icon1">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt="" width="119" height="58"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav flex-child-menu menu-left">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/home">
+                            Trang chủ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/showing/page=1">
+                            Đang công chiếu</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/coming/page=1">
+                            Sắp ra mắt</a>
+                    </li>
+                    <li class="dropdown first" th:if="${loginResponse != null}">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/user-history/page=1">
+                            Lịch sử</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/contact-us">
+                            Liên hệ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/about">
+                            Giới thiệu</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse == null}">
+                    <li class="btnLo"><a href="/login">Đăng nhập</a></li>
+                    <li class="btnRe"><a href="/register">Đăng ký</a></li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse != null}">
+                    <li><img th:src="${loginAcc.avatar}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar != ''}"></li>
+                    <li><img th:src="@{'/images/uploads/user.png'}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar == ''}"></li>
+                    <li><label><a href="/user-profile"
+                                  th:utext="${loginAcc.getLastname() + ' ' + loginAcc.getFirstname()}"></a>
+                        <p><i>Thành viên</i></p></label></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <!-- search form -->
+    </div>
+
+</header>
+
+<div class="slider sliderv2">
+    <div class="container">
+        <div class="row">
+
+            <div class="slider-single-item">
+                <div class="movie-item" th:each="movie, state : ${bigSliderList}">
+                    <div class="row">
+                        <div class="col-md-8 col-sm-12 col-xs-12">
+                            <div class="title-in">
+                                <div class="cate" th:if="${movie.getValue().size()==0}">
+                                </div>
+                                <div class="cate" th:if="${movie.getValue().size()==1}">
+                                    <span class="blue"><a href="#"
+                                                          th:utext="${movie.getValue().get(0).name}"></a></span>
+                                </div>
+                                <div class="cate" th:if="${movie.getValue().size()==2}">
+                                    <span class="blue"><a href="#"
+                                                          th:utext="${movie.getValue().get(0).name}"></a></span>
+                                    <span class="yell"><a href="#"
+                                                          th:utext="${movie.getValue().get(1).name}"></a></span>
+                                </div>
+                                <div class="cate" th:if="${movie.getValue().size()==3}">
+                                    <span class="blue"><a href="#"
+                                                          th:utext="${movie.getValue().get(0).name}"></a></span>
+                                    <span class="yell"><a href="#"
+                                                          th:utext="${movie.getValue().get(1).name}"></a></span>
+                                    <span class="orange"><a href="#"
+                                                            th:utext="${movie.getValue().get(2).name}"></a></span>
+                                </div>
+                                <h1><a th:href="'/movie-detail/id=' + ${movie.getKey().id}"
+                                       th:utext="${movie.getKey().title}"></a></h1>
+                                </br>
+                                </br>
+                                <div class="social-btn">
+                                    <a th:href="'https://www.youtube.com/watch?v=' + ${movie.getKey().linkTrailer}"
+                                       class="parent-btn"><i class="ion-play"></i> Xem Trailer</a>
+                                    <div class="hover-bnt">
+                                        <a href="#" class="parent-btn"><i class="ion-android-share-alt"></i>share</a>
+                                        <div class="hvr-item">
+                                            <a href="#" class="hvr-grow"><i class="ion-social-facebook"></i></a>
+                                            <a href="#" class="hvr-grow"><i class="ion-social-twitter"></i></a>
+                                            <a href="#" class="hvr-grow"><i class="ion-social-googleplus"></i></a>
+                                            <a href="#" class="hvr-grow"><i class="ion-social-youtube"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="mv-details" style="margin-top: 30px;">
+                                    <ul class="mv-infor">
+                                        <li th:utext="${'Thời lượng: ' + movie.getKey().movieDuration}"></li>
+                                        <li th:utext="${'Ngày khởi chiếu: ' + format.format(movie.getKey().releaseDate)}"></li>
+                                    </ul>
+                                </div>
+                                <div class="mv-details">
+                                    <ul class="mv-infor">
+                                        <li th:utext="${'Mô tả: ' + movie.getKey().detail.substring(0, 250) + '...'}"
+                                            th:if="${movie.getKey().detail.length > 250}"></li>
+                                        <li th:utext="${'Mô tả: ' + movie.getKey().detail}"
+                                            th:if="${movie.getKey().detail.length <= 250}"></li>
+                                    </ul>
+                                </div>
+                                <div class="btn-transform transform-vertical">
+                                    <div><a th:href="'/movie-detail/id=' + ${movie.getKey().id}"
+                                            class="item item-1 redbtn">Xem
+                                        Phim</a></div>
+                                    <div><a th:href="'/movie-detail/id=' + ${movie.getKey().id}"
+                                            class="item item-2 redbtn hvrbtn">Xem Phim</a></div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="col-md-4 col-sm-12 col-xs-12">
+                            <div class="mv-img-2">
+                                <img th:src="${movie.getKey().poster}" alt=""
+                                     style="width: 300px; height: 500px;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="movie-items  full-width">
+    <h1 style="color: #dd003f; padding-bottom: 20px;">Xem gì?</h1>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="title-hd">
+                <h2> Mới nhất</h2>
+                <a href="/search/page=1" class="viewall">Xem tất cả <i class="ion-ios-arrow-right"></i></a>
+            </div>
+            <div class="tabs">
+                <ul class="tab-links-2">
+                    <li class="active"><a href="#tab21-h2">#Hot</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab21-h2" class="tab active">
+                        <div class="row">
+                            <div class="slick-multiItem2">
+                                <div class="slide-it" th:each="movie, state : ${listMovieNew}">
+                                    <div class="movie-item">
+                                        <div class="mv-img">
+                                            <img th:src="${movie.poster}" alt="">
+                                        </div>
+                                        <div class="hvr-inner">
+                                            <a th:href="'/movie-detail/id=' + ${movie.id}"> xem ngay <i
+                                                    class="ion-android-arrow-dropright"></i> </a>
+                                        </div>
+                                        <div class="member-inner" th:if="${movie.requireMember.id != 0}">
+                                            <h5 th:utext="${movie.requireMember.name}"></h5>
+                                        </div>
+                                        <div class="member-inner" th:if="${movie.requireMember.id == 0}">
+                                            <h5 th:utext="Free"></h5>
+                                        </div>
+                                        <div class="title-in">
+                                            <h6 style="text-align: center"><a href="#" th:utext="${movie.title}"></a>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--           <div class="title-hd">
+                           <h2> Đang công chiếu</h2>
+                           <a href="/movie-grid/showing/page=1" class="viewall">Xem tất cả <i class="ion-ios-arrow-right"></i></a>
+                       </div>
+                       <div class="tabs">
+                           <ul class="tab-links">
+                               <li class="active"><a href="#tab1-h2">#Hot</a></li>
+                           </ul>
+                           <div class="tab-content">
+                               <div id="tab1-h2" class="tab active">
+                                   <div class="row">
+                                       <div class="slick-multiItem2">
+                                           <div class="slide-it" th:each="movie, state : ${listMovieShowing}">
+                                               <div class="movie-item">
+                                                   <div class="mv-img">
+                                                       <img th:src="${movie.poster}" alt="">
+                                                   </div>
+                                                   <div class="hvr-inner">
+                                                       <a th:href="'/movie-detail/id=' + ${movie.id}"> xem ngay <i
+                                                               class="ion-android-arrow-dropright"></i> </a>
+                                                   </div>
+                                                   <div class="title-in">
+                                                       <h6><a href="#" th:utext="${movie.title}"></a></h6>
+                                                   </div>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </div>
+                               </div>
+                           </div>
+                       </div>-->
+            <div class="title-hd">
+                <h2> Phim</h2>
+                <a href="/search/page=1" class="viewall">Xem tất cả <i class="ion-ios-arrow-right"></i></a>
+            </div>
+            <div class="tabs col-md-12 col-lg-9">
+                <ul class="tab-links-2">
+                    <li class="active"><a href="#tab21-h4">#Hot</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab21-h4" class="tab active">
+                        <div class="row">
+                            <div class="slick-multiItem3">
+                                <div class="slide-it" th:each="movie, state : ${listAllMovie}">
+                                    <div class="movie-item reveal fade-bottom">
+                                        <div class="mv-img">
+                                            <img th:src="${movie.poster}" alt="">
+                                        </div>
+                                        <div class="hvr-inner">
+                                            <a th:href="'/movie-detail/id=' + ${movie.id}"> xem ngay <i
+                                                    class="ion-android-arrow-dropright"></i> </a>
+                                        </div>
+                                        <div class="member-inner" th:if="${movie.requireMember.id != 0}">
+                                            <h5 th:utext="${movie.requireMember.name}"></h5>
+                                        </div>
+                                        <div class="member-inner" th:if="${movie.requireMember.id == 0}">
+                                            <h5 th:utext="Free"></h5>
+                                        </div>
+                                        <div class="title-in">
+                                            <h6 style="text-align: center"><a href="#" th:utext="${movie.title}"></a>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12 col-lg-3" style="position: sticky; top: 20px;">
+                <div class="sidebar">
+                    <div class="searh-form">
+                        <h4 class="sb-title">Tìm kiếm</h4>
+                        <form class="form-style-1" th:action="@{/search/page=1}" method="post" name="sform">
+                            <div class="row">
+                                <div class="col-md-12 form-it">
+                                    <label>Tên phim</label>
+                                </div>
+                                <div class="col-md-12 form-it">
+                                    <input type="text" name="search" placeholder="Nhập tên phim" autocomplete="off">
+                                </div>
+                                <div class="col-md-12 ">
+                                    <input class="submit" type="submit" value="Tìm Kiếm">
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="movie-items  full-width">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="title-hd">
+                <h2> Sắp ra mắt</h2>
+                <a href="/movie-grid/coming/page=1" class="viewall">Xem tất cả <i class="ion-ios-arrow-right"></i></a>
+            </div>
+            <div class="tabs">
+                <ul class="tab-links-2">
+                    <li class="active"><a href="#tab21-h2">#Hot</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div id="tab21-h3" class="tab active">
+                        <div class="row">
+                            <div class="slick-multiItem2">
+                                <div class="slide-it" th:each="movie, state : ${listMovieComing}">
+                                    <div class="movie-item">
+                                        <div class="mv-img">
+                                            <img th:src="${movie.poster}" alt="">
+                                        </div>
+                                        <div class="hvr-inner">
+                                            <a th:href="'/movie-detail/id=' + ${movie.id}"> xem ngay <i
+                                                    class="ion-android-arrow-dropright"></i> </a>
+                                        </div>
+                                        <div class="member-inner" th:if="${movie.requireMember.id != 0}">
+                                            <h5 th:utext="${movie.requireMember.name}"></h5>
+                                        </div>
+                                        <div class="member-inner" th:if="${movie.requireMember.id == 0}">
+                                            <h5 th:utext="Free"></h5>
+                                        </div>
+                                        <div class="title-in">
+                                            <h6 style="text-align: center"><a href="#" th:utext="${movie.title}"></a>
+                                            </h6>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="trailers full-width">
+    <div class="row ipad-width">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="title-hd">
+                <h2>Trailer</h2>
+            </div>
+            <div class="videos">
+                <div class="slider-for-2 video-ft">
+                    <div th:each="movie, state : ${listTrailer}">
+                        <iframe class="item-video iframe-trailer"
+                                th:src="'https://www.youtube.com/embed/' + ${movie.linkTrailer}"
+                                th:data-src="'https://www.youtube.com/embed/' + ${movie.linkTrailer}"
+                                allowfullscreen></iframe>
+                    </div>
+                </div>
+                <div class="slider-nav-2 thumb-ft">
+                    <div class="item trailer-link" th:each="movie, state : ${listTrailer}">
+                        <div class="trailer-img">
+                            <img th:src="${movie.poster}" alt="photo by Barn Images" width="100%"
+                                 height="100%">
+                        </div>
+                        <div class="trailer-infor">
+                            <h4 class="desc" th:utext="${movie.title + ' - Offical Trailer [HD]'}"></h4>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="latestnew full-width" th:if="${loginResponse == null}">
+    <div class="container" style="text-align: center;">
+        <div class="col-sm-8 col-md-5 col-lg-5 col-centered">
+            <h2 style="color: white; padding-bottom: 20px; text-align: center; font-family: 'Dosis', sans-serif; font-weight: bold;">
+                ĐĂNG KÝ THÀNH VIÊN</h2>
+            <div class="pricing-box hightlight">
+                <div class="pricing-box-header">
+                    <div class="pricing-name">
+                        Thành viên
+                    </div>
+                    <div class="pricing-price">
+                        Miễn phí
+                    </div>
+                </div>
+                <div class="pricing-box-content">
+                    <p>Xem phim trực tuyến</p>
+                    <p>Bình luận</p>
+                    <p>Lịch sử bình luận</p>
+                    <p>Lịch sử xem phim</p>
+                </div>
+                <div class="pricing-box-action">
+                    <a href="/register">
+                        <button class="btn-hover"><strong>ĐĂNG KÝ</strong></button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="ht-footer full-width-ft">
+    <div class="row">
+        <div class="flex-parent-ft">
+            <div class="flex-child-ft item1">
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt=""></a>
+                <p>Thiết kế bởi Võ Nguyễn Duy Long<br>
+                    N18DCCN116</p>
+            </div>
+            <div class="flex-child-ft item2">
+                <h4>Trợ giúp</h4>
+                <ul>
+                    <li><a href="/about">Giới thiệu</a></li>
+                    <li><a href="/contact-us">Liên hệ</a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100009028664531">Diễn đàn</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item3">
+                <h4>Pháp lý</h4>
+                <ul>
+                    <li><a href="/termuses">Điều khoản sử dụng</a></li>
+                    <li><a href="/privacy">Quyền riêng tư</a></li>
+                    <li><a href="/sercurity">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item4">
+                <h4>Tài khoản</h4>
+                <ul>
+                    <li><a href="/user-profile">Tài khoản của tôi</a></li>
+                    <li><a href="/change-pass">Đổi mật khẩu</a></li>
+                    <li><a href="/logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item5">
+                <h4>Thông tin</h4>
+                <p>Kết nối với chúng tôi để nhận được các tin tức mới nhất <br> về chương trình khuyễn mãi và các bộ
+                    phim sắp ra mắt.</p>
+                <div class="social-link">
+                    <a href="https://www.facebook.com/profile.php?id=100009028664531"><i
+                            class="ion-social-facebook"></i></a>
+                    <a href="https://www.instagram.com/vonguyenduylong92.1415/"><i class="ion-social-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCKblgclkd5s3L3-oOLT8KVg"><i
+                            class="ion-social-youtube"></i></a>
+                </div>
+            </div>
+            <div class="flex-child-ft item6">
+                <h4>Chăm sóc khách hàng</h4>
+                <ul>
+                    <li><p>Hotline: (+84)937220747</p></li>
+                    <li><p>Giờ làm việc: 7:00 -> 22:00(Trừ ngày Chủ Nhật)</p></li>
+                    <li><p>Email hỗ trợ: vonguyenduylong92.1415@gmail.com</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="scrollTop" onclick="scrollToTop()"></div>
+<script src="/js/jquery.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/plugins2.js"></script>
+<script src="/js/custom.js"></script>
+<script>
+    function reveal() {
+        var reveals = document.querySelectorAll(".reveal");
+
+        for (var i = 0; i < reveals.length; i++) {
+            var windowHeight = window.innerHeight;
+            var elementTop = reveals[i].getBoundingClientRect().top;
+            var elementVisible = 0;
+
+            if (elementTop < windowHeight - elementVisible) {
+                reveals[i].classList.add("animation-active");
+            } else {
+                reveals[i].classList.remove("animation-active");
+            }
+        }
+    }
+
+    window.addEventListener('scroll', function () {
+        var scroll = document.querySelector('.scrollTop');
+        scroll.classList.toggle("active", window.scrollY > 500)
+
+        reveal();
+    })
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0
+        })
+    }
+
+    var trailerLink = document.getElementsByClassName("trailer-link");
+    for (var i = 0; i < trailerLink.length; i++) {
+        trailerLink[i].addEventListener("click", function () {
+            var trailerIframe = document.getElementsByClassName("iframe-trailer");
+            for (var j = 0; j < trailerIframe.length; j++) {
+                var trailerSource = trailerIframe[j].src;
+                trailerIframe[j].src = trailerSource;
+            }
+        })
+    }
+</script>
+</body>
+
+</html>

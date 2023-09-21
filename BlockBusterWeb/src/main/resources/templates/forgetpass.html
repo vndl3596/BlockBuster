@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+    <title>Quên mật khẩu</title>
+    <link rel="stylesheet" href="./css/login/style.css">
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body background="/images/loginbg.jpg">
+<div class="wrapper">
+    <div class="header">
+        <div class="logo">
+            <a href="home"><img src="/images/logo1.png"></a>
+        </div>
+    </div>
+    <div class="login_body">
+        <h2>Quên mật khẩu</h2>
+        <div class="login_box">
+            <form th:action="@{forget-pass}" method="post" name="forget-pass" onsubmit="return forgetSubmit()">
+                <div class="input_wrap">
+                    <input type="email" name="email" placeholder="Nhập email" autocomplete="off">
+                </div>
+                <div class="error" th:if="${error != null}">
+                    <p style="color: red; text-align: center;" th:utext="${error}"
+                       th:if="${error.equals('Lấy lại mật khẩu thất bại! Email không có trong kho dữ liệu!')}"></p>
+                    <p style="color: lawngreen; text-align: center;" th:utext="${error}"
+                       th:if="${error.equals('Lấy lại mật khẩu thành công! Vui lòng check email!')}"></p>
+                </div>
+                <div class="input_wrap">
+                    <button type="submit">Tìm lại mật khẩu</button>
+                </div>
+                <br>
+
+                <div class="login_footer">
+                    <div class="sign_up">
+                        <p>Chưa phải thành viên? <a href="/register">Đăng ký ngay.</a></p>
+                        <p>Đã có tài khoản? <a href="/login">Đăng nhập ngay.</a></p>
+                    </div>
+                    <div class="term">
+                        <p><small>BlockBuster được bảo vệ bởi Google để đảm bảo bạn không phải một người máy.</small>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    function forgetSubmit() {
+        let mail = document.forms["forget-pass"]["email"].value;
+        if (mail == "") {
+            document.forms["forget-pass"]["email"].focus();
+            alert("Email không được trống!");
+            return false;
+        }
+    }
+</script>
+</body>
+</html>

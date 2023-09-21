@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <!-- Basic need -->
+    <title>BlockBuster - Liên hệ</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="profile" href="#">
+
+    <!--Google Font-->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no">
+
+    <!-- CSS files -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body style="background-color: #020d18;">
+<div id="preloader" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
+    <img class="logo" src="/images/logo1.png" alt="" width="119" height="58">
+    <div id="status">
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<header class="ht-header full-width-hd">
+    <div class="row">
+        <nav id="mainNav" class="navbar navbar-default navbar-custom">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header logo">
+                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <div id="nav-icon1">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt="" width="119" height="58"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav flex-child-menu menu-left">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/home">
+                            Trang chủ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/showing/page=1">
+                            Đang công chiếu</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/coming/page=1">
+                            Sắp ra mắt</a>
+                    </li>
+                    <li class="dropdown first" th:if="${loginResponse != null}">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/user-history/page=1">
+                            Lịch sử</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/contact-us">
+                            Liên hệ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/about">
+                            Giới thiệu</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse == null}">
+                    <li class="btnLo"><a href="/login">Đăng nhập</a></li>
+                    <li class="btnRe"><a href="/register">Đăng ký</a></li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse != null}">
+                    <li><img th:src="${loginAcc.avatar}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar != ''}"></li>
+                    <li><img th:src="@{'/images/uploads/user.png'}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar == ''}"></li>
+                    <li><label><a href="/user-profile"
+                                  th:utext="${loginAcc.getLastname() + ' ' + loginAcc.getFirstname()}"></a>
+                        <p><i>Thành viên</i></p></label></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <!-- search form -->
+    </div>
+
+</header>
+
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    <h1> Trung tâm trợ giúp</h1>
+                    <ul class="breadcumb">
+                        <li class="active"><a href="/home">Trang chủ</a></li>
+                        <li><span class="ion-ios-arrow-right"></span> Trung tâm trợ giúp</li>
+                        <li><span class="ion-ios-arrow-right"></span> Liên hệ</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="page-single">
+    <div class="container">
+        <div class="row ipad-width">
+            <div class="col-md-6 col-sm-12 col-xs-12"
+                 style="background-color: #0b1a2a; margin-top: 10%; padding:3%; box-shadow: 5px 5px 20px #dd003f; margin-bottom: 10px;border: 1px solid #dd003f;">
+                <form th:action="@{contact-us}" class="contact-form" method="post">
+                    <h1 style="color: #abb7c4; margin-bottom: 25px;">Liên hệ với chúng tôi</h1>
+                    <div class="input_wrap" style="margin-bottom: 5px;">
+                        <input type="text"
+                               style="height: 40px; font-family: 'Nunito', sans-serif; font-weight: 300; font-size: 13px; color: #abb7c4; background-color: #233a50; display: inline-block; width: 49.5%;"
+                               name="name" placeholder="Tên"
+                               required autocomplete="off">
+                        <input type="text"
+                               style="height: 40px; font-family: 'Nunito', sans-serif; font-weight: 300; font-size: 13px; color: #abb7c4; background-color: #233a50; display: inline-block; width: 49.5%;"
+                               name="mail"
+                               placeholder="Email của bạn" required autocomplete="off">
+                    </div>
+                    <div class="input_wrap" style="margin-bottom: 5px;">
+                        <textarea name="contact-content" placeholder="Nội dung"
+                                  style="font-family: 'Nunito', sans-serif; font-weight: 300; font-size: 13px; color: #abb7c4; background-color: #233a50; height: 200px;"
+                                  required></textarea>
+                    </div>
+                    <div class="input_wrap">
+                        <input type="submit" id="submitCon"
+                               style="margin-top: 10px; height:40px; box-shadow: 0px 0px 20px 0px #dd003f; border-radius: 20px; font-family: 'Nunito', sans-serif; font-size: 15px; background-color: #dd003f; border: #dd003f 3px solid; width: 150px; color: whitesmoke; font-weight: bold;"
+                               required value="Gửi">
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-6 col-sm-12 col-xs-12">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3459.3110360532855!2d106.78350311442863!3d10.848637492272568!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31752713216a3adf%3A0xf8b22853eea72777!2zOTcgxJAuIE1hbiBUaGnhu4duLCBIaeG7h3AgUGjDuiwgUXXhuq1uIDksIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgVmlldG5hbQ!5e1!3m2!1sen!2s!4v1653102123417!5m2!1sen!2s"
+                        height="600" style="border:0; width: 100%;" allowfullscreen="" loading="lazy"
+                        referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+        </div>
+    </div>
+</div>
+<footer class="ht-footer full-width-ft">
+    <div class="row">
+        <div class="flex-parent-ft">
+            <div class="flex-child-ft item1">
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt=""></a>
+                <p>Thiết kế bởi Võ Nguyễn Duy Long<br>
+                    N18DCCN116</p>
+            </div>
+            <div class="flex-child-ft item2">
+                <h4>Trợ giúp</h4>
+                <ul>
+                    <li><a href="/about">Giới thiệu</a></li>
+                    <li><a href="/contact-us">Liên hệ</a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100009028664531">Diễn đàn</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item3">
+                <h4>Pháp lý</h4>
+                <ul>
+                    <li><a href="/termuses">Điều khoản sử dụng</a></li>
+                    <li><a href="/privacy">Quyền riêng tư</a></li>
+                    <li><a href="/sercurity">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item4">
+                <h4>Tài khoản</h4>
+                <ul>
+                    <li><a href="/user-profile">Tài khoản của tôi</a></li>
+                    <li><a href="/change-pass">Đổi mật khẩu</a></li>
+                    <li><a href="/logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item5">
+                <h4>Thông tin</h4>
+                <p>Kết nối với chúng tôi để nhận được các tin tức mới nhất <br> về chương trình khuyễn mãi và các bộ
+                    phim sắp ra mắt.</p>
+                <div class="social-link">
+                    <a href="https://www.facebook.com/profile.php?id=100009028664531"><i
+                            class="ion-social-facebook"></i></a>
+                    <a href="https://www.instagram.com/vonguyenduylong92.1415/"><i class="ion-social-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCKblgclkd5s3L3-oOLT8KVg"><i
+                            class="ion-social-youtube"></i></a>
+                </div>
+            </div>
+            <div class="flex-child-ft item6">
+                <h4>Chăm sóc khách hàng</h4>
+                <ul>
+                    <li><p>Hotline: (+84)937220747</p></li>
+                    <li><p>Giờ làm việc: 7:00 -> 22:00(Trừ ngày Chủ Nhật)</p></li>
+                    <li><p>Email hỗ trợ: vonguyenduylong92.1415@gmail.com</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="scrollTop" onclick="scrollToTop()"></div>
+<script>
+    window.addEventListener('scroll', function () {
+        var scroll = document.querySelector('.scrollTop');
+        scroll.classList.toggle("active", window.scrollY > 500)
+    })
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0
+        })
+    }
+
+    var inp = document.getElementsByTagName("input");
+    for (var i = 0; i < inp.length; i++) {
+        inp[i].addEventListener("focusin", function () {
+            this.style.borderBottom = "1px solid #dd003f";
+        });
+        inp[i].addEventListener("focusout", function () {
+            this.style.borderBottom = "1px solid #aaa";
+        });
+    }
+
+    var te = document.getElementsByTagName("textarea");
+    te[0].addEventListener("focusin", function () {
+        this.style.borderBottom = "1px solid #dd003f";
+    });
+    te[0].addEventListener("focusout", function () {
+        this.style.borderBottom = "1px solid #aaa";
+    });
+
+    var submitCont = document.getElementById("submitCon");
+    submitCont.addEventListener("mouseover", function () {
+        this.style.backgroundColor = "transparent";
+        this.style.color = "#dd003f";
+    })
+    submitCont.addEventListener("mouseleave", function () {
+        this.style.backgroundColor = "#dd003f";
+        this.style.color = "white";
+    })
+</script>
+<script src="/js/jquery.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/plugins2.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+
+</html>

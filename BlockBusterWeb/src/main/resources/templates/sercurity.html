@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <title>BlockBuster - Quyền bảo mật</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="profile" href="#">
+
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no">
+
+    <!-- CSS files -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body style="background-color: #020d18;">
+<div id="preloader" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
+    <img class="logo" src="/images/logo1.png" alt="" width="119" height="58">
+    <div id="status">
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<header class="ht-header full-width-hd">
+    <div class="row">
+        <nav id="mainNav" class="navbar navbar-default navbar-custom">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header logo">
+                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <div id="nav-icon1">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt="" width="119" height="58"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav flex-child-menu menu-left">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/home">
+                            Trang chủ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/showing/page=1">
+                            Đang công chiếu</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/coming/page=1">
+                            Sắp ra mắt</a>
+                    </li>
+                    <li class="dropdown first" th:if="${loginResponse != null}">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/user-history/page=1">
+                            Lịch sử</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/contact-us">
+                            Liên hệ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/about">
+                            Giới thiệu</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse == null}">
+                    <li class="btnLo"><a href="/login">Đăng nhập</a></li>
+                    <li class="btnRe"><a href="/register">Đăng ký</a></li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse != null}">
+                    <li><img th:src="${loginAcc.avatar}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar != ''}"></li>
+                    <li><img th:src="@{'/images/uploads/user.png'}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar == ''}"></li>
+                    <li><label><a href="/user-profile"
+                                  th:utext="${loginAcc.getLastname() + ' ' + loginAcc.getFirstname()}"></a>
+                        <p><i>Thành viên</i></p></label></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <!-- search form -->
+    </div>
+
+</header>
+
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    <h1> Trung tâm trợ giúp</h1>
+                    <ul class="breadcumb">
+                        <li class="active"><a href="/home">Trang chủ</a></li>
+                        <li><span class="ion-ios-arrow-right"></span> Trung tâm trợ giúp</li>
+                        <li><span class="ion-ios-arrow-right"></span> Quyền bảo mật</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="global-content">
+    <div class="container">
+        <div class="breadcrumb-container multi-crumbs">
+            <ul class="breadcrumb help-center-breadcrumb">
+            </ul>
+        </div>
+        <br>
+        <br>
+        <br>
+
+
+        <h1 style="color: white;">Chính sách bảo mật</h1>
+        <br>
+        <br>
+
+        <div class="pane-wrapper">
+            <div class="left-pane">
+                <section dir="LTR" class="kb-article kb-article-variant gradient"
+                         data-countries=",BD,TV,NP,TW,HK,PW,FM,NU,BN,NZ,SB,WF,BT,SG,ID,MH,WS,KH,KI,CC,MM,MN,MO,MP,CK,MV,MY,GU,AS,TH,CX,LA,NC,PF,TK,PG,TL,VN,NF,PH,TO,PK,PN,VU,LK,">
+                    <div class="page-block">
+                        <div class="c-wrapper">
+                            <div>
+                                <p>Tuyên bố về chính sách bảo mật này giải thích các cách thức bảo mật của chúng tôi,
+                                    bao gồm cả cách chúng tôi sử dụng và tiết lộ các thông tin nhất định, bao gồm cả
+                                    thông tin cá nhân của bạn liên quan đến dịch vụ BlockBuster.</p>
+                                <p>Hoạt động của BlockBuster được xây dựng trên nền tảng sự tin tưởng giữa Quý khách với
+                                    công ty chúng tôi. Nhằm bảo mật thông tin cá nhân Quý khách cung cấp cho chúng tôi,
+                                    BlockBuster luôn tuân thủ những nguyên tắc bảo mật sau:</p>
+                                <br>
+                                <ul>
+                                    <li style="margin-left: 30px;"><p>1. Chúng tôi chỉ yêu cầu những thông tin cá nhân
+                                        mà chúng tôi tin là có liên quan và cần thiết để chúng tôi hiểu rõ các nhu cầu
+                                        về nhà ở của Quý khách hàng.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>2. Chúng tôi sử dụng thông tin cá nhân của Quý
+                                        khách để cung cấp các dịch vụ và sản phẩm tốt hơn.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>3. Chúng tôi sẽ không tiết lộ các thông tin cá
+                                        nhân của Quý khách cho bất kỳ tổ chức bên ngoài nào trừ khi Quý khách đồng ý
+                                        hoặc do pháp luật yêu cầu hoặc chúng tôi đã thông báo trước cho Quý khách.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>4. Tùy từng thời điểm, chúng tôi có thể phải cung
+                                        cấp thông tin cá nhân của Quý khách cho cơ quan nhà nước có thẩm quyền nhưng
+                                        chúng tôi chỉ thực hiện việc cung cấp này đúng thẩm quyền.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>5. Chúng tôi đặt mục tiêu lưu trữ thông tin cá
+                                        nhân của Quý khách một cách chính xác và cập nhật.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>6. Chúng tôi duy trì những hệ thống bảo mật nghiêm
+                                        ngặt được thiết kế để ngăn chặn bất kỳ cá nhân nào, bao gồm cả nhân viên của
+                                        chúng tôi truy cập bất hợp lệ vào các thông tin cá nhân của Quý khách.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>7. BlockBuster và tất cả các bên thứ ba được phép
+                                        truy cập thông tin của Quý khách được yêu cầu phải tuân thủ các nghĩa vụ bảo mật
+                                        này.</p>
+                                    </li>
+                                </ul>
+                                <p>Bằng cách duy trì cam kết của chúng tôi đối với những nguyên tắc trên, BlockBuster
+                                    muốn khẳng định rằng chúng tôi luôn trân trọng sự tin tưởng mà Quý khách dành cho
+                                    chúng tôi.</p>
+                                <h3 style="color: white;">Sử dụng Thông tin và Tài liệu</h3>
+                                <ul>
+                                    <li style="margin-left: 30px;"><p>1. Các sản phẩm và dịch vụ được dẫn chiếu trong
+                                        trang web này chỉ được cung cấp tại các quốc gia và vào thời điểm các sản phẩm
+                                        và dịch vụ này có thể được bất kỳ thành viên nào của Công ty BlockBuster cung
+                                        cấp một cách hợp pháp. Các cá nhân truy cập vào các trang web này phải khai báo
+                                        thông tin về bản thân và phải tuân thủ các hạn chế có liên quan.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>2. Thông tin nêu tại các trang này không nhằm mục
+                                        đích cung cấp dịch vụ tư vấn chuyên môn và Quý khách không nên dựa trên các
+                                        thông tin đăng tải trên những trang đó vì mục đích này.</p>
+                                    </li>
+                                </ul>
+                                <h3 style="color: white;">Không đảm bảo</h3>
+                                <p>Chúng tôi tiết lộ thông tin của bạn cho các bên thứ ba nhằm thực hiện các mục đích
+                                    nhất định như được mô tả dưới đây:</p>
+                                <ul>
+                                    <li style="margin-left: 30px;"><p>Mặc dù việc xây dựng các thông tin và các tài liệu
+                                        trên trang này đã được thực hiện với sự thận trọng tối đa, những thông tin và
+                                        tài liệu này được cung cấp cho Quý khách dưới dạng “như hiện thời”, mà không có
+                                        bất kỳ sự bảo đảm nào dù được diễn đạt rõ ràng hay ngụ ý. Cụ thể, không có bảo
+                                        đảm về việc không vi phạm, tính bảo mật, chính xác, phù hợp với một mục đích cụ
+                                        thể nào đó hoặc không có vi rút máy tính liên quan đến các thông tin và tài liệu
+                                        này.</p>
+                                    </li>
+                                </ul>
+                                <h3 style="color: white;">Bảo mật dữ liệu</h3>
+                                <ul>
+                                    <li style="margin-left: 30px;"><p>1. Bảo mật là ưu tiên hàng đầu của chúng tôi.
+                                        BlockBuster luôn cố gắng đảm bảo dữ liệu cá nhân của Quý khách được bảo vệ để
+                                        không bị truy cập trái phép hoặc tình cờ, bị xử lý hoặc xóa bỏ. Chúng tôi duy
+                                        trì cam kết bảo mật dữ liệu này bằng cách áp dụng những biện pháp vật lý, điện
+                                        tử và quản lý để bảo vệ dữ liệu cá nhân của Quý khách.</p>
+                                    </li>
+                                    <li style="margin-left: 30px;"><p>2. Chúng tôi sẽ thực hiện tất cả các bước hợp lý
+                                        để đảm bảo rằng dữ liệu cá nhân của Quý khách không bị lưu giữ lâu hơn mức cần
+                                        thiết và rằng BlockBuster sẽ luôn tuân thủ những yêu cầu của luật pháp và quy
+                                        định quản lý tại Việt Nam liên quan đến việc lưu trữ thông tin nhận dạng cá
+                                        nhân.</p>
+                                    </li>
+                                </ul>
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                                <p style="text-align: right;"> Thân ái! Cám ơn bạn đã tin dùng và sử dụng dịch vụ của
+                                    chúng tôi.</p>
+                                <br>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+            </div>
+
+            <div class="right-pane">
+                <div class="wrapper page-block">
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<footer class="ht-footer full-width-ft">
+    <div class="row">
+        <div class="flex-parent-ft">
+            <div class="flex-child-ft item1">
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt=""></a>
+                <p>Thiết kế bởi Võ Nguyễn Duy Long<br>
+                    N18DCCN116</p>
+            </div>
+            <div class="flex-child-ft item2">
+                <h4>Trợ giúp</h4>
+                <ul>
+                    <li><a href="/about">Giới thiệu</a></li>
+                    <li><a href="/contact-us">Liên hệ</a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100009028664531">Diễn đàn</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item3">
+                <h4>Pháp lý</h4>
+                <ul>
+                    <li><a href="/termuses">Điều khoản sử dụng</a></li>
+                    <li><a href="/privacy">Quyền riêng tư</a></li>
+                    <li><a href="/sercurity">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item4">
+                <h4>Tài khoản</h4>
+                <ul>
+                    <li><a href="/user-profile">Tài khoản của tôi</a></li>
+                    <li><a href="/change-pass">Đổi mật khẩu</a></li>
+                    <li><a href="/logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item5">
+                <h4>Thông tin</h4>
+                <p>Kết nối với chúng tôi để nhận được các tin tức mới nhất <br> về chương trình khuyễn mãi và các bộ
+                    phim sắp ra mắt.</p>
+                <div class="social-link">
+                    <a href="https://www.facebook.com/profile.php?id=100009028664531"><i
+                            class="ion-social-facebook"></i></a>
+                    <a href="https://www.instagram.com/vonguyenduylong92.1415/"><i class="ion-social-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCKblgclkd5s3L3-oOLT8KVg"><i
+                            class="ion-social-youtube"></i></a>
+                </div>
+            </div>
+            <div class="flex-child-ft item6">
+                <h4>Chăm sóc khách hàng</h4>
+                <ul>
+                    <li><p>Hotline: (+84)937220747</p></li>
+                    <li><p>Giờ làm việc: 7:00 -> 22:00(Trừ ngày Chủ Nhật)</p></li>
+                    <li><p>Email hỗ trợ: vonguyenduylong92.1415@gmail.com</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="scrollTop" onclick="scrollToTop()"></div>
+<script>
+    window.addEventListener('scroll', function () {
+        var scroll = document.querySelector('.scrollTop');
+        scroll.classList.toggle("active", window.scrollY > 500)
+    })
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0
+        })
+    }
+</script>
+<script src="/js/jquery.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/plugins2.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+
+
+</html>

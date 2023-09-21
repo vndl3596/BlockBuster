@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>BlockBuster Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/admin/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/admin/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="/admin/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/admin/images/logo.png"/>
+</head>
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo" href="/admin/home" style="color: #dd003f;"><img
+                    src="/admin/images/logo.png" alt="logo" style="height: 50px; width: 50px;"/>lockBuster</a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <span class="mdi mdi-menu"></span>
+            </button>
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item nav-profile dropdown">
+                    <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <div class="nav-profile-img">
+                            <img th:src="${loginAcc.avatar}" alt="image">
+                            <span class="availability-status online"></span>
+                        </div>
+                        <div class="nav-profile-text">
+                            <p class="mb-1 text-black" th:utext="${loginAcc.lastname + ' ' + loginAcc.firstname}"></p>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+
+                        <a class="dropdown-item" href="/admin/logout">
+                            <i class="mdi mdi-logout me-2 text-primary"></i> Đăng xuất </a>
+                    </div>
+                </li>
+                <li class="nav-item d-none d-lg-block full-screen-link">
+                    <a class="nav-link">
+                        <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
+                    </a>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
+                <span class="mdi mdi-menu"></span>
+            </button>
+        </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item nav-profile">
+                    <a href="#" class="nav-link">
+                        <div class="nav-profile-image">
+                            <img th:src="${loginAcc.avatar}" alt="profile">
+                            <span class="login-status online"></span>
+                            <!--change to offline or busy as needed-->
+                        </div>
+                        <div class="nav-profile-text d-flex flex-column">
+                            <span class="font-weight-bold mb-2" th:utext="${loginAcc.firstname}"></span>
+                            <span class="text-secondary text-small">Quản lý</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/home">
+                        <span class="menu-title">Trang chủ</span>
+                        <i class="mdi mdi-home menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
+                       aria-controls="ui-basic">
+                        <span class="menu-title">Thống kê</span>
+                        <i class="menu-arrow"></i>
+                        <i class="mdi mdi-chart-bar menu-icon"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/mvg">Phim từng thể loại</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/mva">Phim theo diễn viên</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/mvd">Phim theo đạo diễn</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/rating">Phim theo đánh giá</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/account">
+                        <span class="menu-title">Người dùng</span>
+                        <i class="mdi mdi-account-card-details menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/movie">
+                        <span class="menu-title">Phim</span>
+                        <i class="mdi mdi-arrow-right-drop-circle menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/genre">
+                        <span class="menu-title">Thể loại</span>
+                        <i class="mdi mdi-sort-variant menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-act" aria-expanded="false"
+                       aria-controls="ui-basic">
+                        <span class="menu-title">Diên viên</span>
+                        <i class="menu-arrow"></i>
+                        <i class="mdi mdi-walk menu-icon"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic-act">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="/admin/actor">Quản lý diễn viên</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/fkact">Diễn viên trong phim</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-dir" aria-expanded="false"
+                       aria-controls="ui-basic">
+                        <span class="menu-title">Đạo diễn</span>
+                        <i class="menu-arrow"></i>
+                        <i class="mdi mdi-contacts menu-icon"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic-dir">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="/admin/director">Quản lý đạo diễn</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/fkdir">Đạo diễn trong phim</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-eva" aria-expanded="false"
+                       aria-controls="ui-basic">
+                        <span class="menu-title">Bình luận</span>
+                        <i class="menu-arrow"></i>
+                        <i class="mdi mdi-forum"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic-eva">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link active" href="/admin/evaluate/bymv">Bình luận theo
+                                phim</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/evaluate/byac">Bình luận theo người
+                                dùng</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="page-header">
+                    <h3 class="page-title">
+                <span class="page-title-icon bg-gradient-primary text-white me-2">
+                  <i class="mdi mdi-forum"></i>
+                </span>
+                        <span style="color: white;">
+                  Danh sách phim
+                </span>
+                    </h3>
+                </div>
+                <div class="row">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Danh sách phim</h4>
+                                <div>
+                                    <table class="table" id="table">
+                                        <thead>
+                                        <tr>
+                                            <th> Tên phim</th>
+                                            <th> Chi tiết</th>
+                                            <th> Status</th>
+                                            <th> Ngày phát hành</th>
+                                            <th> Thời lượng</th>
+                                            <th> Lượt xem</th>
+                                            <th> CRUD</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:each="movie, state : ${listAllMovie}">
+                                            <td>
+                                                <img th:src="${movie.poster}" class="me-2" alt="image"
+                                                     style="width: 70px; height: 100px; border-radius: 0px;"> <span
+                                                    th:utext="${movie.title}"></span>
+                                            </td>
+                                            <td th:utext="${movie.detail.substring(0, 9)} + '...'"
+                                                th:if="${movie.detail.length > 9}"></td>
+                                            <td th:utext="${movie.detail}" th:if="${movie.detail.length <= 9}"></td>
+                                            <td>
+                                                <label class="badge badge-gradient-success"
+                                                       th:if="${movie.movieStatus == true}">Đang chiếu</label>
+                                                <label class="badge badge-gradient-danger"
+                                                       th:if="${movie.movieStatus == false}">Sắp chiếu</label>
+                                            </td>
+                                            <td th:utext="${format.format(movie.releaseDate)}"></td>
+                                            <td th:utext="${movie.movieDuration}"></td>
+                                            <td th:utext="${movie.viewNumber}"></td>
+                                            <td><a th:href="${'/admin/evaluate/bymv/idMov=' + movie.id}"
+                                                   style="color:cornflowerblue;" target=”_blank”>Xem danh sách bình
+                                                luận</a></td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="/admin/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="/admin/vendors/chart.js/Chart.min.js"></script>
+<script src="/admin/js/jquery.cookie.js" type="text/javascript"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="/admin/js/off-canvas.js"></script>
+<script src="/admin/js/hoverable-collapse.js"></script>
+<script src="/admin/js/misc.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<script src="/admin/js/dashboard.js"></script>
+<script src="/admin/js/todolist.js"></script>
+<script src="/admin/js/file-upload.js"></script>
+<script src="cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<!-- End custom js for this page -->
+<script>
+    $(document).ready(function () {
+        $('#table').DataTable(
+            {
+                lengthMenu: [
+                    [5, 10, 20, 50, 100, -1],
+                    [5, 10, 20, 50, 100, 'Tất cả'],
+                ],
+                "aaSorting": [],
+                "language": {
+                    "lengthMenu": "Hiển thị _MENU_ mẩu tin mỗi trang",
+                    "zeroRecords": "Rỗng",
+                    "info": "Trang hiện tại _PAGE_: Hiển thị _START_ -> _END_ trên _TOTAL_",
+                    "infoFiltered": "(lọc từ _MAX_ mẩu tin)",
+                    "infoEmpty": "Không tìm thấy",
+                    "paginate": {
+                        "first": "First",
+                        "last": "Last",
+                        "next": "Trang kế",
+                        "previous": "Trang trước"
+                    },
+                    "search": "Tìm kiếm:",
+                }
+            }
+        );
+    });
+</script>
+</body>
+</html>

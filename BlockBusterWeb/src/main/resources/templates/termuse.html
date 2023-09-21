@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+
+    <title>BlockBuster - Điều khoản</title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+    <link rel="profile" href="#">
+
+    <!--Google Font-->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no">
+
+    <!-- CSS files -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body style="background-color: #020d18;">
+<div id="preloader" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
+    <img class="logo" src="/images/logo1.png" alt="" width="119" height="58">
+    <div id="status">
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<header class="ht-header full-width-hd">
+    <div class="row">
+        <nav id="mainNav" class="navbar navbar-default navbar-custom">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header logo">
+                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <div id="nav-icon1">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt="" width="119" height="58"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav flex-child-menu menu-left">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/home">
+                            Trang chủ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/showing/page=1">
+                            Đang công chiếu</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/movie-grid/coming/page=1">
+                            Sắp ra mắt</a>
+                    </li>
+                    <li class="dropdown first" th:if="${loginResponse != null}">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/user-history/page=1">
+                            Lịch sử</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/contact-us">
+                            Liên hệ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default  lv1" href="/about">
+                            Giới thiệu</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse == null}">
+                    <li class="btnLo"><a href="/login">Đăng nhập</a></li>
+                    <li class="btnRe"><a href="/register">Đăng ký</a></li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse != null}">
+                    <li><img th:src="${loginAcc.avatar}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar != ''}"></li>
+                    <li><img th:src="@{'/images/uploads/user.png'}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${loginAcc.avatar == ''}"></li>
+                    <li><label><a href="/user-profile"
+                                  th:utext="${loginAcc.getLastname() + ' ' + loginAcc.getFirstname()}"></a>
+                        <p><i>Thành viên</i></p></label></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <!-- search form -->
+    </div>
+
+</header>
+
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    <h1> Trung tâm trợ giúp</h1>
+                    <ul class="breadcumb">
+                        <li class="active"><a href="/home">Trang chủ</a></li>
+                        <li><span class="ion-ios-arrow-right"></span> Trung tâm trợ giúp</li>
+                        <li><span class="ion-ios-arrow-right"></span> Điều khoản</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <br>
+    <br>
+    <br>
+    <br>
+    <h1 style="color: white;">Điều khoản sử dụng của BlockBuster</h1>
+    <br>
+    <br>
+    <div class="page-block">
+        <div class="c-wrapper">
+            <div>
+                <p>BlockBuster cung cấp dịch vụ đăng ký được cá nhân hóa, cho phép thành viên truy cập phim và xem phim
+                    (“nội dung của BlockBuster”) trực tiếp qua mạng Internet.</p>
+                <p>Các Điều khoản sử dụng này điều chỉnh cách thức bạn sử dụng dịch vụ của chúng tôi. Như được sử dụng
+                    trong các Điều khoản sử dụng này, các thuật ngữ “dịch vụ của BlockBuster”, “dịch vụ của chúng tôi”
+                    hoặc “dịch vụ” đều có nghĩa là dịch vụ được cá nhân hóa do BlockBuster cung cấp để khám phá và
+                    thưởng thức nội dung của BlockBuster, bao gồm tất cả các tính năng và chức năng, đề xuất và đánh
+                    giá, trang web và giao diện người dùng, cũng như tất cả nội dung và phần mềm liên kết với dịch vụ
+                    của chúng tôi.</p>
+                <h2></h2>
+                <br>
+                <ul>
+                    <li><h2 style="color: white; font-size: 20px;">1. Tư cách thành viên</h2><br>
+                        <p style="margin-left: 30px;">1.1. Tư cách thành viên BlockBuster của bạn sẽ tiếp tục cho đến
+                            khi bị chấm dứt. Để sử dụng dịch vụ BlockBuster, bạn phải có quyền truy cập Internet và một
+                            thiết bị tương thích với BlockBuster, đồng thời cung cấp cho chúng tôi một hay nhiều Phương
+                            thức thanh toán. “Phương thức thanh toán” có nghĩa là phương thức thanh toán hiện hành, hợp
+                            lệ, được chấp nhận, có thể được cập nhật tùy từng thời điểm và có thể bao gồm phương thức
+                            thanh toán qua tài khoản của bạn với bên thứ ba. Trừ trường hợp bạn hủy vé của mình trước
+                            ngày thanh toán(xem mục “Hủy bỏ” dưới đây).<br><br>1.2. Chúng tôi có thể cung cấp một số gói
+                            thành viên, bao gồm cả tư cách thành viên được các bên thứ ba cung cấp đi kèm với các sản
+                            phẩm và dịch vụ của riêng họ. Chúng tôi không chịu trách nhiệm đối với các sản phẩm và dịch
+                            vụ được cung cấp bởi các bên thứ ba đó. Một số gói thành viên có thể có các điều kiện và
+                            giới hạn khác nhau mà sẽ được đưa ra khi bạn đăng ký hoặc trong các thông tin liên lạc khác
+                            được cung cấp cho bạn. <br></p>
+                        <h2></h2>
+                    </li>
+                    <li><h2 style="color: white; font-size: 20px;">2. Ưu đãi khuyến mãi</h2><br>
+                        <p style="margin-left: 30px;">Tùy thời điểm, chúng tôi có thể cung cấp các ưu đãi khuyến mãi,
+                            gói dịch vụ hoặc tư cách thành viên đặc biệt (“Ưu đãi”). Điều kiện nhận ưu đãi sẽ do
+                            BlockBuster toàn quyền quyết định. Chúng tôi bảo lưu quyền thu hồi Ưu đãi và tạm ngưng tài
+                            khoản của bạn trong trường hợp chúng tôi xác định rằng bạn không đủ điều kiện. Các thành
+                            viên của hộ gia đình đã đăng ký hoặc mới hủy đăng ký tài khoản thành viên BlockBuster có thể
+                            không đủ điều kiện nhận một số Ưu đãi chào mừng nhất định. Chúng tôi có thể sử dụng các
+                            thông tin như mã nhận dạng thiết bị, phương thức thanh toán hoặc địa chỉ email được sử dụng
+                            cho một tài khoản thành viên BlockBuster đã đăng ký hoặc mới đăng ký để xác định trạng thái
+                            đủ điều kiện nhận Ưu đãi. Các yêu cầu về điều kiện cùng các giới hạn và điều kiện khác sẽ
+                            được thông báo khi bạn đăng ký nhận Ưu đãi hoặc trong các thông tin liên lạc khác gửi đến
+                            bạn.<br></p>
+                        <h2></h2>
+                    </li>
+                    <li><h2 style="color: white; font-size: 20px;">3. Thanh toán và Hủy bỏ</h2><br>
+                        <p style="margin-left: 30px;">3.1. <strong class="underline">Các phương thức thanh
+                            toán.</strong> Để sử dụng dịch vụ BlockBuster, bạn phải đưa ra một hoặc nhiều Phương thức
+                            thanh toán. Bạn cho phép chúng tôi tính phí vào bất kỳ Phương thức thanh toán nào được liên
+                            kết với tài khoản của bạn trong trường hợp Phương thức thanh toán chính của bạn bị từ chối
+                            hoặc không còn khả dụng đối với chúng tôi để thanh toán phí đăng ký của bạn. Bạn vẫn phải
+                            chịu trách nhiệm thanh toán cho bất kỳ khoản tiền chưa thu nào. Nếu khoản thanh toán không
+                            được xử lý thành công, do hết hạn, không đủ tiền hoặc các nguyên nhân khác. <br><br>3.2.
+                            <strong class="underline">Cập nhật các Phương thức thanh toán của bạn.</strong> Bạn có thể
+                            cập nhật các Phương thức thanh toán của mình bằng cách truy cập trang “Tài khoản”. Chúng tôi
+                            cũng có thể cập nhật các Phương thức thanh toán của bạn với thông tin có được từ các nhà
+                            cung cấp dịch vụ thanh toán. Sau mỗi lần cập nhật, bạn cho phép chúng tôi tiếp tục tính phí
+                            vào (các) Phương thức thanh toán được áp dụng.<br><br>3.3. <span
+                                    class="underline">Hủy bỏ.</span> Bạn có thể hủy bỏ tư cách thành viên BlockBuster
+                            của mình vào bất kỳ thời điểm nào mà vẫn sẽ tiếp tục có quyền truy cập vào dịch vụ
+                            BlockBuster cho đến hết thời hạn thanh toán. Trong phạm vi được luật pháp hiện hành cho
+                            phép, các khoản thanh toán đều không được hoàn lại và chúng tôi không hoàn lại tiền hoặc tín
+                            dụng cho bất kỳ phần thời gian còn lại nào của thời hạn thành viên hay bất kỳ nội dung
+                            BlockBuster nào chưa xem.<br><br>3.4. <strong class="underline">Thay đổi về Giá vé.</strong>
+                            Tùy từng thời điểm và bộ phim, chúng tôi có thể thay đổi các phí dịch vụ của chúng tôi.<br>
+                        </p>
+                        <h2></h2>
+                    </li>
+                    <li><h2 style="color: white; font-size: 20px;">4. Mật khẩu và Truy cập tài khoản.</h2><br>
+                        <p style="margin-left: 30px;"> Thành viên đã tạo tài khoản BlockBuster và được tính phí vào
+                            Phương thức thanh toán (“Chủ tài khoản”) chịu trách nhiệm cho bất kỳ hoạt động nào xảy ra
+                            thông qua Tài khoản BlockBuster. Để duy trì quyền kiểm soát tài khoản và ngăn chặn người
+                            khác truy cập vào tài khoản (bao gồm thông tin về lịch sử xem của tài khoản), Chủ tài khoản
+                            cần duy trì quyền kiểm soát các thiết bị tương thích với BlockBuster dùng để truy cập dịch
+                            vụ, đồng thời không tiết lộ mật khẩu hoặc chi tiết về Phương thức thanh toán được liên kết
+                            với tài khoản cho bất kỳ ai. Bạn chịu trách nhiệm cập nhật và duy trì tính chính xác của
+                            thông tin được cung cấp cho chúng tôi liên quan đến tài khoản của bạn. Chúng tôi có thể chấm
+                            dứt tài khoản của bạn hoặc tạm giữ tài khoản của bạn để bảo vệ bạn, BlockBuster hoặc các đối
+                            tác của chúng tôi khỏi hành vi trộm cắp danh tính hay hoạt động lừa đảo khác. <br></p>
+                        <h2></h2>
+                    </li>
+                    <li><h2 style="color: white; font-size: 20px;">5. Bảo đảm và Giới hạn về trách nhiệm.</h2><br>
+                        <p style="margin-left: 30px;"> Dịch vụ BlockBuster được cung cấp dưới hình thức “nguyên trạng”
+                            và không đi kèm bảo đảm hay điều kiện. Cụ thể, dịch vụ của chúng tôi có thể bị gián đoạn
+                            hoặc phát sinh lỗi. Bạn từ bỏ quyền yêu cầu đối với tất cả các thiệt hại đặc biệt, gián tiếp
+                            và thiệt hại mang tính hậu quả. Những điều khoản này sẽ không giới hạn bất kỳ bảo đảm không
+                            thể miễn trừ nào hoặc các quyền bảo vệ người tiêu dùng mà bạn có thể được hưởng theo luật
+                            bắt buộc của quốc gia nơi bạn cư trú. <br></p>
+                        <h2></h2>
+                    </li>
+                    <li><h2 style="color: white; font-size: 20px;">6. Từ bỏ quyền khởi kiện tập thể.</h2><br>
+                        <p style="margin-left: 30px;"> NẾU ĐƯỢC PHÁP LUẬT ÁP DỤNG CHO PHÉP, BẠN VÀ BLOCKBUSTER ĐỒNG Ý
+                            RẰNG MỖI BÊN CHỈ CÓ THỂ KHỞI KIỆN BÊN KIA VỚI TƯ CÁCH CỦA BẠN HOẶC TƯ CÁCH CỦA RIÊNG
+                            BLOCKBUSTER, VÀ KHÔNG PHẢI LÀ NGUYÊN ĐƠN HOẶC THÀNH VIÊN TRONG BẤT KỲ VỤ KIỆN TẬP THỂ CÓ CHỦ
+                            ĐÍCH NÀO. Ngoài ra, trong trường hợp được pháp luật áp dụng cho phép, trừ khi cả bạn và
+                            BlockBuster có thỏa thuận khác, tòa án không thể nhập các yêu cầu khởi kiện của nhiều người
+                            với các yêu cầu khởi kiện của bạn, và có thể không thụ lý giải quyết dưới bất kỳ hình thức
+                            khởi kiện tập thể nào. <br></p>
+                        <h2></h2>
+                    </li>
+                    <h2 style="color: white; font-size: 20px;">7. Điều khoản chung</h2><br>
+                    <li><p style="margin-left: 30px;">7.1. <strong class="underline">Luật điều chỉnh.</strong> Các Điều
+                        khoản sử dụng này sẽ được điều chỉnh và giải thích theo pháp luật Việt Nam. <br><br>7.2. <strong
+                                class="underline">Tài liệu không yêu cầu.</strong> BlockBuster không chấp nhận các tài
+                        liệu không được yêu cầu hoặc ý tưởng đối với nội dung BlockBuster, cũng như không chịu trách
+                        nhiệm về sự tương đồng giữa bất kỳ nội dung hoặc chương trình nào trong bất kỳ phương tiện
+                        truyền thông nào với các tài liệu hoặc ý tưởng được gửi tới BlockBuster. <br><br>7.4. <strong
+                                class="underline">Giữ nguyên hiệu lực.</strong> Nếu bất kỳ điều khoản nào trong các Điều
+                        khoản sử dụng này bị coi là không hợp lệ, bất hợp pháp hoặc không thể thực thi, thì hiệu lực,
+                        tính hợp pháp và tính thực thi của các điều khoản còn lại sẽ vẫn có đầy đủ hiệu lực. <br><br>7.4.
+                        <strong class="underline">Thay đổi các Điều khoản sử dụng và chuyển nhượng.</strong> Tùy từng
+                        thời điểm, BlockBuster có thể thay đổi các Điều khoản sử dụng này. Chúng tôi sẽ thông báo cho
+                        bạn ít nhất 30 ngày trước khi những thay đổi đó được áp dụng cho bạn. Chúng tôi có thể chuyển
+                        nhượng hay nhượng lại thỏa thuận giữa chúng tôi với bạn, bao gồm cả các quyền và nghĩa vụ đi kèm
+                        của chúng tôi bất cứ lúc nào, và bạn đồng ý hợp tác với chúng tôi đối với các vấn đề liên quan
+                        đến việc chuyển nhượng hay nhượng lại đó.</p>
+                    </li>
+                    <li>
+                        <br>
+                        <p style="text-align: right;">Thân ái! Cám ơn bạn đã tin tưởng và sử dụng dịch vụ của chúng
+                            tôi</p>
+                        <br>
+                    </li>
+                </ul>
+                <p></p>
+                <p></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="ht-footer full-width-ft">
+    <div class="row">
+        <div class="flex-parent-ft">
+            <div class="flex-child-ft item1">
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt=""></a>
+                <p>Thiết kế bởi Võ Nguyễn Duy Long<br>
+                    N18DCCN116</p>
+            </div>
+            <div class="flex-child-ft item2">
+                <h4>Trợ giúp</h4>
+                <ul>
+                    <li><a href="/about">Giới thiệu</a></li>
+                    <li><a href="/contact-us">Liên hệ</a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100009028664531">Diễn đàn</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item3">
+                <h4>Pháp lý</h4>
+                <ul>
+                    <li><a href="/termuses">Điều khoản sử dụng</a></li>
+                    <li><a href="/privacy">Quyền riêng tư</a></li>
+                    <li><a href="/sercurity">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item4">
+                <h4>Tài khoản</h4>
+                <ul>
+                    <li><a href="/user-profile">Tài khoản của tôi</a></li>
+                    <li><a href="/change-pass">Đổi mật khẩu</a></li>
+                    <li><a href="/logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item5">
+                <h4>Thông tin</h4>
+                <p>Kết nối với chúng tôi để nhận được các tin tức mới nhất <br> về chương trình khuyễn mãi và các bộ
+                    phim sắp ra mắt.</p>
+                <div class="social-link">
+                    <a href="https://www.facebook.com/profile.php?id=100009028664531"><i
+                            class="ion-social-facebook"></i></a>
+                    <a href="https://www.instagram.com/vonguyenduylong92.1415/"><i class="ion-social-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCKblgclkd5s3L3-oOLT8KVg"><i
+                            class="ion-social-youtube"></i></a>
+                </div>
+            </div>
+            <div class="flex-child-ft item6">
+                <h4>Chăm sóc khách hàng</h4>
+                <ul>
+                    <li><p>Hotline: (+84)937220747</p></li>
+                    <li><p>Giờ làm việc: 7:00 -> 22:00(Trừ ngày Chủ Nhật)</p></li>
+                    <li><p>Email hỗ trợ: vonguyenduylong92.1415@gmail.com</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="scrollTop" onclick="scrollToTop()"></div>
+<script>
+    window.addEventListener('scroll', function () {
+        var scroll = document.querySelector('.scrollTop');
+        scroll.classList.toggle("active", window.scrollY > 500)
+    })
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0
+        })
+    }
+</script>
+<script src="/js/jquery.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/plugins2.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+
+</html>

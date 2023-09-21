@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>BlockBuster Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="/admin/vendors/mdi/css/materialdesignicons.min.css">
+    <link rel="stylesheet" href="cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="/admin/vendors/css/vendor.bundle.base.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="/admin/css/style.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="/admin/images/logo.png"/>
+</head>
+<body>
+<div class="container-scroller">
+    <!-- partial:partials/_navbar.html -->
+    <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo" href="/admin/home" style="color: #dd003f;"><img
+                    src="/admin/images/logo.png" alt="logo" style="height: 50px; width: 50px;"/>lockBuster</a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-stretch">
+            <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+                <span class="mdi mdi-menu"></span>
+            </button>
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item nav-profile dropdown">
+                    <a class="nav-link dropdown-toggle" id="profileDropdown" href="#" data-bs-toggle="dropdown"
+                       aria-expanded="false">
+                        <div class="nav-profile-img">
+                            <img th:src="${loginAcc.avatar}" alt="image">
+                            <span class="availability-status online"></span>
+                        </div>
+                        <div class="nav-profile-text">
+                            <p class="mb-1 text-black" th:utext="${loginAcc.lastname + ' ' + loginAcc.firstname}"></p>
+                        </div>
+                    </a>
+                    <div class="dropdown-menu navbar-dropdown" aria-labelledby="profileDropdown">
+
+                        <a class="dropdown-item" href="/admin/logout">
+                            <i class="mdi mdi-logout me-2 text-primary"></i> Đăng xuất </a>
+                    </div>
+                </li>
+                <li class="nav-item d-none d-lg-block full-screen-link">
+                    <a class="nav-link">
+                        <i class="mdi mdi-fullscreen" id="fullscreen-button"></i>
+                    </a>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                    data-toggle="offcanvas">
+                <span class="mdi mdi-menu"></span>
+            </button>
+        </div>
+    </nav>
+    <!-- partial -->
+    <div class="container-fluid page-body-wrapper">
+        <!-- partial:partials/_sidebar.html -->
+        <nav class="sidebar sidebar-offcanvas" id="sidebar">
+            <ul class="nav">
+                <li class="nav-item nav-profile">
+                    <a href="#" class="nav-link">
+                        <div class="nav-profile-image">
+                            <img th:src="${loginAcc.avatar}" alt="profile">
+                            <span class="login-status online"></span>
+                            <!--change to offline or busy as needed-->
+                        </div>
+                        <div class="nav-profile-text d-flex flex-column">
+                            <span class="font-weight-bold mb-2" th:utext="${loginAcc.firstname}"></span>
+                            <span class="text-secondary text-small">Quản lý</span>
+                        </div>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/home">
+                        <span class="menu-title">Trang chủ</span>
+                        <i class="mdi mdi-home menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
+                       aria-controls="ui-basic">
+                        <span class="menu-title">Thống kê</span>
+                        <i class="menu-arrow"></i>
+                        <i class="mdi mdi-chart-bar menu-icon"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/mvg">Phim từng thể loại</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/mva">Phim theo diễn viên</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/mvd">Phim theo đạo diễn</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/rating">Phim theo đánh giá</a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" href="/admin/account">
+                        <span class="menu-title">Người dùng</span>
+                        <i class="mdi mdi-account-card-details menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/movie">
+                        <span class="menu-title">Phim</span>
+                        <i class="mdi mdi-arrow-right-drop-circle menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/admin/genre">
+                        <span class="menu-title">Thể loại</span>
+                        <i class="mdi mdi-sort-variant menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-act" aria-expanded="false"
+                       aria-controls="ui-basic">
+                        <span class="menu-title">Diên viên</span>
+                        <i class="menu-arrow"></i>
+                        <i class="mdi mdi-walk menu-icon"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic-act">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="/admin/actor">Quản lý diễn viên</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/fkact">Diễn viên trong phim</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-dir" aria-expanded="false"
+                       aria-controls="ui-basic">
+                        <span class="menu-title">Đạo diễn</span>
+                        <i class="menu-arrow"></i>
+                        <i class="mdi mdi-contacts menu-icon"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic-dir">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="/admin/director">Quản lý đạo diễn</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/fkdir">Đạo diễn trong phim</a></li>
+                        </ul>
+                    </div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-eva" aria-expanded="false"
+                       aria-controls="ui-basic">
+                        <span class="menu-title">Bình luận</span>
+                        <i class="menu-arrow"></i>
+                        <i class="mdi mdi-forum"></i>
+                    </a>
+                    <div class="collapse" id="ui-basic-eva">
+                        <ul class="nav flex-column sub-menu">
+                            <li class="nav-item"><a class="nav-link" href="/admin/evaluate/bymv">Bình luận theo phim</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/evaluate/byac">Bình luận theo người
+                                dùng</a></li>
+                        </ul>
+                    </div>
+                </li>
+            </ul>
+        </nav>
+        <!-- partial -->
+        <div class="main-panel">
+            <div class="content-wrapper">
+                <div class="row">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="card-title">Thêm tài khoản</h4>
+                                <form class="forms-sample" action="/admin/account/add" name="add" method="post"
+                                      enctype="multipart/form-data" onsubmit="return addAccountSubmit()">
+                                    <div class="form-group">
+                                        <div class="input-group col-xs-4"
+                                             style="align-items: center; justify-content: center; margin-bottom: 10px;">
+                                            <img class="file-upload-img" th:src="${addAccount.avatar}" alt="image"
+                                                 id="img-preview"
+                                                 style="width: 150px; height: 150px; border-radius: 75px;"
+                                                 th:if="${addAccount.avatar != null}">
+                                            <img class="file-upload-img" src="/images/uploads/user.png" alt="image"
+                                                 id="img-preview"
+                                                 style="width: 150px; height: 150px; border-radius: 75px;"
+                                                 th:if="${addAccount.avatar == null}">
+                                        </div>
+                                        <input type="file" name="avatar" class="file-upload-default" id="file-input"
+                                               accept="image/gif, image/jpeg, image/png">
+                                        <input type="hidden" name="haveavatar" value="false">
+                                        <div class="input-group col-xs-12"
+                                             style="align-items: center; justify-content: center;">
+                          <span class="input-group-append">
+                            <button class="file-upload-browse btn btn-gradient-primary"
+                                    type="button">Ảnh đại diện</button>
+                          </span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>Họ</label>
+                                                <input type="text" class="form-control" placeholder="Họ" name="lastname"
+                                                       th:value="${addAccount.lastname}">
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Tên</label>
+                                                <input type="text" class="form-control" placeholder="Tên"
+                                                       name="firstname" th:value="${addAccount.firstname}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Ngày sinh</label>
+                                        <input type="date" class="form-control" name="birthday"
+                                               th:value="${inputDateFormat.format(addAccount.birthday)}">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Giới tính</label>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <input type="radio" name="gender" style="margin: 5px;" value="1"
+                                                       checked>Nam
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="radio" name="gender" style="margin: 5px;" value="0">Nữ
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>Số điện thoại</label>
+                                                <input type="text" class="form-control" placeholder="SDT" name="phone"
+                                                       th:value="${addAccount.phoneNumber}">
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Email</label>
+                                                <label style="color: red;" th:utext="${error}"
+                                                       th:if="${error.equals('Email đã được sử dụng!')}"></label>
+                                                <input type="email" class="form-control" placeholder="Email"
+                                                       name="email" th:value="${addAccount.email}">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <label>Tỉnh/Thành phố</label>
+                                                <select name="city" class="form-control" id="city" style="height: 47px;"
+                                                        onchange="cityOnChange()">
+                                                    <option value="0">Tỉnh/Thành phố</option>
+                                                    <option th:each="city, state : ${listCity}" th:value="${city.id}"
+                                                            th:utext="${city.name}"></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-4">
+                                                <label>Quận/Huyện</label>
+                                                <select name="district" class="form-control" id="district"
+                                                        style="height: 47px;" onchange="districtOnChange()">
+                                                    <option value="0">Quận/Huyện</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-4">
+                                                <label>Thị trấn/Xã</label>
+                                                <select name="town" class="form-control" id="town"
+                                                        style="height: 47px;">
+                                                    <option value="0">Thị trấn</option>
+                                                    >
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Địa chỉ</label>
+                                        <textarea class="form-control" placeholder="Địa chỉ" style="height: 100px;"
+                                                  name="address" th:utext="${addAccount.address}"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tài khoản</label>
+                                        <label style="color: red;" th:utext="${error}"
+                                               th:if="${error.equals('Tài khoản đã được sử dụng!')}"></label>
+                                        <input type="text" class="form-control" placeholder="Tài khoản" name="username"
+                                               th:value="${addAccount.username}">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>Mật khẩu</label>
+                                                <input type="password" class="form-control" placeholder="Mật khẩu"
+                                                       name="password">
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Nhập lại mật khẩu</label>
+                                                <input type="password" class="form-control"
+                                                       placeholder="Nhập lại mật khẩu" name="repassword">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Quyền</label>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <input type="checkbox" name="roles" value="user" style="margin: 5px;"
+                                                       id="checkbox_user">
+                                                <span>User</span>
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="checkbox" name="roles" value="admin" style="margin: 5px;"
+                                                       id="checkbox_admin">
+                                                <span>Admin</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-group col-xs-12"
+                                         style="align-items: center; justify-content: center; margin-bottom: 10px;">
+                                        <label style="color: lawngreen;" th:utext="${error}"
+                                               th:if="${error.equals('Thêm tài khoản thành công!')}"></label>
+                                    </div>
+                                    <div class="input-group col-xs-12"
+                                         style="align-items: center; justify-content: center; margin-bottom: 10px;">
+                                        <button type="submit" class="btn btn-gradient-success me-2">Lưu tài khoản
+                                        </button>
+                                    </div>
+                                </form>
+                                <div class="input-group col-xs-12"
+                                     style="align-items: center; justify-content: center; margin-bottom: 10px;">
+                                    <button class="btn btn-gradient-danger me-2" onclick="window.close()">Huỷ</button>
+                                </div>
+                                <div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- content-wrapper ends -->
+            <!-- partial:partials/_footer.html -->
+            <!-- partial -->
+        </div>
+        <!-- main-panel ends -->
+    </div>
+    <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="/admin/vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="/admin/vendors/chart.js/Chart.min.js"></script>
+<script src="/admin/js/jquery.cookie.js" type="text/javascript"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="/admin/js/off-canvas.js"></script>
+<script src="/admin/js/hoverable-collapse.js"></script>
+<script src="/admin/js/misc.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<script src="/admin/js/dashboard.js"></script>
+<script src="/admin/js/todolist.js"></script>
+<script src="/admin/js/file-upload.js"></script>
+<script src="cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script>
+    function cityOnChange() {
+        const selectedCity = document.forms["add"]["city"].value;
+        removeOptions(document.getElementById("district"));
+        removeOptions(document.getElementById("town"));
+
+        fetch(`http://localhost:8080/api/address/get-district/${selectedCity}`, {method: "get"})
+            .then(function (reponse) {
+                return reponse.json();
+            })
+            .then(function (districts) {
+                var optionsDistrict = districts.map(function (district) {
+                    return `<option value="${district.id}">${district.name}</option>`;
+                });
+                var html = optionsDistrict.join('');
+                document.getElementById('district').innerHTML = html;
+                var firstDistrict = document.forms["add"]["district"].options[0].value;
+                fetch(`http://localhost:8080/api/address/get-town/${firstDistrict}`, {method: "get"})
+                    .then(function (reponse) {
+                        return reponse.json();
+                    })
+                    .then(function (towns) {
+                        var optionsDistrict = towns.map(function (town) {
+                            return `<option value="${town.id}">${town.name}</option>`;
+                        });
+                        var html = optionsDistrict.join('');
+                        document.getElementById('town').innerHTML = html;
+                    })
+                    .catch(function (error) {
+                    });
+            })
+            .catch(function (error) {
+            });
+    }
+
+    function districtOnChange() {
+        const selectedDistrict = document.forms["add"]["district"].value;
+        removeOptions(document.getElementById("town"));
+
+        fetch(`http://localhost:8080/api/address/get-town/${selectedDistrict}`, {method: "get"})
+            .then(function (reponse) {
+                return reponse.json();
+            })
+            .then(function (towns) {
+                var optionsDistrict = towns.map(function (town) {
+                    return `<option value="${town.id}">${town.name}</option>`;
+                });
+                var html = optionsDistrict.join('');
+                document.getElementById('town').innerHTML = html;
+            })
+            .catch(function (error) {
+            });
+    }
+
+    function removeOptions(selectElement) {
+        var i, L = selectElement.options.length - 1;
+        for (i = L; i >= 0; i--) {
+            selectElement.remove(i);
+        }
+    }
+</script>
+<script>
+    function addAccountSubmit() {
+        let lastname = document.forms["add"]["lastname"].value;
+        if (lastname == "") {
+            document.forms["add"]["lastname"].focus();
+            alert("Họ không được trống!");
+            return false;
+        }
+
+        let firstname = document.forms["add"]["firstname"].value;
+        if (firstname == "") {
+            document.forms["add"]["firstname"].focus();
+            alert("Tên không được trống!");
+            return false;
+        }
+
+        let birth = document.forms["add"]["birthday"].value;
+        if (birth == "") {
+            document.forms["add"]["birthday"].focus();
+            alert("Ngày sinh không được trống!");
+            return false;
+        }
+
+        let town = document.forms["add"]["town"].value;
+        if ((town == 0) || (town == null)) {
+            document.forms["add"]["town"].focus();
+            alert("Chưa chọn địa chỉ!");
+            return false;
+        }
+
+        let email = document.forms["add"]["email"].value;
+        if (email == "") {
+            document.forms["add"]["email"].focus();
+            alert("Email không được trống!");
+            return false;
+        }
+
+        let username = document.forms["add"]["username"].value;
+        if (username == "") {
+            document.forms["add"]["username"].focus();
+            alert("Tài khoản không được trống!");
+            return false;
+        }
+
+        let password = document.forms["add"]["password"].value;
+        if (password == "") {
+            document.forms["add"]["password"].focus();
+            alert("Mật khẩu không được trống!");
+            return false;
+        }
+
+        let repassword = document.forms["add"]["repassword"].value;
+        if (repassword != password) {
+            document.forms["add"]["repassword"].focus();
+            alert("Nhập lại mật khẩu phải trùng với mật khẩu!");
+            return false;
+        }
+
+        let avatar = document.getElementById("file-input");
+        if (avatar.files.length > 0) {
+            document.forms["add"]["haveavatar"].value = "true";
+        }
+
+        if ((!document.getElementById("checkbox_user").checked) && (!document.getElementById("checkbox_admin").checked)) {
+            alert("Tài khoản phải có ít nhất một quyền!");
+            return false;
+        }
+    }
+</script>
+<script>
+    const input = document.getElementById("file-input");
+    const image = document.getElementById("img-preview");
+
+    input.addEventListener("change", (e) => {
+        if (e.target.files.length) {
+            const src = URL.createObjectURL(e.target.files[0]);
+            image.src = src;
+        }
+    });
+</script>
+<!-- End custom js for this page -->
+</body>
+</html>

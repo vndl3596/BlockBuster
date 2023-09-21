@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'/>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            font-size: 48px;
+        }
+    </style>
+</head>
+<body>
+<p th:text="${'Hi, ' + firstname + ' ' + lastname + '!'}"></p>
+<p> This is your new password: </p>
+<ul>
+    <li>
+        <p th:text="${'- Password: ' + password }"></p>
+    </li>
+</ul>
+
+<p>Please change your password when logging into the system</p>
+<p>This is an automated email, please do not reply.</p>
+</body>
+</html>

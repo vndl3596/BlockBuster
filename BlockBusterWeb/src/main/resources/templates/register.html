@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width = device-width, initial-scale = 1.0">
+    <title>Đăng ký</title>
+    <link rel="stylesheet" href="/css/login/style.css">
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body background="/images/registerbg.jpg">
+<div class="wrapper">
+    <div class="header">
+        <div class="logo">
+            <a href="/home"><img src="/images/logo1.png"></a>
+        </div>
+    </div>
+    <div class="register_body">
+        <h2>Đăng ký thành viên</h2>
+        <div class="register_box">
+            <form th:action="@{register}" method="post" name="register" onsubmit="return signUpSubmit()">
+                <div class="input_wrap">
+                    <input type="text" class="input_row" name="last-name" id="last-name" placeholder="Họ"
+                           autocomplete="off" th:value="${signUpAcc.lastname}">
+                    <input type="text" class="input_row" name="first-name" id="first-name" placeholder="Tên"
+                           autocomplete="off" th:value="${signUpAcc.firstname}">
+                </div>
+                <div class="input_wrap">
+                    <input type="date" class="input_row" name="birth" id="birth" autocomplete="off"
+                           th:value="${format.format(signUpAcc.birthday)}" th:if="${signUpAcc.username != null}">
+                    <input type="date" class="input_row" name="birth" id="birth" autocomplete="off"
+                           th:if="${signUpAcc.username == null}">
+                    <select name="gender" id="genderM" th:field="*{signUpAcc.gender}"
+                            th:if="${signUpAcc.username != null}">
+                        <option th:value="true" th:utext="Nam"></option>
+                        <option th:value="false" th:utext="Nữ "></option>
+                    </select>
+                    <select name="gender" id="genderM" th:if="${signUpAcc.username == null}">
+                        <option value="true" th:utext="Nam"></option>
+                        <option value="false" th:utext="Nữ "></option>
+                    </select>
+                </div>
+                <div class="input_wrap">
+                    <select name="city" id="city" class="input_row fullwidth" onchange="cityOnChange()">
+                        <option value="0">Tỉnh/Thành phố</option>
+                        <option th:each="city, state : ${listCity}" th:value="${city.id}"
+                                th:utext="${city.name}"></option>
+                    </select>
+                    <select name="district" id="district" class="input_row" onchange="districtOnChange()">
+                        <option value="0">Quận/Huyện</option>
+                    </select>
+                    <select name="town" id="town" class="input_row">
+                        <option value="0">Thị trấn</option>
+                        >
+                    </select>
+                </div>
+                <div class="input_wrap">
+                    <input type="email" name="email" id="email" placeholder="Email" autocomplete="off">
+                </div>
+                <div class="input_wrap">
+                    <input type="text" name="username" id="username" placeholder="Tài khoản" autocomplete="off">
+                </div>
+                <div class="input_wrap">
+                    <input type="password" name="password" class="input_row" id="password" placeholder="Mật khẩu"
+                           autocomplete="off">
+                    <input type="password" name="repassword" class="input_row" id="repassword"
+                           placeholder="Nhập lại Mật khẩu" autocomplete="off">
+                </div>
+
+                <div class="error" th:if="${error != null}">
+                    <p style="color: red; text-align: center;" th:utext="${error}"
+                       th:if="${error.equals('Đăng ký thất bại!!! Tài khoản đã có người sử dụng!')}"></p>
+                    <p style="color: red; text-align: center;" th:utext="${error}"
+                       th:if="${error.equals('Đăng ký thất bại!!! Email đã có người sử dụng!')}"></p>
+                    <p style="color: lawngreen; text-align: center;" th:utext="${error}"
+                       th:if="${error.equals('Đăng ký thành công!!! Check Email để kích hoạt tài khoản!')}"></p>
+                </div>
+                <div class="input_wrap">
+                    <button type="submit">Đăng ký</button>
+                </div>
+                <div class="login_footer">
+                    <div class="sign_up">
+                        <p>Đã có tài khoản? <a href="/login">Đăng nhập ngay.</a></p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/js/jquery.js"></script>
+<script>
+    function cityOnChange() {
+        const selectedCity = document.forms["register"]["city"].value;
+        removeOptions(document.getElementById("district"));
+        removeOptions(document.getElementById("town"));
+
+        fetch(`http://localhost:8080/api/address/get-district/${selectedCity}`, {method: "get"})
+            .then(function (reponse) {
+                return reponse.json();
+            })
+            .then(function (districts) {
+                var optionsDistrict = districts.map(function (district) {
+                    return `<option value="${district.id}">${district.name}</option>`;
+                });
+                var html = optionsDistrict.join('');
+                document.getElementById('district').innerHTML = html;
+                var firstDistrict = document.forms["register"]["district"].options[0].value;
+                fetch(`http://localhost:8080/api/address/get-town/${firstDistrict}`, {method: "get"})
+                    .then(function (reponse) {
+                        return reponse.json();
+                    })
+                    .then(function (towns) {
+                        var optionsDistrict = towns.map(function (town) {
+                            return `<option value="${town.id}">${town.name}</option>`;
+                        });
+                        var html = optionsDistrict.join('');
+                        document.getElementById('town').innerHTML = html;
+                    })
+                    .catch(function (error) {
+                    });
+            })
+            .catch(function (error) {
+            });
+    }
+
+    function districtOnChange() {
+        const selectedDistrict = document.forms["register"]["district"].value;
+        removeOptions(document.getElementById("town"));
+
+        fetch(`http://localhost:8080/api/address/get-town/${selectedDistrict}`, {method: "get"})
+            .then(function (reponse) {
+                return reponse.json();
+            })
+            .then(function (towns) {
+                var optionsDistrict = towns.map(function (town) {
+                    return `<option value="${town.id}">${town.name}</option>`;
+                });
+                var html = optionsDistrict.join('');
+                document.getElementById('town').innerHTML = html;
+            })
+            .catch(function (error) {
+            });
+    }
+
+    function removeOptions(selectElement) {
+        var i, L = selectElement.options.length - 1;
+        for (i = L; i >= 0; i--) {
+            selectElement.remove(i);
+        }
+    }
+</script>
+<script>
+    function signUpSubmit() {
+        let lastname = document.forms["register"]["last-name"].value;
+        if (lastname == "") {
+            document.forms["register"]["last-name"].focus();
+            alert("Họ không được trống!");
+            return false;
+        }
+
+        let firstname = document.forms["register"]["first-name"].value;
+        if (firstname == "") {
+            document.forms["register"]["first-name"].focus();
+            alert("Tên không được trống!");
+            return false;
+        }
+
+        let birth = document.forms["register"]["birth"].value;
+        if (birth == "") {
+            document.forms["register"]["birth"].focus();
+            alert("Ngày sinh không được trống!");
+            return false;
+        }
+
+        let town = document.forms["register"]["town"].value;
+        if ((town == 0) || (town == null)) {
+            document.forms["register"]["town"].focus();
+            alert("Chưa chọn địa chỉ!");
+            return false;
+        }
+
+        let email = document.forms["register"]["email"].value;
+        if (email == "") {
+            document.forms["register"]["email"].focus();
+            alert("Email không được trống!");
+            return false;
+        }
+
+        let username = document.forms["register"]["username"].value;
+        if (username == "") {
+            document.forms["register"]["username"].focus();
+            alert("Tài khoản không được trống!");
+            return false;
+        }
+
+        let password = document.forms["register"]["password"].value;
+        if (password == "") {
+            document.forms["register"]["password"].focus();
+            alert("Mật khẩu không được trống!");
+            return false;
+        }
+
+        let repassword = document.forms["register"]["repassword"].value;
+        if (repassword != password) {
+            document.forms["register"]["repassword"].focus();
+            alert("Nhập lại mật khẩu phải trùng với mật khẩu!");
+            return false;
+        }
+
+    }
+</script>
+</body>
+</html>

@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+
+<head>
+    <!-- Basic need -->
+    <title th:utext="${acc.getLastname() + ' ' + acc.getFirstname()}"></title>
+    <meta charset="UTF-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="author" content="">
+
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
+    <link rel="profile" href="#">
+
+    <!--Google Font-->
+    <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
+    <link rel="script" href="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.2/axios.min.js"/>
+    <!-- Mobile specific meta -->
+    <meta name=viewport content="width=device-width, initial-scale=1">
+    <meta name="format-detection" content="telephone-no">
+
+    <!-- CSS files -->
+    <link rel="stylesheet" href="/css/plugins.css">
+    <link rel="stylesheet" href="/css/style.css">
+
+</head>
+<body>
+
+<div id="preloader" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
+    <img class="logo" src="/images/logo1.png" alt="" width="119" height="58">
+    <div id="status">
+        <span></span>
+        <span></span>
+    </div>
+</div>
+
+<header class="ht-header full-width-hd">
+    <div class="row">
+        <nav id="mainNav" class="navbar navbar-default navbar-custom">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header logo">
+                <div class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <div id="nav-icon1">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt="" width="119" height="58"></a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse flex-parent" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav flex-child-menu menu-left">
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/home">
+                            Trang chủ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/movie-grid/showing/page=1">
+                            Đang công chiếu</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/movie-grid/coming/page=1">
+                            Sắp ra mắt</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/user-history/page=1">
+                            Lịch sử</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/contact-us">
+                            Liên hệ</a>
+                    </li>
+                    <li class="dropdown first">
+                        <a class="btn btn-default dropdown-toggle lv1" href="/about">
+                            Giới thiệu</a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right">
+                    <li><img th:src="${acc.avatar}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${acc.avatar != ''}"></li>
+                    <li><img th:src="@{'/images/uploads/user.png'}" alt=""
+                             style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
+                             th:if="${acc.avatar == ''}"></li>
+                    <li><label><a href="/user-profile"
+                                  th:utext="${acc.getLastname() + ' ' + acc.getFirstname()}"></a>
+                        <p><i>Thành viên</i></p></label></li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </nav>
+        <!-- search form -->
+    </div>
+
+</header>
+
+
+<div class="hero common-hero">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="hero-ct">
+                    <h1 th:utext="${acc.getLastname() + ' ' + acc.getFirstname()}"></h1>
+                    <ul class="breadcumb">
+                        <li class="active"><a href="/home">Trang chủ</a></li>
+                        <li><span class="ion-ios-arrow-right"></span> Thông tin cá nhân</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="page-single">
+    <div class="container">
+        <div class="row ipad-width">
+            <div class="col-md-3 col-sm-12 col-xs-12">
+                <div class="user-information">
+                    <div class="user-img">
+                        <img th:src="${acc.avatar}" alt=""
+                             style="width: 120px; height: 120px; border-radius: 60px;" th:if="${acc.avatar != ''}">
+                        <img th:src="@{'/images/uploads/user.png'}" alt=""
+                             style="width: 120px; height: 120px; border-radius: 60px;" th:if="${acc.avatar == ''}">
+                        <form th:action="@{/change-avt}" method="post" id="avt-form" enctype="multipart/form-data">
+                            <input type='file' id="hiddenAvt" name="avt"
+                                   style="color: rgba(0, 0, 0, 0); margin-left: 18%; visibility: hidden; position: absolute;"
+                                   class="redbtn col-md-8" accept="image/png, image/jpeg"
+                                   onchange="upload(this.files[0])"/>
+                            <input type="button" class="btn-avatar" value="Đổi avatar"
+                                   onclick="document.getElementById('hiddenAvt').click();"/>
+                            </br>
+                        </form>
+                    </div>
+                    <div class="user-fav">
+                        <p>Tài khoản</p>
+                        <ul>
+                            <li class="active"><a href="/user-profile">Thông tin</a></li>
+                            <li><a href="/user-history/page=1">Lịch sử xem phim</a></li>
+                            <li><a href="/user-rating/page=1">Lịch sử đánh giá</a></li>
+                        </ul>
+                    </div>
+                    <div class="user-fav">
+                        <p>Khác</p>
+                        <ul>
+                            <li><a href="/logout">Đăng xuất</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-12 col-xs-12">
+                <div class="form-style-1 user-pro" action="#">
+                    <form th:action="@{user-profile}" class="user" name="user-profile" method="post"
+                          onsubmit="return UserSubmit()">
+                        <h4>01. Thông tin cá nhân</h4>
+                        <div class="row">
+                            <div class="col-md-3 form-it">
+                                <label>Họ</label>
+                                <input type="text" name="last-name" th:value="@{${acc.lastname}}" autocomplete="off">
+                            </div>
+                            <div class="col-md-3 form-it">
+                                <label>Tên</label>
+                                <input type="text" name="first-name" th:value="@{${acc.firstname}}" autocomplete="off">
+                            </div>
+                            <div class="col-md-6 form-it">
+                                <label>Ngày sinh</label>
+                                <input type="date" name="birth" th:value="@{${format.format(acc.getBirthday())}}">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-it">
+                                <label>Địa chỉ chi tiết</label>
+                                <input type="text" name="address" th:value="@{${acc.address}}" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4 form-it">
+                                <label>Tỉnh/Thành phố</label>
+                                <select name="city" id="city" onchange="cityOnChange()">
+                                    <a th:each="city, state : ${listCity}">
+                                        <option th:value="${city.id}" th:utext="${city.name}"
+                                                th:if="${city.id != accCity}"></option>
+                                        <option th:value="${city.id}" th:utext="${city.name}"
+                                                th:if="${city.id == accCity}" selected></option>
+                                    </a>
+                                </select>
+                            </div>
+                            <div class="col-md-4 form-it">
+                                <label>Quận/Huyện</label>
+                                <select name="district" id="district" onchange="districtOnChange()">
+                                    <a th:each="district, state : ${listDistrictByCity}">
+                                        <option th:value="${district.id}" th:utext="${district.name}"
+                                                th:if="${district.id != accDistrict}"></option>
+                                        <option th:value="${district.id}" th:utext="${district.name}"
+                                                th:if="${district.id == accDistrict}" selected></option>
+                                    </a>
+                                </select>
+                            </div>
+                            <div class="col-md-4 form-it">
+                                <label>Thị trấn/Xã</label>
+                                <select name="town" id="town">
+                                    <a th:each="town, state : ${listTownByDistrict}">
+                                        <option th:value="${town.id}" th:utext="${town.name}"
+                                                th:if="${town.id != accTown}"></option>
+                                        <option th:value="${town.id}" th:utext="${town.name}"
+                                                th:if="${town.id == accTown}" selected></option>
+                                    </a>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-it">
+                                <label>Giới tính</label>
+                                <select name="gender" id="genderM" th:field="*{acc.gender}">
+                                    <option th:value="true" th:utext="Nam"></option>
+                                    <option th:value="false" th:utext="Nữ "></option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 form-it">
+                                <label>Số điện thoại</label>
+                                <input type="text" name="phone" th:value="@{${acc.phoneNumber}}" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-it">
+                                <label>Email</label>
+                                <input type="text" name="email" th:value="@{${acc.email}}" autocomplete="off">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-it" th:if="${errorCI != null}">
+                                <p style="color: red; text-align: left;" th:utext="${errorCI}"
+                                   th:if="${errorCI.equals('Thay đổi thông tin thất bại!!! Email đã có người sử dụng!!!')}"></p>
+                                <p style="color: lawngreen; text-align: left;" th:utext="${errorCI}"
+                                   th:if="${errorCI.equals('Thay đổi thông tin thành công!')}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <input class="submit" type="submit" value="Lưu">
+                            </div>
+                        </div>
+                    </form>
+                    <form th:action="@{change-pass}" class="password" method="post" name="passChange"
+                          onsubmit="return passChangeSubmit()">
+                        <h4>02. Đổi mật khẩu</h4>
+                        <div class="row">
+                            <div class="col-md-6 form-it">
+                                <label>Mật khẩu cũ</label>
+                                <input type="password" name="oldpassword">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 form-it">
+                                <label>Mật khẩu mới</label>
+                                <input type="password" name="newpassword" value="">
+                            </div>
+                            <div class="col-md-6 form-it">
+                                <label>Nhập lại mật khẩu mới</label>
+                                <input type="password" name="renewpassword" value="">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 form-it" th:if="${errorP != null}">
+                                <p style="color: red; text-align: left;" th:utext="${errorP}"
+                                   th:if="${errorP.equals('Đổi mật khẩu thất bại! Mật khẩu hiện tại sai!')}"></p>
+                                <p style="color: red; text-align: left;" th:utext="${errorP}"
+                                   th:if="${errorP.equals('Đổi mật khẩu thất bại!')}"></p>
+                                <p style="color: lawngreen; text-align: left;" th:utext="${errorP}"
+                                   th:if="${errorP.equals('Đổi mật khẩu thành công!')}"></p>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2">
+                                <input class="submit" type="submit" value="Thay đổi">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer class="ht-footer full-width-ft">
+    <div class="row">
+        <div class="flex-parent-ft">
+            <div class="flex-child-ft item1">
+                <a href="/home"><img class="logo" src="/images/logo1.png" alt=""></a>
+                <p>Thiết kế bởi Võ Nguyễn Duy Long<br>
+                    N18DCCN116</p>
+            </div>
+            <div class="flex-child-ft item2">
+                <h4>Trợ giúp</h4>
+                <ul>
+                    <li><a href="/about">Giới thiệu</a></li>
+                    <li><a href="/contact-us">Liên hệ</a></li>
+                    <li><a href="https://www.facebook.com/profile.php?id=100009028664531">Diễn đàn</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item3">
+                <h4>Pháp lý</h4>
+                <ul>
+                    <li><a href="/termuses">Điều khoản sử dụng</a></li>
+                    <li><a href="/privacy">Quyền riêng tư</a></li>
+                    <li><a href="/sercurity">Chính sách bảo mật</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item4">
+                <h4>Tài khoản</h4>
+                <ul>
+                    <li><a href="/user-profile">Tài khoản của tôi</a></li>
+                    <li><a href="/change-pass">Đổi mật khẩu</a></li>
+                    <li><a href="/logout">Đăng xuất</a></li>
+                </ul>
+            </div>
+            <div class="flex-child-ft item5">
+                <h4>Thông tin</h4>
+                <p>Kết nối với chúng tôi để nhận được các tin tức mới nhất <br> về chương trình khuyễn mãi và các bộ
+                    phim sắp ra mắt.</p>
+                <div class="social-link">
+                    <a href="https://www.facebook.com/profile.php?id=100009028664531"><i
+                            class="ion-social-facebook"></i></a>
+                    <a href="https://www.instagram.com/vonguyenduylong92.1415/"><i class="ion-social-instagram"></i></a>
+                    <a href="https://www.youtube.com/channel/UCKblgclkd5s3L3-oOLT8KVg"><i
+                            class="ion-social-youtube"></i></a>
+                </div>
+            </div>
+            <div class="flex-child-ft item6">
+                <h4>Chăm sóc khách hàng</h4>
+                <ul>
+                    <li><p>Hotline: (+84)937220747</p></li>
+                    <li><p>Giờ làm việc: 7:00 -> 22:00(Trừ ngày Chủ Nhật)</p></li>
+                    <li><p>Email hỗ trợ: vonguyenduylong92.1415@gmail.com</p></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+<div class="scrollTop" onclick="scrollToTop()"></div>
+<script>
+    window.addEventListener('scroll', function () {
+        var scroll = document.querySelector('.scrollTop');
+        scroll.classList.toggle("active", window.scrollY > 500)
+    })
+
+    function scrollToTop() {
+        window.scrollTo({
+            top: 0
+        })
+    }
+</script>
+<script>
+    function upload(image) {
+        document.getElementById("avt-form").submit();
+    }
+</script>
+<script>
+    function passChangeSubmit() {
+        let password = document.forms["passChange"]["oldpassword"].value;
+        if (password == "") {
+            document.forms["passChange"]["oldpassword"].focus();
+            alert("Mật khẩu hiện tại không được trống!");
+            return false;
+        }
+        let newpassword = document.forms["passChange"]["newpassword"].value;
+        if (newpassword == "") {
+            document.forms["passChange"]["newpassword"].focus();
+            alert("Mật khẩu mới không được trống!");
+            return false;
+        }
+        let repassword = document.forms["passChange"]["renewpassword"].value;
+        if (repassword != newpassword) {
+            document.forms["passChange"]["renewpassword"].focus();
+            alert("Nhập lại mật khẩu phải trùng với mật khẩu mới!");
+            return false;
+        }
+    }
+</script>
+<script>
+    function cityOnChange() {
+        const selectedCity = document.forms["user-profile"]["city"].value;
+        removeOptions(document.getElementById("district"));
+        removeOptions(document.getElementById("town"));
+
+        fetch(`http://localhost:8080/api/address/get-district/${selectedCity}`, {method: "get"})
+            .then(function (reponse) {
+                return reponse.json();
+            })
+            .then(function (districts) {
+                var optionsDistrict = districts.map(function (district) {
+                    return `<option value="${district.id}">${district.name}</option>`;
+                });
+                var html = optionsDistrict.join('');
+                document.getElementById('district').innerHTML = html;
+                var firstDistrict = document.forms["user-profile"]["district"].options[0].value;
+                fetch(`http://localhost:8080/api/address/get-town/${firstDistrict}`, {method: "get"})
+                    .then(function (reponse) {
+                        return reponse.json();
+                    })
+                    .then(function (towns) {
+                        var optionsDistrict = towns.map(function (town) {
+                            return `<option value="${town.id}">${town.name}</option>`;
+                        });
+                        var html = optionsDistrict.join('');
+                        document.getElementById('town').innerHTML = html;
+                    })
+                    .catch(function (error) {
+                    });
+            })
+            .catch(function (error) {
+            });
+    }
+
+    function districtOnChange() {
+        const selectedDistrict = document.forms["user-profile"]["district"].value;
+        removeOptions(document.getElementById("town"));
+
+        fetch(`http://localhost:8080/api/address/get-town/${selectedDistrict}`, {method: "get"})
+            .then(function (reponse) {
+                return reponse.json();
+            })
+            .then(function (towns) {
+                var optionsDistrict = towns.map(function (town) {
+                    return `<option value="${town.id}">${town.name}</option>`;
+                });
+                var html = optionsDistrict.join('');
+                document.getElementById('town').innerHTML = html;
+            })
+            .catch(function (error) {
+            });
+    }
+
+    function removeOptions(selectElement) {
+        var i, L = selectElement.options.length - 1;
+        for (i = L; i >= 0; i--) {
+            selectElement.remove(i);
+        }
+    }
+</script>
+<script>
+    function UserSubmit() {
+        let lastname = document.forms["user-profile"]["last-name"].value;
+        if (lastname == "") {
+            document.forms["user-profile"]["last-name"].focus();
+            alert("Họ không được trống!");
+            return false;
+        }
+
+        let firstname = document.forms["user-profile"]["first-name"].value;
+        if (firstname == "") {
+            document.forms["user-profile"]["first-name"].focus();
+            alert("Tên không được trống!");
+            return false;
+        }
+
+        let birth = document.forms["user-profile"]["birth"].value;
+        if (birth == "") {
+            document.forms["user-profile"]["birth"].focus();
+            alert("Ngày sinh không được trống!");
+            return false;
+        }
+
+        let town = document.forms["user-profile"]["town"].value;
+        if ((town == 0) || (town == null)) {
+            document.forms["user-profile"]["town"].focus();
+            alert("Thị trấn không được trống!");
+            return false;
+        }
+
+        let email = document.forms["user-profile"]["email"].value;
+        if (email == "") {
+            document.forms["user-profile"]["email"].focus();
+            alert("Email không được trống!");
+            return false;
+        }
+    }
+</script>
+<script src="/js/jquery.js"></script>
+<script src="/js/plugins.js"></script>
+<script src="/js/plugins2.js"></script>
+<script src="/js/custom.js"></script>
+</body>
+
+</html>
