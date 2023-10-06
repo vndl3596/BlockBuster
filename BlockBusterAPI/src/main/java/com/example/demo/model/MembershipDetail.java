@@ -27,19 +27,19 @@ public class MembershipDetail implements Serializable {
     private Integer id;
 
     @Column(name = "year")
-    @NotBlank(message = "Year cannot be empty")
+    @NotNull(message = "Year cannot be empty")
     private Integer year;
 
     @Column(name = "month")
-    @NotBlank(message = "Year cannot be empty")
+    @NotNull(message = "Month cannot be empty")
     private Integer month;
 
     @Column(name = "day")
-    @NotBlank(message = "Year cannot be empty")
+    @NotNull(message = "Day cannot be empty")
     private Integer day;
 
     @Column(name = "price")
-    @NotBlank(message = "Year cannot be empty")
+    @NotNull(message = "Price cannot be empty")
     private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -47,4 +47,11 @@ public class MembershipDetail implements Serializable {
     @EqualsAndHashCode.Exclude
     private Membership membership;
 
+    @OneToMany(mappedBy = "membershipDetail", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    private List<Voucher> voucherList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "membershipDetailBuy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    private List<MembershipBuyHistory> membershipBuyHistories = new ArrayList<>();
 }

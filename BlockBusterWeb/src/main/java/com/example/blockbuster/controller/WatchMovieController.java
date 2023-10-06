@@ -85,6 +85,21 @@ public class WatchMovieController {
             loginAcc = (AccountDTO) session.getAttribute("loginAcc");
             model.addAttribute("loginAcc", loginAcc);
 
+            if(mv.getRequireMember().getId() != 0){
+                String urlGetAccountPackage = "http://localhost:8080/api/fkMembership/getAll/" + loginAcc.getUsername();
+                ArrayList<FKMembershipDTO> fkMembershipOfAccount = new ArrayList<>();
+                Collections.addAll(fkMembershipOfAccount, restTemplate.getForEntity(urlGetAccountPackage, FKMembershipDTO[].class).getBody());
+                boolean checkMembership = false;
+                for (FKMembershipDTO fkMembershipDTO: fkMembershipOfAccount) {
+                    if(fkMembershipDTO.getMembershipId() == mv.getRequireMember().getId()){
+                        checkMembership = true;
+                    }
+                }
+                if(checkMembership == false){
+                    response.sendRedirect("/membership");
+                }
+            }
+
             String urlIncreaseView = "http://localhost:8080/api/movieDetail/addView/" + id;
             restTemplate.getForEntity(urlIncreaseView, Integer.class);
 

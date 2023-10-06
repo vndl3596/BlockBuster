@@ -6,6 +6,7 @@ import com.example.blockbuster.dto.LoginResponse;
 import com.example.blockbuster.dto.address.CityDTO;
 import com.example.blockbuster.dto.address.DistrictDTO;
 import com.example.blockbuster.dto.address.TownDTO;
+import com.example.blockbuster.util.MessageUtil;
 import org.json.simple.JSONObject;
 import org.springframework.core.io.Resource;
 import org.springframework.http.*;
@@ -271,11 +272,11 @@ public class AdminAccountController {
 
         for (AccountDTO acc : listAllAccount) {
             if (acc.getUsername().equals(addAccount.getUsername())) {
-                error += "Tài khoản đã được sử dụng!";
+                error += MessageUtil.VALIDATION_ACCOUNT_AU_ERR01;
                 break;
             }
             if (acc.getEmail().equals(addAccount.getEmail())) {
-                error += "Email đã được sử dụng!";
+                error += MessageUtil.VALIDATION_ACCOUNT_AU_ERR02;
                 break;
             }
         }
@@ -395,9 +396,9 @@ public class AdminAccountController {
 
         for (AccountDTO acc : listAllAccount) {
             if (acc.getId() == id) {
-                String urlDeleteAcc = "http://localhost:8080/api/acc/deleteAcc/" + acc.getUsername();
-                restTemplate.getForEntity(urlDeleteAcc, String.class);
-                listAllAccount.remove(acc);
+                String urlDeActiveAcc = "http://localhost:8080/api/acc/deactiveAcc/" + acc.getUsername();
+                restTemplate.getForEntity(urlDeActiveAcc, String.class);
+                acc.setEnabled(false);
                 break;
             }
         }
@@ -586,13 +587,13 @@ public class AdminAccountController {
 
         for (AccountDTO acc : listAllAccount) {
             if ((acc.getEmail().equals(email)) && (acc.getId() != id)) {
-                error += "Email đã được sử dụng!";
+                error += MessageUtil.VALIDATION_ACCOUNT_AU_ERR02;
                 break;
             }
         }
 
         if (error.equals("")) {
-            error += "Sửa tài khoản thành công!";
+            error += MessageUtil.VALIDATION_ACCOUNT_UPDATE_SUCCESS;
             String urlEditAccount = "http://localhost:8080/api/acc/edit";
             HttpEntity<AccountDTO> requestEditAccount = new HttpEntity<>(editAcc);
             ResponseEntity<AccountDTO> responseEditAccount = restTemplate.exchange(urlEditAccount, HttpMethod.PUT, requestEditAccount, AccountDTO.class);

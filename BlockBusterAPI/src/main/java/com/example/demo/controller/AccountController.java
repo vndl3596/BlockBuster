@@ -59,6 +59,11 @@ public class AccountController {
         return new ResponseEntity<>(accountService.deleteAccountByUsername(username), HttpStatus.OK);
     }
 
+    @GetMapping("/deactiveAcc/{username}")
+    public ResponseEntity<?> deActiveAccountByUsername(@PathVariable String username) {
+        return new ResponseEntity<>(accountService.deActiveAccountByUsername(username), HttpStatus.OK);
+    }
+
     @PostMapping("/checkPassword/{username}")
     public ResponseEntity<Boolean> checkPassword(@RequestBody Password password, @PathVariable String username) {
         Account account = accountService.getAccountByUsername(username);

@@ -5,6 +5,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +24,9 @@ public class LogoutController {
         LoginResponse loginResponse;
         loginResponse = (LoginResponse) session.getAttribute("loginResponse");
         if (loginResponse != null) {
+            RestTemplate restTemplate = new RestTemplate();
+            String urlLogout = "http://localhost:8080/api/auth/logout/" + loginResponse.getUsername();
+            restTemplate.getForEntity(urlLogout, String.class);
             session.removeAttribute("loginResponse");
             session.removeAttribute("loginAcc");
             res.sendRedirect((String) session.getAttribute("oldUrl"));

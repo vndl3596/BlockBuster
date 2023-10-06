@@ -29,7 +29,7 @@ public interface AccountService {
     Boolean changePasswordForAccount(Account account, String passwordChange);
 
     String deleteAccountByUsername(String username);
-
+    String deActiveAccountByUsername(String username);
     AccountDTO editAccountByUsername(AccountDTO account) throws UsernameExitException, MailException;
 
     AccountDTO createAccount(AccountDTO account) throws MailException, UsernameExitException;

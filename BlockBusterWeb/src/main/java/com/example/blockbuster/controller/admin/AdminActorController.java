@@ -5,6 +5,7 @@ import com.example.blockbuster.dto.AccountDTO;
 import com.example.blockbuster.dto.CastDTO;
 import com.example.blockbuster.dto.ImageDTO;
 import com.example.blockbuster.dto.LoginResponse;
+import com.example.blockbuster.util.MessageUtil;
 import org.json.simple.JSONObject;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -162,7 +163,7 @@ public class AdminActorController {
         String urlImage = "http://localhost:8080/getImage";
         ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
         listAllCast.get(0).setAvatar(response.getBody().getUrl());
-        err += "Thêm diễn viên thành công!!!";
+        err += MessageUtil.VALIDATION_ACTOR_ADD_SUCCESS;
         if (listAllCast == null) {
             DataCall dataCall = new DataCall();
             dataCall.dataCall(session);
@@ -203,7 +204,7 @@ public class AdminActorController {
             Collections.reverse(listAllCast);
         }
 
-        err += "Xoá diễn viên thành công!!!";
+        err += MessageUtil.VALIDATION_ACTOR_DELETE_SUCCESS;
         String urlDeleteCast = "http://localhost:8080/api/cast/remove/" + id;
         restTemplate.getForEntity(urlDeleteCast, String.class);
         for (CastDTO cast : listAllCast) {
@@ -314,7 +315,7 @@ public class AdminActorController {
             }
         }
 
-        err += "Sửa diễn viên thành công!!!";
+        err += MessageUtil.VALIDATION_ACTOR_UPDATE_SUCCESS;
         String urlEditCast = "http://localhost:8080/api/cast/edit";
         CastDTO castDTO;
         if (avtchange.equals("true")) {

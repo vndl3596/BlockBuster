@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.text.DecimalFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -346,5 +347,93 @@ public class AdminReportController {
         model.addAttribute("min", min);
         model.addAttribute("max", max);
         return new ModelAndView("admin/movieforstar");
+    }
+
+    @RequestMapping(method = RequestMethod.GET,path = "report/revenue")
+    public ModelAndView adminReportRevenue(Model model, HttpSession session, HttpServletResponse servletResponse) throws IOException {
+        SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+        RestTemplate restTemplate = new RestTemplate();
+
+        loginResponse = (LoginResponse) session.getAttribute("loginAdminResponse");
+        if (loginResponse == null) {
+            session.setAttribute("oldAdminUrl", "/admin/report/revenue");
+            servletResponse.sendRedirect("/admin/login");
+            return null;
+        }
+        loginAcc = (AccountDTO) session.getAttribute("loginAdminAcc");
+
+
+        model.addAttribute("toDate", "");
+        model.addAttribute("fromDate", "");
+        model.addAttribute("loginAcc", loginAcc);
+        model.addAttribute("check", 0);
+        model.addAttribute("format", format);
+        return new ModelAndView("admin/revenue");
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "report/revenue")
+    public ModelAndView adminReportRevenueShow(Model model,
+                                               HttpSession session,
+                                               @RequestParam(value = "from-day", required = false) String fromDate,
+                                               @RequestParam(value = "to-day", required = false) String toDate,
+                                               HttpServletResponse servletResponse) throws IOException, ParseException {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateTimeFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+        RestTemplate restTemplate = new RestTemplate();
+
+        loginResponse = (LoginResponse) session.getAttribute("loginAdminResponse");
+        if (loginResponse == null) {
+            session.setAttribute("oldAdminUrl", "/admin/report/revenue");
+            servletResponse.sendRedirect("/admin/login");
+            return null;
+        }
+        loginAcc = (AccountDTO) session.getAttribute("loginAdminAcc");
+
+        ArrayList<MembershipBuyHistoryDTO> listAllRevenue = new ArrayList<>();
+        String uriGetAllRevenue = "http://localhost:8080/api/membership-buy-his/getAll";
+        ResponseEntity<MembershipBuyHistoryDTO[]> responseGetAllRevenue = restTemplate.getForEntity(uriGetAllRevenue, MembershipBuyHistoryDTO[].class);
+        Collections.addAll(listAllRevenue, responseGetAllRevenue.getBody());
+
+        if(toDate.equals("") && fromDate.equals("")){
+            model.addAttribute("listAllRevenue", listAllRevenue);
+        }
+        else if (!toDate.equals("") && fromDate.equals("")){
+            List<MembershipBuyHistoryDTO> indexs = new ArrayList<>();
+            for (MembershipBuyHistoryDTO membershipBuyHistoryDTO: listAllRevenue) {
+                if (membershipBuyHistoryDTO.getBuyTime().compareTo(format.parse(toDate)) > 0){
+                    indexs.add(membershipBuyHistoryDTO);
+                }
+            }
+            listAllRevenue.removeAll(indexs);
+            model.addAttribute("listAllRevenue", listAllRevenue);
+        }
+        else if (toDate.equals("") && !fromDate.equals("")){
+            List<MembershipBuyHistoryDTO> indexs = new ArrayList<>();
+            for (MembershipBuyHistoryDTO membershipBuyHistoryDTO: listAllRevenue) {
+                if (membershipBuyHistoryDTO.getBuyTime().compareTo(format.parse(fromDate)) < 0){
+                    indexs.add(membershipBuyHistoryDTO);
+                }
+            }
+            listAllRevenue.removeAll(indexs);
+            model.addAttribute("listAllRevenue", listAllRevenue);
+        }
+        else {
+            List<MembershipBuyHistoryDTO> indexs = new ArrayList<>();
+            for (MembershipBuyHistoryDTO membershipBuyHistoryDTO: listAllRevenue) {
+                if (membershipBuyHistoryDTO.getBuyTime().compareTo(format.parse(fromDate)) < 0 || membershipBuyHistoryDTO.getBuyTime().compareTo(format.parse(toDate)) > 0){
+                    indexs.add(membershipBuyHistoryDTO);
+                }
+            }
+            listAllRevenue.removeAll(indexs);
+            model.addAttribute("listAllRevenue", listAllRevenue);
+        }
+
+        model.addAttribute("toDate", toDate);
+        model.addAttribute("fromDate", fromDate);
+        model.addAttribute("loginAcc", loginAcc);
+        model.addAttribute("check", 1);
+        model.addAttribute("format", format);
+        model.addAttribute("dateTimeFormat", dateTimeFormat);
+        return new ModelAndView("admin/revenue");
     }
 }

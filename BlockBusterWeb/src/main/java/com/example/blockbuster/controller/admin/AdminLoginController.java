@@ -1,6 +1,7 @@
 package com.example.blockbuster.controller.admin;
 
 import com.example.blockbuster.dto.*;
+import com.example.blockbuster.util.MessageUtil;
 import org.springframework.http.*;
 import org.springframework.ui.Model;
 import org.springframework.util.LinkedMultiValueMap;
@@ -29,17 +30,35 @@ public class AdminLoginController {
 
     @RequestMapping(method = RequestMethod.POST, path = "login")
     public ModelAndView login(
-            @RequestParam(value = "username", required = true) String username,
-            @RequestParam(value = "password", required = true) String password,
+            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "password", required = false) String password,
             Model model,
             HttpServletResponse res,
             HttpSession session
     ) throws IOException {
+        if(username == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR05);
+            model.addAttribute("acc", acc);
+            return new ModelAndView("login");
+        }
+        if(password == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR06);
+            model.addAttribute("acc", acc);
+            return new ModelAndView("login");
+        }
+
         acc.setUsername(username);
         acc.setPassword(password);
-        String urlLogin = "http://localhost:8080/api/auth/login";
 
         RestTemplate restTemplate = new RestTemplate();
+        String urlCheckIsLogin = "http://localhost:8080/api/auth/isLogin/" + username;
+        if(restTemplate.getForEntity(urlCheckIsLogin, Integer.class).getBody() == 1){
+            model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR04);
+            model.addAttribute("acc", acc);
+            return new ModelAndView("admin/login");
+        }
+
+        String urlLogin = "http://localhost:8080/api/auth/login";
         HttpEntity<LoginAcc> requestBody = new HttpEntity<>(acc);
         ResponseEntity<LoginResponse> responseLogin = restTemplate.postForEntity(urlLogin, requestBody, LoginResponse.class);
 
@@ -79,16 +98,16 @@ public class AdminLoginController {
                 } else {
                     res.sendRedirect("/admin/home");
                 }
-            } else if (loginAcc.isEnabled() == false) model.addAttribute("error", "Tài khoản chưa được kích hoạt!");
+            } else if (loginAcc.isEnabled() == false) model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR01);
         } else if ((reponse.getAccId() > 0) && (roleCheck == false)) {
-            model.addAttribute("error", "Không đủ quyền truy cập!");
+            model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR03);
         } else {
             String urlCheckUsername = "http://localhost:8080/api/acc/getAccoutByUsername/" + username;
             ResponseEntity<AccountDTO> responseCheckUsername = restTemplate.getForEntity(urlCheckUsername, AccountDTO.class);
 
             if ((responseCheckUsername.getBody().getId() > 0) && (!responseCheckUsername.getBody().isEnabled())) {
-                model.addAttribute("error", "Tài khoản chưa được kích hoạt!");
-            } else model.addAttribute("error", "Sai tài khoản hoặc mật khẩu!");
+                model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR01);
+            } else model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR02);
         }
         model.addAttribute("acc", acc);
         return new ModelAndView("admin/login");

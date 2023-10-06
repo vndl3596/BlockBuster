@@ -34,17 +34,35 @@ public class LoginController {
 
     @RequestMapping(method = RequestMethod.POST, path = "login")
     public ModelAndView login(
-            @RequestParam(value = "username", required = true) String username,
-            @RequestParam(value = "password", required = true) String password,
+            @RequestParam(value = "username", required = false) String username,
+            @RequestParam(value = "password", required = false) String password,
             Model model,
             HttpServletResponse res,
             HttpSession session
     ) throws IOException {
+        if(username == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR05);
+            model.addAttribute("acc", acc);
+            return new ModelAndView("login");
+        }
+        if(password == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR06);
+            model.addAttribute("acc", acc);
+            return new ModelAndView("login");
+        }
+
         acc.setUsername(username);
         acc.setPassword(password);
-        String urlLogin = "http://localhost:8080/api/auth/login";
-
         RestTemplate restTemplate = new RestTemplate();
+
+        String urlCheckIsLogin = "http://localhost:8080/api/auth/isLogin/" + username;
+        if(restTemplate.getForEntity(urlCheckIsLogin, Integer.class).getBody() == 1){
+            model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR04);
+            model.addAttribute("acc", acc);
+            return new ModelAndView("login");
+        }
+
+        String urlLogin = "http://localhost:8080/api/auth/login";
         HttpEntity<LoginAcc> requestBody = new HttpEntity<>(acc);
         ResponseEntity<LoginResponse> responseLogin = restTemplate.postForEntity(urlLogin, requestBody, LoginResponse.class);
 
@@ -73,7 +91,7 @@ public class LoginController {
                 if (session.getAttribute("oldUrl") != null) {
                     res.sendRedirect((String) session.getAttribute("oldUrl"));
                 } else {
-                    res.sendRedirect("/admin");
+                    res.sendRedirect("/home");
                 }
             } else if (loginAcc.isEnabled() == false) model.addAttribute("error", MessageUtil.VALIDATION_LOGIN_ERR01);
         } else {

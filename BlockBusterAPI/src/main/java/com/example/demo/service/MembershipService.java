@@ -15,4 +15,7 @@ import java.util.List;
 public interface MembershipService {
     List<MembershipDTO> getAllMembershipDetail();
     MembershipDTO getMembershipById(int id);
+    MembershipDTO addMembership(MembershipDTO membershipDTO);
+    String deleteMembershipById(int id);
+    MembershipDTO editMembership(MembershipDTO membershipDTO);
 }

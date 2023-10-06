@@ -2,6 +2,7 @@ package com.example.blockbuster.controller.admin;
 
 import com.example.blockbuster.apicall.DataCall;
 import com.example.blockbuster.dto.*;
+import com.example.blockbuster.util.MessageUtil;
 import org.json.simple.JSONObject;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -256,7 +257,7 @@ public class AdminMovieController {
         HttpEntity<String[]> requestAddFkGenre = new HttpEntity<>(genres);
         restTemplate.postForEntity(urlAddFkGenre, requestAddFkGenre, String.class);
 
-        error += "Thêm phim thành công!!!";
+        error += MessageUtil.VALIDATION_MOVIE_ADD_SUCCESS;
 
         if (listAllMovie == null) {
             DataCall dataCall = new DataCall();
@@ -486,7 +487,7 @@ public class AdminMovieController {
             }
         }
 
-        error += "Sửa phim thành công!!!";
+        error += MessageUtil.VALIDATION_MOVIE_UPDATE_SUCCESS;
         String urlEditMovie = "http://localhost:8080/api/movieDetail/editMovieDetail";
         MovieDTO movieDTO;
         if (posterchange.equals("true")) {

@@ -5,6 +5,7 @@ import com.example.blockbuster.dto.AccountDTO;
 import com.example.blockbuster.dto.DirectorDTO;
 import com.example.blockbuster.dto.ImageDTO;
 import com.example.blockbuster.dto.LoginResponse;
+import com.example.blockbuster.util.MessageUtil;
 import org.json.simple.JSONObject;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpEntity;
@@ -162,7 +163,7 @@ public class AdminDirectorController {
         String urlImage = "http://localhost:8080/getImage";
         ResponseEntity<ImageDTO> response = restTemplate.postForEntity(urlImage, request, ImageDTO.class);
         listAllDir.get(0).setAvatar(response.getBody().getUrl());
-        err += "Thêm đạo diễn thành công!!!";
+        err += MessageUtil.VALIDATION_DIRECTOR_ADD_SUCCESS;
         if (listAllDir == null) {
             DataCall dataCall = new DataCall();
             dataCall.dataCall(session);
@@ -204,7 +205,7 @@ public class AdminDirectorController {
             Collections.reverse(listAllDir);
         }
 
-        err += "Xoá đạo diễn thành công!!!";
+        err += MessageUtil.VALIDATION_DIRECTOR_DELETE_SUCCESS;
         String urlDeleteDirector = "http://localhost:8080/api/director/remove/" + id;
         restTemplate.getForEntity(urlDeleteDirector, String.class);
         for (DirectorDTO dir : listAllDir) {
@@ -316,7 +317,7 @@ public class AdminDirectorController {
             }
         }
 
-        err += "Sửa đạo diễn thành công!!!";
+        err += MessageUtil.VALIDATION_DIRECTOR_UPDATE_SUCCESS;
         String urlEditDirector = "http://localhost:8080/api/director/edit";
         DirectorDTO directorDTO;
         if (avtchange.equals("true")) {

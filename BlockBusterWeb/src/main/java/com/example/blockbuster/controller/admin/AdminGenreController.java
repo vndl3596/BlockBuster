@@ -4,6 +4,7 @@ import com.example.blockbuster.apicall.DataCall;
 import com.example.blockbuster.dto.AccountDTO;
 import com.example.blockbuster.dto.GenreDTO;
 import com.example.blockbuster.dto.LoginResponse;
+import com.example.blockbuster.util.MessageUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -84,13 +85,13 @@ public class AdminGenreController {
         }
 
         if (check == true) {
-            err += "Thêm thể loại thành công!!!";
+            err += MessageUtil.VALIDATION_GENRE_ADD_SUCCESS;
             String urlAddGenre = "http://localhost:8080/api/genre/add";
             GenreDTO genreDTO = new GenreDTO(0, genreName);
             HttpEntity<GenreDTO> requestAddGenre = new HttpEntity<>(genreDTO);
             ResponseEntity<GenreDTO> responseAddGenre = restTemplate.postForEntity(urlAddGenre, requestAddGenre, GenreDTO.class);
             listAllGenre.add(0, responseAddGenre.getBody());
-        } else err += "Tên thể loại trùng!!!";
+        } else err += MessageUtil.VALIDATION_GENRE_AU_ERR01;
 
         model.addAttribute("loginAcc", loginAcc);
         model.addAttribute("isEdit", isEdit);
@@ -121,7 +122,7 @@ public class AdminGenreController {
             Collections.reverse(listAllGenre);
         }
 
-        err += "Xoá thể loại thành công!!!";
+        err += MessageUtil.VALIDATION_GENRE_DELETE_SUCCESS;
         String urlDeleteGenre = "http://localhost:8080/api/genre/remove/" + id;
         restTemplate.getForEntity(urlDeleteGenre, String.class);
         for (GenreDTO genre : listAllGenre) {
@@ -215,14 +216,14 @@ public class AdminGenreController {
         }
 
         if (check == true) {
-            err += "Sửa thể loại thành công!!!";
+            err += MessageUtil.VALIDATION_GENRE_UPDATE_SUCCESS;
             String urlAddGenre = "http://localhost:8080/api/genre/edit";
             GenreDTO genreDTO = new GenreDTO(id, genreName);
             HttpEntity<GenreDTO> requestEditGenre = new HttpEntity<>(genreDTO);
             restTemplate.postForEntity(urlAddGenre, requestEditGenre, GenreDTO.class);
             listAllGenre.set(listAllGenre.indexOf(genreEdit), genreDTO);
             genreEdit.setName(genreName);
-        } else err += "Tên thể loại trùng!!!";
+        } else err += MessageUtil.VALIDATION_GENRE_AU_ERR01;
 
         model.addAttribute("loginAcc", loginAcc);
         model.addAttribute("genreEdit", genreEdit);

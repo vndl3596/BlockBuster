@@ -3,7 +3,7 @@
 
 <head>
     <!-- Basic need -->
-    <title>Thăng cấp thành viên</title>
+    <title>Mua gõi xem phim</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
@@ -31,7 +31,37 @@
         <span></span>
     </div>
 </div>
-
+<div class="login-wrapper" id="signup-content">
+    <div class="login-content">
+        <br>
+        <br>
+        <h3>Thanh toán gói</h3>
+        <input type="hidden"/>
+        <input type="hidden" id="memberDetailId"/>
+        <form method="post" th:action="${'/membership/buy'}" name="">
+            <div class="row">
+                <label id="memberDetailLabel" style="color: #dd003f; text-align: center;">
+                </label>
+            </div>
+            <div class="row">
+                <label id="time" style="color: #dd003f; text-align: center;">
+                </label>
+            </div>
+            <div class="row">
+                <label id="priceLabel" style="color: #dd003f; text-align: center;">
+                </label>
+            </div>
+            <div class="row">
+                    <input type="hidden" name="inputMemberDetailId" id="inputMemberDetailId"/>
+            </div>
+            <div class="row">
+                <button type="submit" onclick="buy(); return true;" th:if="${loginResponse != null}">Thanh toán
+                </button>
+                <button type="submit" th:if="${loginResponse == null}">Thanh toán</button>
+            </div>
+        </form>
+    </div>
+</div>
 <header class="ht-header full-width-hd">
     <div class="row">
         <nav id="mainNav" class="navbar navbar-default navbar-custom">
@@ -118,7 +148,7 @@
 </div>
 
 <div class="latestnew full-width" th:each="member, state : ${listAllMembership}">
-    <div class="container" style="text-align: center;" th:if="${member.id > 0}">
+    <div class="container" style="text-align: center;">
         <h2 style="border-left: 5px solid #dd003f; color: white; text-align: left; font-family: 'Dosis', sans-serif; font-weight: bold;"
             th:utext="${member.detail}"></h2>
         <div class="col-md-4" th:each="memberDetail, state : ${member.membershipDetails}">
@@ -126,27 +156,21 @@
                 <div class="pricing-box-header">
                     <div class="pricing-name" th:utext="${member.name}">
                     </div>
-                    <div class="pricing-price" th:utext="${memberDetail.price}+' VND/Ngày'"
-                         th:if="${memberDetail.day > 0}">
-                    </div>
-                    <div class="pricing-price" th:utext="${memberDetail.price}+' VND/Tháng'"
-                         th:if="${memberDetail.month > 0}">
-                    </div>
-                    <div class="pricing-price" th:utext="${memberDetail.price}+' VND/Năm'"
-                         th:if="${memberDetail.year > 0}">
+                    <div class="pricing-price" th:utext="${memberDetail.price}+' VND'">
                     </div>
                 </div>
                 <div class="pricing-box-content">
-                    <p>Bình luận phim</p>
-                    <p>Theo dõi phim</p>
+                    <p th:utext="'Thời lượng gói: ' + ${memberDetail.day} + ' Ngày'" th:if="${memberDetail.day > 0}"></p>
+                    <p th:utext="'Thời lượng gói: ' + ${memberDetail.month} + ' Tháng'" th:if="${memberDetail.month > 0}"></p>
+                    <p th:utext="'Thời lượng gói: ' + ${memberDetail.year} + ' Năm'" th:if="${memberDetail.year > 0}"></p>
                     <p>Có thể xem phim: <span th:each="mem, state : ${listAllMembership}"><span th:utext="'Free, '"
                                                                                                 th:if="${mem.id == 0}"></span><span
                             th:utext="${mem.name} + ', '" th:if="${mem.id < member.id && mem.id != 0}"></span><span
                             th:utext="${mem.name}" th:if="${mem.id == member.id}"></span></span></p>
                 </div>
-                <div class="pricing-box-action">
+                <div class="pricing-box-action signupLink">
                     <a href="#">
-                        <button class="btn-hover"><strong>MUA NGAY</strong></button>
+                        <button class="btn-hover btn-buy" th:id="${member.detail} + '-' + ${memberDetail.id} + '-' + ${memberDetail.day} + '-' + ${memberDetail.month} + '-' + ${memberDetail.year} + '-' + ${memberDetail.price}"><strong>MUA NGAY</strong></button>
                     </a>
                 </div>
             </div>
@@ -183,6 +207,7 @@
                 <ul>
                     <li><a href="/user-profile">Tài khoản của tôi</a></li>
                     <li><a href="/change-pass">Đổi mật khẩu</a></li>
+                    <li><a href="/membership">Mua gói xem phim</a></li>
                     <li><a href="/logout">Đăng xuất</a></li>
                 </ul>
             </div>
@@ -223,8 +248,26 @@
     }
 </script>
 <script>
-    function toGenreMovie() {
-        document.getElementById("genreSelect").submit();
+    var buyButtons = document.getElementsByClassName("btn-buy");
+    for(var i = 0; i < buyButtons.length; i++){
+        buyButtons[i].addEventListener("click", function (){
+            var ids = this.id.split("-");
+            document.getElementById("memberDetailLabel").innerText = "Gói xem phim: " + ids[0];
+            document.getElementById("priceLabel").innerText = "Giá: " + ids[5] + "VND";
+            document.getElementById("inputMemberDetailId").value = ids[1];
+            if(ids[2] != '0'){
+                document.getElementById("time").innerText = "Thời lượng: " + ids[2] + " Ngày";
+            }
+            if(ids[3] != '0'){
+                document.getElementById("time").innerText = "Thời lượng: " + ids[3] + " Tháng";
+            }
+            if(ids[4] != '0'){
+                document.getElementById("time").innerText = "Thời lượng: " + ids[4] + " Năm";
+            }
+        })
+    }
+    function buy(){
+        alert("Thanh toán thành công!");
     }
 </script>
 

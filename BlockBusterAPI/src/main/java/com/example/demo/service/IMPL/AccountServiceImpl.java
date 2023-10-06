@@ -139,6 +139,18 @@ public class AccountServiceImpl implements AccountService {
     }
 
     @Override
+    public String deActiveAccountByUsername(String username) {
+        Account account = accountRepository.findMovieAccountByUsername(username);
+        if (account == null) {
+            throw new AccountExeption("Account not found with username: " + username);
+        } else {
+            account.setEnabled(false);
+            accountRepository.save(account);
+            return "DeActive Account Successfully!";
+        }
+    }
+
+    @Override
     public AccountDTO editAccountByUsername(AccountDTO accountDTO) throws MailException {
         Account account = accountRepository.findById(accountDTO.getId()).orElse(null);
         assert account != null;
