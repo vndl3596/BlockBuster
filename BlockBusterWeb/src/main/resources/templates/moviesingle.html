@@ -353,7 +353,7 @@
                                                 <h6>Thể loại:</h6>
                                                 <p><a style="cursor: pointer;" th:each="genre, state : ${genreList}"
                                                       th:utext="' ' + ${genre.getName()} + ','"
-                                                      th:href="'/movie-grid/showing/genre=' + ${genre.getId()} + '&page=1'"></a>...
+                                                      th:href="'/search/genre=' + ${genre.getId()} + '&page=1'"></a>...
                                                 </p>
                                             </div>
                                             <div class="sb-it">
@@ -685,6 +685,7 @@
                 <ul>
                     <li><a href="/user-profile">Tài khoản của tôi</a></li>
                     <li><a href="/change-pass">Đổi mật khẩu</a></li>
+                    <li><a href="/membership">Mua gói xem phim</a></li>
                     <li><a href="/logout">Đăng xuất</a></li>
                 </ul>
             </div>

@@ -40,4 +40,8 @@ public class Membership implements Serializable {
     @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
     @EqualsAndHashCode.Exclude
     private List<MembershipDetail> listMembershipDetail = new ArrayList<>();
+
+    @OneToMany(mappedBy = "membership", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    private List<FKMembership> fkMembershipList = new ArrayList<>();
 }

@@ -86,6 +86,14 @@ public class  Account implements Serializable {
     @EqualsAndHashCode.Exclude
     private List<MovieEvaluate> movieEvaluates = new ArrayList<>();
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @EqualsAndHashCode.Exclude
+    private List<MembershipBuyHistory> membershipBuyHistories = new ArrayList<>();
+
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    @EqualsAndHashCode.Exclude
+    private List<FKMembership> fkMembershipList = new ArrayList<>();
+
     @Override
     public String toString() {
         return "Account{" +

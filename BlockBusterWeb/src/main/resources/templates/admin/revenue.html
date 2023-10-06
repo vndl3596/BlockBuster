@@ -95,15 +95,15 @@
                     </a>
                     <div class="collapse" id="ui-basic">
                         <ul class="nav flex-column sub-menu">
-                            <li class="nav-item"><a class="nav-link" href="/admin/report/mvg">Phim từng thể loại</a>
-                            </li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/mvg">Phim từng thể
+                                loại</a></li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/mva">Phim theo diễn viên</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/mvd">Phim theo đạo diễn</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link active" href="/admin/report/rating">Phim theo đánh
-                                giá</a></li>
-                            <li class="nav-item"><a class="nav-link" href="/admin/report/revenue">Doanh thu</a>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/rating">Phim theo đánh giá</a>
+                            </li>
+                            <li class="nav-item"><a class="nav-link active" href="/admin/report/revenue">Doanh thu</a>
                             </li>
                         </ul>
                     </div>
@@ -181,52 +181,22 @@
                   <i class="mdi mdi-chart-bar"></i>
                 </span>
                         <span style="color: white;">
-                  Thống kê danh sách phim theo đánh giá
+                  Thống kê doanh thu
                 </span>
                     </h3>
                 </div>
                 <div class="row">
                     <div class="col-3  grid-margin">
-                        <div class="card" style="max-height: 200px;">
+                        <div class="card" style="max-height: 300px;">
                             <div class="card-body">
-                                <form class="forms-sample" method="post" name="rating" action="/admin/report/rating"
-                                      onsubmit="return checkMinMax()" th:if="${search == 0}">
+                                <form class="forms-sample" method="post" th:action="${'/admin/report/revenue'}">
                                     <div class="form-group">
-                                        <label>Đánh giá</label>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <label>Min</label>
-                                                <input type="number" class="form-control" min="0" max="5" value="0"
-                                                       name="min">
-                                            </div>
-                                            <div class="col-6">
-                                                <label>Max</label>
-                                                <input type="number" class="form-control" min="0" max="5" value="0"
-                                                       name="max">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="input-group col-xs-12"
-                                         style="align-items: center; justify-content: center; margin-bottom: 10px;">
-                                        <button type="submit" class="btn btn-gradient-success me-2">Thống kê</button>
-                                    </div>
-                                </form>
-                                <form class="forms-sample" method="post" name="rating" action="/admin/report/rating"
-                                      onsubmit="return checkMinMax()" th:if="${search != 0}">
-                                    <div class="form-group">
-                                        <label>Rating</label>
-                                        <div class="row">
-                                            <div class="col-6">
-                                                <label>Min</label>
-                                                <input type="number" class="form-control" min="0" max="5" value="0"
-                                                       name="min" th:value="${df.parse(min)}">
-                                            </div>
-                                            <div class="col-6">
-                                                <label>Max</label>
-                                                <input type="number" class="form-control" min="0" max="5" value="0"
-                                                       name="max" th:value="${df.parse(max)}">
-                                            </div>
-                                        </div>
+                                        <label>Từ ngày</label>
+                                        <input type="date" name="from-day" class="form-control" style="height: 47px;" th:if="${fromDate.equals('')}">
+                                        <input type="date" name="from-day" class="form-control" style="height: 47px;" th:value="${fromDate}" th:if="${!fromDate.equals('')}">
+                                        <label style="margin-top: 10px">Đến ngày</label>
+                                        <input type="date" name="to-day" class="form-control" style="height: 47px;" th:if="${toDate.equals('')}">
+                                        <input type="date" name="to-day" class="form-control" style="height: 47px;" th:value="${toDate}" th:if="${!toDate.equals('')}">
                                     </div>
                                     <div class="input-group col-xs-12"
                                          style="align-items: center; justify-content: center; margin-bottom: 10px;">
@@ -238,38 +208,32 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-9 grid-margin" th:if="${search != 0}">
+                    <div class="col-9 grid-margin" th:if="${check != 0}">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Danh sách phim</h4>
+                                <h4 class="card-title">Báo cáo doanh thu</h4>
                                 <div>
                                     <table class="table" id="table">
                                         <thead>
                                         <tr>
-                                            <th> Tên phim</th>
-                                            <th> Ngày phát hành</th>
-                                            <th> Lượt xem</th>
-                                            <th> Rating</th>
-                                            <th> CRUD</th>
+                                            <th> Mã gói</th>
+                                            <th> Người mua</th>
+                                            <th> Ngày mua</th>
+                                            <th> Voucher</th>
+                                            <th> Thực thu</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="movie, state : ${mapMovieOnRating}">
-                                            <td>
-                                                <img th:src="${movie.getKey().poster}" class="me-2" alt="image"
-                                                     style="width: 70px; height: 100px; border-radius: 0px;"> <span
-                                                    th:utext="${movie.getKey().title}"></span>
+                                        <tr th:each="buyHis, state : ${listAllRevenue}">
+                                            <td th:utext="${buyHis.getMembershipDetail().getMembership()}">
                                             </td>
-                                            <td th:utext="${format.format(movie.getKey().releaseDate)}"></td>
-                                            <td th:utext="${movie.getKey().viewNumber}"></td>
-                                            <td>
-                                                <span th:utext="${df.format(movie.getValue())}"></span>
-                                                <span style="color: yellow;">
-                              <i class="mdi mdi-star"></i>
-                            </span>
+                                            <td th:utext="${buyHis.getAccount().getUsername()}">
                                             </td>
-                                            <td><a th:href="${'/admin/movie/view/idMov=' + movie.getKey().id}"
-                                                   style="color:cornflowerblue;" target=”_blank”>Xem chi tiết</a></td>
+                                            <td th:utext="${dateTimeFormat.format(buyHis.getBuyTime())}">
+                                            </td>
+                                            <td th:if="${buyHis.getVoucher() != null}" th:utext="${buyHis.getVoucher()}"></td>
+                                            <td th:if="${buyHis.getVoucher() == null}"></td>
+                                            <td th:utext="${buyHis.getMoneyIncome()}"></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -332,16 +296,6 @@
             }
         );
     });
-</script>
-<script>
-    function checkMinMax() {
-        let min = document.forms["rating"]["min"].value;
-        let max = document.forms["rating"]["max"].value;
-        if (min > max) {
-            alert("Min phải bé hơn hoặc bằng max!");
-            return false;
-        }
-    }
 </script>
 <!-- End custom js for this page -->
 </body>

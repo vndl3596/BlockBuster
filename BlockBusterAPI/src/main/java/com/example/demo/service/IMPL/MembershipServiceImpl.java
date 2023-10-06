@@ -19,7 +19,13 @@ public class MembershipServiceImpl implements MembershipService {
 
     @Override
     public List<MembershipDTO> getAllMembershipDetail(){
-        return membershipMap.listMembershipToListDTO(membershipRepository.findAll());
+        List<MembershipDTO> listMember = membershipMap.listMembershipToListDTO(membershipRepository.findAll());
+        for (MembershipDTO membership: listMember) {
+            if(membership.getId() == 0){
+                listMember.remove(membership);
+            }
+        }
+        return listMember;
     }
 
     @Override

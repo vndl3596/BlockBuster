@@ -114,6 +114,17 @@ body{
   box-sizing: border-box;
   transform: translateX(-50%);
  }
+
+@media (max-width: 1010px){
+ .logo img {
+     visibility: hidden;
+ }
+}
+@media (max-width: 550px){
+    .register_body{
+        width: 120%;
+    }
+}
  
  .register_body h2{
    font-size: 32px;

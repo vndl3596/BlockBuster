@@ -6,6 +6,8 @@ import com.example.blockbuster.dto.MembershipDTO;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
@@ -50,5 +52,40 @@ public class MembershipController {
         model.addAttribute("listAllMembership", listAllMembership);
 
         return new ModelAndView("membership");
+    }
+
+    @RequestMapping(method = RequestMethod.GET, path = "membership/buy")
+    public ModelAndView buyMembershipGet(Model model,
+                                       HttpSession session,
+                                       HttpServletResponse response) throws IOException {
+        response.sendRedirect("/membership");
+        return null;
+    }
+
+    @RequestMapping(method = RequestMethod.POST, path = "membership/buy")
+    public ModelAndView buyMembershipPost(Model model,
+                                          HttpSession session,
+                                          HttpServletResponse response,
+                                          @RequestParam(value = "inputMemberDetailId", required = true) String buyMemberDetailId) throws IOException {
+        DecimalFormat df = new DecimalFormat("#.#");
+        RestTemplate restTemplate = new RestTemplate();
+
+        loginResponse = (LoginResponse) session.getAttribute("loginResponse");
+        if (loginResponse == null) {
+            session.setAttribute("oldUrl", "/membership");
+            response.sendRedirect("/login");
+            return null;
+        }
+        AccountDTO loginAcc;
+        loginAcc = (AccountDTO) session.getAttribute("loginAcc");
+
+        String urlBuyMembership = "http://localhost:8080/api/membership-detail/buy/" + loginAcc.getId() + "&" + buyMemberDetailId;
+        ResponseEntity<String> responseBuyMembership = restTemplate.getForEntity(urlBuyMembership, String.class);
+
+        String urlBuyMembershipHis = "http://localhost:8080/api/membership-buy-his/save/" + loginAcc.getId() + "&" + buyMemberDetailId;
+        ResponseEntity<String> responseBuyMembershipHis = restTemplate.getForEntity(urlBuyMembershipHis, String.class);
+
+        response.sendRedirect("/membership");
+        return null;
     }
 }

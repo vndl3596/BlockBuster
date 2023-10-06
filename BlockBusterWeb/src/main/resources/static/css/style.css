@@ -3160,7 +3160,7 @@ button.close {
   color: #dd003f;
 }
 .pricing-box.hightlight {
-  box-shadow: 5px 5px 10px #dd003f;
+  box-shadow: 0px 0px 10px 5px #dd003f;
   margin-bottom: 50px;
   border: 1px solid #233a50;
 }
