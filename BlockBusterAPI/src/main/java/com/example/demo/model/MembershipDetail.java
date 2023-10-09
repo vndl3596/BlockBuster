@@ -49,7 +49,7 @@ public class MembershipDetail implements Serializable {
 
     @OneToMany(mappedBy = "membershipDetail", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
-    private List<Voucher> voucherList = new ArrayList<>();
+    private List<VoucherForMembershipDetail> vouchers = new ArrayList<>();
 
     @OneToMany(mappedBy = "membershipDetailBuy", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude

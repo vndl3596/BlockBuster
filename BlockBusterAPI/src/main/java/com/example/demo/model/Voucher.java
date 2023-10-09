@@ -49,8 +49,7 @@ public class Voucher {
     @NotNull(message = "Type cannot be empty")
     private int type;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id_membership_detail")
+    @OneToMany(mappedBy = "voucher", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @EqualsAndHashCode.Exclude
-    private MembershipDetail membershipDetail;
+    private List<VoucherForMembershipDetail> membershipDetails = new ArrayList<>();
 }
