@@ -170,6 +170,12 @@
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/admin/voucher">
+                        <span class="menu-title">Gói giảm giá</span>
+                        <i class="mdi mdi-arrow-down-bold menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-eva" aria-expanded="false"
                        aria-controls="ui-basic">
                         <span class="menu-title">Bình luận</span>
@@ -260,7 +266,7 @@
                                 </form>
                                 <form class="forms-sample" th:if="${isEdit == true}"
                                       th:action="${'/admin/memDe/edit/idMembership=' + membershipDTO.id + '&idMemDe=' + memDeEdit.id}"
-                                      enctype="multipart/form-data" method="post" name="act"
+                                      enctype="multipart/form-data" method="post" name="membership-detail"
                                       onsubmit="return editMembershipDetailSubmit()">
                                     <div class="form-group">
                                         <label>Thời lượng</label>

@@ -130,7 +130,7 @@ public class UserProfileController {
             acc = oldAcc;
         } else {
             acc.setAvatar(oldAcc.getAvatar());
-            model.addAttribute("errorCI", "Thay đổi thông tin thành công!");
+            model.addAttribute("errorCI", MessageUtil.VALIDATION_USERPROFILE_SUCCESS);
         }
         String urlTown = "http://localhost:8080/api/address/getTownById/" + acc.getTown();
         ResponseEntity<TownDTO> responseTown = restTemplate.getForEntity(urlTown, TownDTO.class);

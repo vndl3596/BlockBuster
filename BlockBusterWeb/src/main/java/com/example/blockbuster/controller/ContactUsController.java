@@ -2,6 +2,7 @@ package com.example.blockbuster.controller;
 
 import com.example.blockbuster.dto.AccountDTO;
 import com.example.blockbuster.dto.LoginResponse;
+import com.example.blockbuster.util.MessageUtil;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -53,6 +54,7 @@ public class ContactUsController {
             loginAcc = (AccountDTO) httpSession.getAttribute("loginAcc");
             model.addAttribute("loginAcc", loginAcc);
         }
+        String error = MessageUtil.VALIDATION_CONTACT_SUCCESS;
         RestTemplate restTemplate = new RestTemplate();
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
@@ -64,6 +66,7 @@ public class ContactUsController {
         String urlContact = "http://localhost:8080/api/contact";
         restTemplate.postForEntity(urlContact, request, Void.class);
 
+        model.addAttribute("error", error);
         model.addAttribute("loginResponse", loginResponse);
         return new ModelAndView("contactus");
     }

@@ -9,4 +9,5 @@ import java.util.List;
 public interface MembershipBuyHistoryService {
     String saveBuyHistory(int idAcc, int idMembershipDetail, int voucherId) throws Exception;
     List<MembershipBuyHistoryDTO> getAllBuyHistory() throws Exception;
+    List<MembershipBuyHistoryDTO> getAllBuyHistoryByUsername(String username);
 }

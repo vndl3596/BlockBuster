@@ -147,7 +147,7 @@
     </div>
 </div>
 
-<div class="latestnew full-width" th:each="member, state : ${listAllMembership}">
+<div class="latestnew full-width" th:each="member, state : ${listAllMembership}" th:if="${mem == null}">
     <div class="container" style="text-align: center;">
         <h2 style="border-left: 5px solid #dd003f; color: white; text-align: left; font-family: 'Dosis', sans-serif; font-weight: bold;"
             th:utext="${member.detail}"></h2>
@@ -156,28 +156,63 @@
                 <div class="pricing-box-header">
                     <div class="pricing-name" th:utext="${member.name}">
                     </div>
-                    <div class="pricing-price" th:utext="${memberDetail.price}+' VND'">
+                    <div class="pricing-price" th:if="${voucherMap.get(memberDetail.id) != null}">
+                        <span><del th:utext="${memberDetail.price}"></del> <span th:utext="${memberDetail.getPrice() - (memberDetail.getPrice() * voucherMap.get(memberDetail.id).getReduce() / 100)}" style="font-size: larger" th:if="${voucherMap.get(memberDetail.id).type == 1}"></span><span th:utext="${memberDetail.getPrice() - voucherMap.get(memberDetail.id).getReduce()}" style="font-size: larger" th:if="${voucherMap.get(memberDetail.id).type == 2}"></span> VND</span>
+                    </div>
+                    <div class="pricing-price" th:if="${voucherMap.get(memberDetail.id) == null}">
+                        <span><span th:utext="${memberDetail.price}" style="font-size: larger"></span> VND</span>
                     </div>
                 </div>
                 <div class="pricing-box-content">
-                    <p th:utext="'Thời lượng gói: ' + ${memberDetail.day} + ' Ngày'" th:if="${memberDetail.day > 0}"></p>
-                    <p th:utext="'Thời lượng gói: ' + ${memberDetail.month} + ' Tháng'" th:if="${memberDetail.month > 0}"></p>
-                    <p th:utext="'Thời lượng gói: ' + ${memberDetail.year} + ' Năm'" th:if="${memberDetail.year > 0}"></p>
-                    <p>Có thể xem phim: <span th:each="mem, state : ${listAllMembership}"><span th:utext="'Free, '"
-                                                                                                th:if="${mem.id == 0}"></span><span
-                            th:utext="${mem.name} + ', '" th:if="${mem.id < member.id && mem.id != 0}"></span><span
-                            th:utext="${mem.name}" th:if="${mem.id == member.id}"></span></span></p>
+                    <p><span>Thời lượng gói: </span><span th:utext="${memberDetail.day} + ' Ngày '" th:if="${memberDetail.day > 0}"></span><span th:utext="${memberDetail.month} + ' Tháng '" th:if="${memberDetail.month > 0}"></span><span th:utext="${memberDetail.year} + ' Năm'" th:if="${memberDetail.year > 0}"></span></p>
+                    <p>Có thể xem phim: <span th:utext="'Free, '"></span><span th:utext="${member.name}"></span></p>
                 </div>
                 <div class="pricing-box-action signupLink">
-                    <a href="#">
-                        <button class="btn-hover btn-buy" th:id="${member.detail} + '-' + ${memberDetail.id} + '-' + ${memberDetail.day} + '-' + ${memberDetail.month} + '-' + ${memberDetail.year} + '-' + ${memberDetail.price}"><strong>MUA NGAY</strong></button>
+                    <a href="#" th:if="${voucherMap.get(memberDetail.id) == null}">
+                        <button class="btn-hover btn-buy" th:id="${member.detail} + '-' + ${memberDetail.id} + '-' + ${memberDetail.day} + '-' + ${memberDetail.month} + '-' + ${memberDetail.year} + '-' + ${memberDetail.getPrice()}"><strong>MUA NGAY</strong></button>
+                    </a>
+                    <a href="#" th:if="${voucherMap.get(memberDetail.id) != null}">
+                        <button class="btn-hover btn-buy" th:id="${member.detail} + '-' + ${memberDetail.id} + '-' + ${memberDetail.day} + '-' + ${memberDetail.month} + '-' + ${memberDetail.year} + '-' + ${memberDetail.getPrice() - (memberDetail.getPrice() * voucherMap.get(memberDetail.id).getReduce() / 100)}" th:if="${voucherMap.get(memberDetail.id).type == 1}"><strong>MUA NGAY</strong></button>
+                        <button class="btn-hover btn-buy" th:id="${member.detail} + '-' + ${memberDetail.id} + '-' + ${memberDetail.day} + '-' + ${memberDetail.month} + '-' + ${memberDetail.year} + '-' + ${memberDetail.getPrice() - voucherMap.get(memberDetail.id).getReduce()}" th:if="${voucherMap.get(memberDetail.id).type == 2}"><strong>MUA NGAY</strong></button>
                     </a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<div class="latestnew full-width" th:if="${mem != null}">
+    <div class="container" style="text-align: center;">
+        <h2 style="border-left: 5px solid #dd003f; color: white; text-align: left; font-family: 'Dosis', sans-serif; font-weight: bold;"
+            th:utext="${mem.detail}"></h2>
+        <div class="col-md-4" th:each="memberDetail, state : ${mem.membershipDetails}">
+            <div class="pricing-box hightlight">
+                <div class="pricing-box-header">
+                    <div class="pricing-name" th:utext="${mem.name}">
+                    </div>
+                    <div class="pricing-price" th:if="${voucherMap.get(memberDetail.id) != null}">
+                        <span><del th:utext="${memberDetail.price}"></del> <span th:utext="${memberDetail.getPrice() - (memberDetail.getPrice() * voucherMap.get(memberDetail.id).getReduce() / 100)}" style="font-size: larger" th:if="${voucherMap.get(memberDetail.id).type == 1}"></span><span th:utext="${memberDetail.getPrice() - voucherMap.get(memberDetail.id).getReduce()}" style="font-size: larger" th:if="${voucherMap.get(memberDetail.id).type == 2}"></span> VND</span>
+                    </div>
+                    <div class="pricing-price" th:if="${voucherMap.get(memberDetail.id) == null}">
+                        <span><span th:utext="${memberDetail.price}" style="font-size: larger"></span> VND</span>
+                    </div>
+                </div>
+                <div class="pricing-box-content">
+                    <p><span>Thời lượng gói: </span><span th:utext="${memberDetail.day} + ' Ngày '" th:if="${memberDetail.day > 0}"></span><span th:utext="${memberDetail.month} + ' Tháng '" th:if="${memberDetail.month > 0}"></span><span th:utext="${memberDetail.year} + ' Năm'" th:if="${memberDetail.year > 0}"></span></p>
+                    <p>Có thể xem phim: <span th:utext="'Free, '"></span><span th:utext="${mem.name}"></span></p>
+                </div>
+                <div class="pricing-box-action signupLink">
+                    <a href="#" th:if="${voucherMap.get(memberDetail.id) == null}">
+                        <button class="btn-hover btn-buy" th:id="${mem.detail} + '-' + ${memberDetail.id} + '-' + ${memberDetail.day} + '-' + ${memberDetail.month} + '-' + ${memberDetail.year} + '-' + ${memberDetail.getPrice()}"><strong>MUA NGAY</strong></button>
+                    </a>
+                    <a href="#" th:if="${voucherMap.get(memberDetail.id) != null}">
+                        <button class="btn-hover btn-buy" th:id="${mem.detail} + '-' + ${memberDetail.id} + '-' + ${memberDetail.day} + '-' + ${memberDetail.month} + '-' + ${memberDetail.year} + '-' + ${memberDetail.getPrice() - (memberDetail.getPrice() * voucherMap.get(memberDetail.id).getReduce() / 100)}" th:if="${voucherMap.get(memberDetail.id).type == 1}"><strong>MUA NGAY</strong></button>
+                        <button class="btn-hover btn-buy" th:id="${mem.detail} + '-' + ${memberDetail.id} + '-' + ${memberDetail.day} + '-' + ${memberDetail.month} + '-' + ${memberDetail.year} + '-' + ${memberDetail.getPrice() - voucherMap.get(memberDetail.id).getReduce()}" th:if="${voucherMap.get(memberDetail.id).type == 2}"><strong>MUA NGAY</strong></button>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 <footer class="ht-footer full-width-ft">
     <div class="row">
         <div class="flex-parent-ft">
@@ -255,15 +290,17 @@
             document.getElementById("memberDetailLabel").innerText = "Gói xem phim: " + ids[0];
             document.getElementById("priceLabel").innerText = "Giá: " + ids[5] + "VND";
             document.getElementById("inputMemberDetailId").value = ids[1];
+            var time = "Thời lượng: ";
             if(ids[2] != '0'){
-                document.getElementById("time").innerText = "Thời lượng: " + ids[2] + " Ngày";
+                time += ids[2] + " Ngày ";
             }
             if(ids[3] != '0'){
-                document.getElementById("time").innerText = "Thời lượng: " + ids[3] + " Tháng";
+                time += ids[3] + " Tháng ";
             }
             if(ids[4] != '0'){
-                document.getElementById("time").innerText = "Thời lượng: " + ids[4] + " Năm";
+                time += ids[4] + " Năm ";
             }
+            document.getElementById("time").innerText = time;
         })
     }
     function buy(){

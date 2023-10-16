@@ -87,7 +87,7 @@ public class UserHistoryServiceImpl implements UserHistoryService {
     public UserHistoryDTO getHistoryByAccountAndMovie(Integer idAcc, Integer idMovie){
         List<UserHistory> userHistories = userHistoryRepository.findAll();
         for (UserHistory userHistoryCheck : userHistories) {
-            if (Objects.equals(userHistoryCheck.getUser().getId(), idAcc) && Objects.equals(userHistoryCheck.getMovie().getId(), idMovie)) {
+            if (userHistoryCheck.getUser().getId() == idAcc && userHistoryCheck.getMovie().getId() == idMovie) {
                 return userHistoryMap.userHistoryToDTO(userHistoryCheck);
             }
         }

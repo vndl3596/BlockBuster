@@ -86,7 +86,7 @@
                         <i class="mdi mdi-home menu-icon"></i>
                     </a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                        aria-controls="ui-basic">
                         <span class="menu-title">Thống kê</span>
@@ -99,8 +99,8 @@
                             </li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/mva">Phim theo diễn viên</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link active" href="/admin/report/mvd">Phim theo đạo
-                                diễn</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/mvd">Phim theo đạo diễn</a>
+                            </li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/rating">Phim theo đánh giá</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/revenue">Doanh thu</a>
@@ -168,7 +168,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="/admin/voucher">
                         <span class="menu-title">Gói giảm giá</span>
                         <i class="mdi mdi-arrow-down-bold menu-icon"></i>
@@ -198,70 +198,75 @@
                 <div class="page-header">
                     <h3 class="page-title">
                 <span class="page-title-icon bg-gradient-primary text-white me-2">
-                  <i class="mdi mdi-chart-bar"></i>
+                  <i class="mdi mdi-arrow-down-bold"></i>
                 </span>
                         <span style="color: white;">
-                  Thống kê danh sách phim theo đạo diễn
+                  Gói giảm giá
                 </span>
                     </h3>
+                    <nav aria-label="breadcrumb">
+                        <ul class="breadcrumb">
+                            <li class="breadcrumb-item active" aria-current="page">
+                                <span style="color: white;">Quản lý gói giảm giá</span> <i
+                                    class="mdi mdi-alert-circle-outline icon-sm text-primary align-middle"></i>
+                            </li>
+                        </ul>
+                    </nav>
                 </div>
                 <div class="row">
-                    <div class="col-3  grid-margin">
-                        <div class="card" style="max-height: 400px;">
-                            <div class="card-body">
-                                <form class="forms-sample">
-                                    <div class="form-group">
-                                        <div class="row">
-                                            <div class="input-group col-xs-4"
-                                                 style="align-items: center; justify-content: center; margin-bottom: 10px;">
-                                                <img class="file-upload-img" th:src="${dir.avatar}" alt="image"
-                                                     style="width: 150px; height: 200px;">
-                                            </div>
-                                            <input type="file" name="img[]" class="file-upload-default" id="file-input"
-                                                   accept="image/gif, image/jpeg, image/png">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" th:value="${dir.name}" readonly>
-                                    </div>
-                                </form>
-                                <div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="col-12 grid-margin">
+                        <a href="/admin/voucher/add" target="_blank">
+                            <button class="btn btn-gradient-success me-2">Thêm gói giảm giá</button>
+                        </a>
                     </div>
-                    <div class="col-9 grid-margin">
+                    <div class="col-12 grid-margin">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Danh sách phim</h4>
+                                <h4 class="card-title">Danh sách gói giảm giá</h4>
                                 <div>
                                     <table class="table" id="table">
                                         <thead>
                                         <tr>
-                                            <th> Tên phim</th>
-                                            <th> Status</th>
-                                            <th> Ngày phát hành</th>
-                                            <th> Lượt xem</th>
+                                            <th> Code voucher</th>
+                                            <th> Tên voucher</th>
+                                            <th> Thời gian bắt đầu</th>
+                                            <th> Thời gian kết thúc</th>
+                                            <th> Trạng thái</th>
+                                            <th> Giảm</th>
                                             <th> CRUD</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="movie, state : ${listMovieOnDir}">
-                                            <td>
-                                                <img th:src="${movie.poster}" class="me-2" alt="image"
-                                                     style="width: 70px; height: 100px; border-radius: 0px;"> <span
-                                                    th:utext="${movie.title}"></span>
-                                            </td>
+                                        <tr th:each="voucher, state : ${voucherList}">
+                                            <td th:utext="${voucher.voucherCode}"></td>
+                                            <td th:utext="${voucher.voucherName}"></td>
+                                            <td th:utext="${formatter.format(voucher.timeFrom)}"></td>
+                                            <td th:utext="${formatter.format(voucher.timeTo)}"></td>
                                             <td>
                                                 <label class="badge badge-gradient-success"
-                                                       th:if="${movie.movieStatus == true}">Đang chiếu</label>
+                                                       th:if="${voucher.status == true}">Đang hoạt động</label>
                                                 <label class="badge badge-gradient-danger"
-                                                       th:if="${movie.movieStatus == false}">Sắp chiếu</label>
+                                                       th:if="${voucher.status == false}">Tạm ngưng</label>
                                             </td>
-                                            <td th:utext="${format.format(movie.releaseDate)}"></td>
-                                            <td th:utext="${movie.viewNumber}"></td>
-                                            <td><a th:href="${'/admin/movie/view/idMov=' + movie.id}"
-                                                   style="color:cornflowerblue;" target=”_blank”>Xem chi tiết</a></td>
+                                            <td>
+                                                <label
+                                                    th:if="${voucher.type == 1}" th:utext="${voucher.reduce + '%'}"></label>
+                                                <label
+                                                        th:if="${voucher.type == 2}" th:utext="${voucher.reduce + ' VND'}"></label>
+                                            </td>
+                                            <td>
+                                                <a th:href="${'/admin/voucher/view/idVou=' + voucher.id}"
+                                                   style="color:cornflowerblue;" target=”_blank”><img
+                                                    style="width:20px; height:20px; border-radius:0px;"
+                                                    src="/images/view.png"></a> / <a
+                                                    th:href="${'/admin/voucher/edit/idVou=' + voucher.id}"
+                                                    style="color:sandybrown;" target=”_blank”><img
+                                                    style="width:20px; height:20px; border-radius:0px;"
+                                                    src="/images/edit.png"></a> / <a
+                                                    th:href="${'/admin/voucher/delete/idVou=' + voucher.id}"
+                                                    style="color:red;"><img
+                                                    style="width:20px; height:20px; border-radius:0px;"
+                                                    src="/images/delete.png"></a></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -298,6 +303,7 @@
 <script src="/admin/js/file-upload.js"></script>
 <script src="cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<!-- End custom js for this page -->
 <script>
     $(document).ready(function () {
         $('#table').DataTable(
@@ -326,6 +332,5 @@
         );
     });
 </script>
-<!-- End custom js for this page -->
 </body>
 </html>

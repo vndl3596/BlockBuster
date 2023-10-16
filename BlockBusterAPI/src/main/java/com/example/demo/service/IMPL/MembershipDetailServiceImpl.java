@@ -13,6 +13,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.time.DateUtils;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -20,6 +21,7 @@ import java.util.List;
 @AllArgsConstructor
 public class MembershipDetailServiceImpl implements MembershipDetailService{
     private final MembershipDetailRepository membershipDetailRepository;
+    private final MembershipDetailMap membershipDetailMap;
     private final FKMembershipRepository fkMembershipRepository;
     private final MembershipRepository membershipRepository;
     private final AccountRepository accountRepository;
@@ -83,5 +85,17 @@ public class MembershipDetailServiceImpl implements MembershipDetailService{
         membershipDetail.setPrice(membershipDetailDTO.getPrice());
         membershipDetailRepository.save(membershipDetail);
         return membershipDetailDTO;
+    }
+
+    @Override
+    public List<MembershipDetailDTO> getMembershipDetailByMembershipId(int idMembership){
+        List<MembershipDetail> membershipDetails = membershipDetailRepository.findAll();
+        List<MembershipDetailDTO> returnList = new ArrayList<>();
+        for (MembershipDetail memDe: membershipDetails) {
+            if(memDe.getMembership().getId() == idMembership){
+                returnList.add(membershipDetailMap.membershipDetailToDTO(memDe));
+            }
+        }
+        return returnList;
     }
 }

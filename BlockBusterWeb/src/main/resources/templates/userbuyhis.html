@@ -1,18 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" class="no-js">
-
-<!-- userfavoritelist13:49-->
 <head>
     <!-- Basic need -->
-    <title>Lịch sử xem phim</title>
+    <title>Lịch sử mua gói</title>
     <meta charset="UTF-8">
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="author" content="">
-
-    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
     <link rel="profile" href="#">
-
+    <link rel="shortcut icon" type="image/png" href="/images/logo.png">
     <!--Google Font-->
     <link rel="stylesheet" href='http://fonts.googleapis.com/css?family=Dosis:400,700,500|Nunito:300,400,600'/>
     <!-- Mobile specific meta -->
@@ -25,7 +21,7 @@
 
 </head>
 <body>
-
+<!--preloading-->
 <div id="preloader" style="background: url('/images/uploads/hero-bg.jpg') no-repeat;">
     <img class="logo" src="/images/logo1.png" alt="" width="119" height="58">
     <div id="status">
@@ -33,7 +29,6 @@
         <span></span>
     </div>
 </div>
-
 <header class="ht-header full-width-hd">
     <div class="row">
         <nav id="mainNav" class="navbar navbar-default navbar-custom">
@@ -56,32 +51,36 @@
                         <a href="#page-top"></a>
                     </li>
                     <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" href="/home">
+                        <a class="btn btn-default  lv1" href="/home">
                             Trang chủ</a>
                     </li>
                     <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" href="/movie-grid/showing/page=1">
+                        <a class="btn btn-default  lv1" href="/movie-grid/showing/page=1">
                             Đang công chiếu</a>
                     </li>
                     <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" href="/movie-grid/coming/page=1">
+                        <a class="btn btn-default  lv1" href="/movie-grid/coming/page=1">
                             Sắp ra mắt</a>
                     </li>
-                    <li class="dropdown first">
+                    <li class="dropdown first" th:if="${loginResponse != null}">
                         <a class="btn btn-default dropdown-toggle lv1" href="/user-history/page=1">
                             Lịch sử</a>
                     </li>
                     <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" href="/contact-us">
+                        <a class="btn btn-default  lv1" href="/contact-us">
                             Liên hệ</a>
                     </li>
                     <li class="dropdown first">
-                        <a class="btn btn-default dropdown-toggle lv1" href="/about">
+                        <a class="btn btn-default  lv1" href="/about">
                             Giới thiệu</a>
                     </li>
                 </ul>
+                <ul class="nav navbar-nav flex-child-menu menu-right" th:if="${loginResponse == null}">
+                    <li class="btnLo"><a href="/login">Đăng nhập</a></li>
+                    <li class="btnRe"><a href="/register">Đăng ký</a></li>
+                </ul>
                 <ul class="nav navbar-nav flex-child-menu menu-right">
-                    <li><img th:src="${acc.avatar}" alt=""
+                    <li><img th:src="${acc.getAvatar()}" alt=""
                              style="width: 50px; height: 50px; margin-right: 10px;  border-radius: 50px;"
                              th:if="${acc.avatar != ''}"></li>
                     <li><img th:src="@{'/images/uploads/user.png'}" alt=""
@@ -99,7 +98,6 @@
 
 </header>
 
-
 <div class="hero common-hero">
     <div class="container">
         <div class="row">
@@ -109,21 +107,20 @@
                     <ul class="breadcumb">
                         <li class="active"><a href="/home">Trang chủ</a></li>
                         <li><span class="ion-ios-arrow-right"></span> Thông tin cá nhân</li>
-                        <li><span class="ion-ios-arrow-right"></span> Lịch sử xem phim</li>
+                        <li><span class="ion-ios-arrow-right"></span> Lịch sử mua gói</li>
                     </ul>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="page-single userfav_list">
+<div class="page-single">
     <div class="container">
         <div class="row ipad-width2">
             <div class="col-md-3 col-sm-12 col-xs-12">
                 <div class="user-information">
                     <div class="user-img">
-                        <img th:src="${acc.avatar}" alt=""
+                        <img th:src="${acc.getAvatar()}" alt=""
                              style="width: 120px; height: 120px; border-radius: 60px;" th:if="${acc.avatar != ''}">
                         <img th:src="@{'/images/uploads/user.png'}" alt=""
                              style="width: 120px; height: 120px; border-radius: 60px;" th:if="${acc.avatar == ''}">
@@ -132,9 +129,9 @@
                         <p>Tài khoản</p>
                         <ul>
                             <li><a href="/user-profile">Thông tin</a></li>
-                            <li class="active"><a href="/user-history/page=1">Lịch sử xem phim</a></li>
+                            <li><a href="/user-history/page=1">Lịch sử xem phim</a></li>
                             <li><a href="/user-rating/page=1">Lịch sử đánh giá</a></li>
-                            <li><a href="/user-buy-history/page=1">Lịch sử mua gói</a></li>
+                            <li class="active"><a href="/user-buy-history/page=1">Lịch sử mua gói</a></li>
                             <li><a href="/user-membership">Gói trong tài khoản</a></li>
                         </ul>
                     </div>
@@ -147,93 +144,86 @@
                 </div>
             </div>
             <div class="col-md-9 col-sm-12 col-xs-12">
-                <div class="topbar-filter user">
-                    <p>Đã xem <span th:utext="${mvNum} + ' bộ phim'"></span> tất cả</p>
+                <div class="topbar-filter">
+                    <p>Đã mua <span th:utext="${buyNum + ' lần'}"></span> tất cả</p>
                 </div>
-                <div class="flex-wrap-movielist user-fav-list">
-                    <div class="movie-item-style-2" th:each="movie, state : ${list}">
-                        <img th:src="${movie.getValue().poster}" alt="" style="width: 170px; height: 261px;">
-                        <div class="mv-item-infor">
-                            <h6><a th:href="'/movie-detail/id=' + ${movie.getValue().id}"
-                                   th:utext="${movie.getValue().title}"></a></h6>
-                            <p class="describe"
-                               th:utext="'Mô tả: ' + ${movie.getValue().detail.substring(0,250) + '...'}"
-                               th:if="${movie.getValue().detail.length > 250}"></p>
-                            <p class="describe" th:utext="'Mô tả: ' + ${movie.getValue().detail}"
-                               th:if="${movie.getValue().detail.length < 250}"></p>
-                            <p th:text="'Ngày khởi chiếu: ' + ${format.format(movie.getValue().releaseDate)}"></p>
-                            <p th:text="'Ngày xem: ' + ${formater.format(movie.getKey().historyDate)}"></p>
-                            <p class="run-time" th:utext="'Đã xem: ' + ${movie.getKey().movieTime}"></p>
-                            <br>
-                        </div>
+                <div class="movie-item-style-2 userrate" th:each="buyHis , state: ${list}">
+                    <div class="mv-item-infor">
+                        <h6><a th:href="${'/membership/idMember=' + buyHis.getValue().id}" th:utext="${'Mã gói:' + buyHis.getValue().detail}"></a>
+                        </h6>
+                        <p class="time sm-text" style="width: 210px;">Thời lượng gói mua:</p>
+                        <p><span th:utext="${buyHis.getKey().membershipDetail.day} + ' Ngày '" th:if="${buyHis.getKey().membershipDetail.day > 0}"></span><span th:utext="${buyHis.getKey().membershipDetail.month} + ' Tháng '" th:if="${buyHis.getKey().membershipDetail.month > 0}"></span><span th:utext="${buyHis.getKey().membershipDetail.year} + ' Năm'" th:if="${buyHis.getKey().membershipDetail.year > 0}"></span></p>
+                        <p class="time sm-text" style="width: 210px;">Giá:</p>
+                        <p th:utext="${buyHis.getKey().moneyIncome}"></p>
+                        <p class="time sm-text" style="width: 210px;">Thời gian mua:</p>
+                        <p th:utext="${formater.format(buyHis.getKey().buyTime)}"></p>
                     </div>
                 </div>
                 <div class="topbar-filter">
                     <label th:utext="'Trang hiện tại: ' + ${pageSelect}"></label>
                     <div class="pagination2" th:if="${(pageList.size() <= 7)}">
                         <label>Trang: </label>
-                        <a th:if="${pageSelect != 1}" th:utext="'<<'" th:href="'/user-history/page-select/page=1'"></a>
+                        <a th:if="${pageSelect != 1}" th:utext="'<<'" th:href="'/user-buy-history/page-select/page=1'"></a>
                         <a th:if="${pageSelect != 1}" th:utext="'<'"
-                           th:href="'/user-history/page-select/page=' + ${pageSelect - 1}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageSelect - 1}"></a>
                         <a th:each="page , state: ${pageList}" th:utext="${page}"
                            th:id="${(pageSelect == page) ? 'page-select' : 'page'}"
-                           th:href="'/user-history/page-select/page=' + ${page}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${page}"></a>
                         <a th:if="${pageSelect != pageList.size() }" th:utext="'>'"
-                           th:href="'/user-history/page-select/page=' + ${pageSelect + 1}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageSelect + 1}"></a>
                         <a th:if="${pageSelect != pageList.size() }" th:utext="'>>'"
-                           th:href="'/user-history/page-select/page=' + ${pageList.size()}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageList.size()}"></a>
                     </div>
                     <div class="pagination2"
                          th:if="${((pageList.size() > 7)&&(pageSelect >= pageList.size() - 1))||((pageList.size() > 7)&&(pageSelect <= 2))}">
                         <label>Trang: </label>
-                        <a th:if="${pageSelect != 1}" th:utext="'<<'" th:href="'/user-history/page-select/page=1'"></a>
+                        <a th:if="${pageSelect != 1}" th:utext="'<<'" th:href="'/user-buy-history/page-select/page=1'"></a>
                         <a th:if="${pageSelect != 1}" th:utext="'<'"
-                           th:href="'/user-history/page-select/page=' + ${pageSelect - 1}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageSelect - 1}"></a>
                         <a th:utext="'1'" th:id="${(pageSelect == 1) ? 'page-select' : 'page'}"
-                           th:href="'/user-history/page-select/page=1'"></a>
+                           th:href="'/user-buy-history/page-select/page=1'"></a>
                         <a th:utext="'2'" th:id="${(pageSelect == 2) ? 'page-select' : 'page'}"
-                           th:href="'/user-history/page-select/page=2'"></a>
+                           th:href="'/user-buy-history/page-select/page=2'"></a>
                         <a th:utext="'3'" th:id="${(pageSelect == 3) ? 'page-select' : 'page'}"
-                           th:href="'/user-history/page-select/page=3'"></a>
+                           th:href="'/user-buy-history/page-select/page=3'"></a>
                         <a th:utext="'...'"></a>
                         <a th:utext="${totalPage - 2}" th:id="${(pageSelect == totalPage - 2) ? 'page-select' : 'page'}"
-                           th:href="'/user-history/page-select/page=' + ${totalPage - 2}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${totalPage - 2}"></a>
                         <a th:utext="${totalPage - 1}" th:id="${(pageSelect == totalPage - 1) ? 'page-select' : 'page'}"
-                           th:href="'/user-history/page-select/page=' + ${totalPage - 1}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${totalPage - 1}"></a>
                         <a th:utext="${totalPage}" th:id="${(pageSelect == totalPage - 0) ? 'page-select' : 'page'}"
-                           th:href="'/user-history/page-select/page=' + ${totalPage}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${totalPage}"></a>
                         <a th:if="${pageSelect != pageList.size() }" th:utext="'>'"
-                           th:href="'/user-history/page-select/page=' + ${pageSelect + 1}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageSelect + 1}"></a>
                         <a th:if="${pageSelect != pageList.size() }" th:utext="'>>'"
-                           th:href="'/user-history/page-select/page=' + ${pageList.size()}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageList.size()}"></a>
                     </div>
                     <div class="pagination2"
                          th:if="${(pageList.size() > 7)&&(pageSelect < pageList.size() - 1)&&(pageSelect > 2)}">
                         <label>Trang: </label>
-                        <a th:if="${pageSelect != 1}" th:utext="'<<'" th:href="'/user-history/page-select/page=1'"></a>
+                        <a th:if="${pageSelect != 1}" th:utext="'<<'" th:href="'/user-buy-history/page-select/page=1'"></a>
                         <a th:if="${pageSelect != 1}" th:utext="'<'"
-                           th:href="'/user-history/page-select/page=' + ${pageSelect - 1}"></a>
-                        <a th:utext="'1'" th:href="'/user-history/page-select/page=1'"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageSelect - 1}"></a>
+                        <a th:utext="'1'" th:href="'/user-buy-history/page-select/page=1'"></a>
                         <a th:utext="'...'"></a>
                         <a th:utext="${pageSelect - 1}"
-                           th:href="'/user-history/page-select/page=' + ${pageSelect - 1}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageSelect - 1}"></a>
                         <a th:utext="${pageSelect}" id="page-select"
-                           th:href="'/user-history/page-select/page=' + ${pageSelect}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageSelect}"></a>
                         <a th:utext="${pageSelect + 1}"
-                           th:href="'/user-history/page-select/page=' + ${pageSelect + 1}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageSelect + 1}"></a>
                         <a th:utext="'...'"></a>
-                        <a th:utext="${totalPage}" th:href="'/user-history/page-select/page=' + ${totalPage}"></a>
+                        <a th:utext="${totalPage}" th:href="'/user-buy-history/page-select/page=' + ${totalPage}"></a>
                         <a th:if="${pageSelect != pageList.size() }" th:utext="'>'"
-                           th:href="'/user-history/page-select/page=' + ${pageSelect + 1}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageSelect + 1}"></a>
                         <a th:if="${pageSelect != pageList.size() }" th:utext="'>>'"
-                           th:href="'/user-history/page-select/page=' + ${pageList.size()}"></a>
+                           th:href="'/user-buy-history/page-select/page=' + ${pageList.size()}"></a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
 <footer class="ht-footer full-width-ft">
     <div class="row">
         <div class="flex-parent-ft">
@@ -316,5 +306,5 @@
 <script src="/js/custom.js"></script>
 </body>
 
-
+<!-- userrate14:04-->
 </html>

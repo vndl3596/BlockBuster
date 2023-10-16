@@ -86,7 +86,7 @@
                         <i class="mdi mdi-home menu-icon"></i>
                     </a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                        aria-controls="ui-basic">
                         <span class="menu-title">Thống kê</span>
@@ -99,8 +99,8 @@
                             </li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/mva">Phim theo diễn viên</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link active" href="/admin/report/mvd">Phim theo đạo
-                                diễn</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/mvd">Phim theo đạo diễn</a>
+                            </li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/rating">Phim theo đánh giá</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/revenue">Doanh thu</a>
@@ -168,7 +168,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="/admin/voucher">
                         <span class="menu-title">Gói giảm giá</span>
                         <i class="mdi mdi-arrow-down-bold menu-icon"></i>
@@ -195,76 +195,91 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-                <div class="page-header">
-                    <h3 class="page-title">
-                <span class="page-title-icon bg-gradient-primary text-white me-2">
-                  <i class="mdi mdi-chart-bar"></i>
-                </span>
-                        <span style="color: white;">
-                  Thống kê danh sách phim theo đạo diễn
-                </span>
-                    </h3>
-                </div>
                 <div class="row">
-                    <div class="col-3  grid-margin">
-                        <div class="card" style="max-height: 400px;">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
                             <div class="card-body">
-                                <form class="forms-sample">
+                                <h5 class="card-title" style="text-align: center" th:utext="${'Thêm gói giảm giá'}"></h5>
+                                <form class="forms-sample" name="voucher" action="/admin/voucher/add" enctype="multipart/form-data"
+                                      method="post" onsubmit="return voucherAddSubmit()">
+                                    <div class="form-group">
+                                        <label>Code voucher</label>
+                                        <input type="text" class="form-control" name="voucherCode" placeholder="Code voucher">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Tên voucher</label>
+                                        <input type="text" class="form-control" name="voucherName" placeholder="Tên voucher">
+                                    </div>
                                     <div class="form-group">
                                         <div class="row">
-                                            <div class="input-group col-xs-4"
-                                                 style="align-items: center; justify-content: center; margin-bottom: 10px;">
-                                                <img class="file-upload-img" th:src="${dir.avatar}" alt="image"
-                                                     style="width: 150px; height: 200px;">
+                                            <div class="col-6">
+                                                <label>Thời gian bắt đầu</label>
+                                                <input type="datetime-local" class="form-control" name="timeFrom">
                                             </div>
-                                            <input type="file" name="img[]" class="file-upload-default" id="file-input"
-                                                   accept="image/gif, image/jpeg, image/png">
+                                            <div class="col-6">
+                                                <label>Thời gian kết thúc</label>
+                                                <input type="datetime-local" class="form-control" name="timeTo">
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" th:value="${dir.name}" readonly>
+                                        <label>Trạng thái</label>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <input type="radio" name="status" style="margin: 5px;" value="1" checked><span
+                                                    style="font-size: 14px;">Đang hoạt động</span>
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="radio" name="status" style="margin: 5px;" value="0"><span
+                                                    style="font-size: 14px;">Tạm ngưng</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Giảm</label>
+                                        <div class="row">
+                                            <div class="col-4">
+                                                <input type="number" name="reduce" value="0" min="0" class="form-control">
+                                            </div>
+                                            <div class="col-2">
+                                                <select name="type" class="form-control">
+                                                    <option value="1" th:utext="'%'" selected></option>
+                                                    <option value="2" th:utext="'VND'"></option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>Gói</label>
+                                                <select name="membership" id="membership" class="form-control" onchange="membershipOnChange()">
+                                                    <option value="0">Chọn gói</option>
+                                                    <option th:each="membership, state : ${listAllMembership}" th:value="${membership.id}"
+                                                            th:utext="${membership.detail}"></option>
+                                                </select>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Chi tiết gói giảm giá</label>
+                                                <select name="membershipDetail" id="membershipDetail" class="form-control">
+                                                    <option value="0">Chọn chi tiết gói</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="input-group col-xs-12"
+                                         style="align-items: center; justify-content: center; margin-bottom: 10px;">
+                                        <label th:utext="${error}" style="color: lawngreen; font-size: 14px;"
+                                               th:if="${error.contains('thành công')}"></label></br>
+                                        <label th:utext="${error}" style="color: red; font-size: 14px;"
+                                               th:if="${!error.contains('thành công')}"></label></br>
+                                    </div>
+                                    <div class="input-group col-xs-12"
+                                         style="align-items: center; justify-content: center; margin-bottom: 10px;">
+                                        <button type="submit" class="btn btn-gradient-success me-2">Lưu gói giảm giá</button>
                                     </div>
                                 </form>
                                 <div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-9 grid-margin">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Danh sách phim</h4>
-                                <div>
-                                    <table class="table" id="table">
-                                        <thead>
-                                        <tr>
-                                            <th> Tên phim</th>
-                                            <th> Status</th>
-                                            <th> Ngày phát hành</th>
-                                            <th> Lượt xem</th>
-                                            <th> CRUD</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="movie, state : ${listMovieOnDir}">
-                                            <td>
-                                                <img th:src="${movie.poster}" class="me-2" alt="image"
-                                                     style="width: 70px; height: 100px; border-radius: 0px;"> <span
-                                                    th:utext="${movie.title}"></span>
-                                            </td>
-                                            <td>
-                                                <label class="badge badge-gradient-success"
-                                                       th:if="${movie.movieStatus == true}">Đang chiếu</label>
-                                                <label class="badge badge-gradient-danger"
-                                                       th:if="${movie.movieStatus == false}">Sắp chiếu</label>
-                                            </td>
-                                            <td th:utext="${format.format(movie.releaseDate)}"></td>
-                                            <td th:utext="${movie.viewNumber}"></td>
-                                            <td><a th:href="${'/admin/movie/view/idMov=' + movie.id}"
-                                                   style="color:cornflowerblue;" target=”_blank”>Xem chi tiết</a></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -299,32 +314,82 @@
 <script src="cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('#table').DataTable(
-            {
-                lengthMenu: [
-                    [5, 10, 20, 50, 100, -1],
-                    [5, 10, 20, 50, 100, 'Tất cả'],
-                ],
-                "aaSorting": [],
-                "info": false,
-                "language": {
-                    "lengthMenu": "Hiển thị _MENU_ mẩu tin mỗi trang",
-                    "zeroRecords": "Rỗng",
-                    "info": "Trang hiện tại _PAGE_: Hiển thị _START_ -> _END_ trên _TOTAL_",
-                    "infoFiltered": "(lọc từ _MAX_ mẩu tin)",
-                    "infoEmpty": "Không tìm thấy",
-                    "paginate": {
-                        "first": "First",
-                        "last": "Last",
-                        "next": "Trang kế",
-                        "previous": "Trang trước"
-                    },
-                    "search": "Tìm kiếm:",
-                }
+    function membershipOnChange() {
+        const selectedMembership = document.forms["voucher"]["membership"].value;
+        removeOptions(document.getElementById("membershipDetail"));
+
+        fetch(`http://localhost:8080/api/membership-detail/getByMembershipId/${selectedMembership}`, {method: "get"})
+            .then(function (reponse) {
+                return reponse.json();
+            })
+            .then(function (membershipDetails) {
+                var optionsMembershipDetail = membershipDetails.map(function (memDe) {
+                    return `<option value="${memDe.id}">${memDe.day + ' Ngày ' + memDe.month + ' Tháng ' + memDe.year + ' Năm '}</option>`;
+                });
+                var html = optionsMembershipDetail.join('');
+                document.getElementById('membershipDetail').innerHTML = html;
+            })
+            .catch(function (error) {
+            });
+    }
+    function removeOptions(selectElement) {
+        var i, L = selectElement.options.length - 1;
+        for (i = L; i >= 0; i--) {
+            selectElement.remove(i);
+        }
+    }
+</script>
+<script>
+    function voucherAddSubmit(){
+        let code = document.forms["voucher"]["voucherCode"].value;
+        if (code == "") {
+            document.forms["voucher"]["voucherCode"].focus();
+            alert("Code gói giảm giá không được trống!");
+            return false;
+        }
+
+        let name = document.forms["voucher"]["voucherName"].value;
+        if (name == "") {
+            document.forms["voucher"]["voucherName"].focus();
+            alert("Tên gói giảm giá không được trống!");
+            return false;
+        }
+
+        let timeFrom = document.forms["voucher"]["timeFrom"].value;
+        if (timeFrom == "") {
+            document.forms["voucher"]["timeFrom"].focus();
+            alert("Thời gian bắt đầu không được trống!");
+            return false;
+        }
+
+        let timeTo = document.forms["voucher"]["timeTo"].value;
+        if (timeTo == "") {
+            document.forms["voucher"]["timeTo"].focus();
+            alert("Thời gian kết thúc không được trống!");
+            return false;
+        }
+
+        var currentDay = new Date();
+        if(new Date(timeTo).getTime() < currentDay.getTime()){
+            alert("Thời gian kết thúc không thể trước thời gian hiện tại!!!");
+            document.forms["voucher"]["timeTo"].focus();
+            return false;
+        }
+        if(new Date(timeFrom).getTime() > new Date(timeTo).getTime()){
+            alert("Thời gian bắt đầu không thể trước thời gian kết thúc!!!");
+            document.forms["voucher"]["timeFrom"].focus();
+            return false;
+        }
+
+        let type = document.forms["voucher"]["type"].value;
+        if (type == "1") {
+            if(document.forms["voucher"]["reduce"].value > 100){
+                alert("Lượng giảm giá chỉ tối đa 100 nếu chọn giảm giá theo phần trăm!!!");
+                document.forms["voucher"]["reduce"].focus();
+                return false;
             }
-        );
-    });
+        }
+    }
 </script>
 <!-- End custom js for this page -->
 </body>

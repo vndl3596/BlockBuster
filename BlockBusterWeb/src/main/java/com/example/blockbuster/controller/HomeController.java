@@ -21,7 +21,7 @@ public class HomeController {
     LoginResponse loginResponse;
 
     @RequestMapping("home")
-    public ModelAndView homeShow(Model model, HttpSession session) {
+    public ModelAndView homeShow(Model model, HttpSession session) throws Exception {
         SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
         ArrayList<MovieDTO> listAllMovie = MovieCall.getAllMovie();
         ArrayList<MovieDTO> listMovieShowing = MovieCall.getAllShowingMovie();
@@ -75,7 +75,6 @@ public class HomeController {
         model.addAttribute("listAllMovie", listAllMovieForHome);
         model.addAttribute("listMovieNew", listMovieNew);
         model.addAttribute("bigSliderList", bigSliderMap);
-
         return new ModelAndView("home");
     }
 }

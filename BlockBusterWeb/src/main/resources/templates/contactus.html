@@ -122,22 +122,24 @@
         <div class="row ipad-width">
             <div class="col-md-6 col-sm-12 col-xs-12"
                  style="background-color: #0b1a2a; margin-top: 10%; padding:3%; box-shadow: 5px 5px 20px #dd003f; margin-bottom: 10px;border: 1px solid #dd003f;">
-                <form th:action="@{contact-us}" class="contact-form" method="post">
+                <form th:action="@{contact-us}" class="contact-form" method="post" name="contact" onsubmit="return checkContact()">
                     <h1 style="color: #abb7c4; margin-bottom: 25px;">Liên hệ với chúng tôi</h1>
                     <div class="input_wrap" style="margin-bottom: 5px;">
                         <input type="text"
                                style="height: 40px; font-family: 'Nunito', sans-serif; font-weight: 300; font-size: 13px; color: #abb7c4; background-color: #233a50; display: inline-block; width: 49.5%;"
                                name="name" placeholder="Tên"
-                               required autocomplete="off">
-                        <input type="text"
+                               autocomplete="off">
+                        <input type="email"
                                style="height: 40px; font-family: 'Nunito', sans-serif; font-weight: 300; font-size: 13px; color: #abb7c4; background-color: #233a50; display: inline-block; width: 49.5%;"
                                name="mail"
-                               placeholder="Email của bạn" required autocomplete="off">
+                               placeholder="Email của bạn" autocomplete="off">
                     </div>
                     <div class="input_wrap" style="margin-bottom: 5px;">
                         <textarea name="contact-content" placeholder="Nội dung"
-                                  style="font-family: 'Nunito', sans-serif; font-weight: 300; font-size: 13px; color: #abb7c4; background-color: #233a50; height: 200px;"
-                                  required></textarea>
+                                  style="font-family: 'Nunito', sans-serif; font-weight: 300; font-size: 13px; color: #abb7c4; background-color: #233a50; height: 200px;"></textarea>
+                    </div>
+                    <div class="input_wrap">
+                        <label th:utext="${error}" th:if="error != null" style="color: lawngreen; text-align: center;"></label>
                     </div>
                     <div class="input_wrap">
                         <input type="submit" id="submitCon"
@@ -211,6 +213,37 @@
     </div>
 </footer>
 <div class="scrollTop" onclick="scrollToTop()"></div>
+<script>
+    function checkContact(){
+        let name = document.forms["contact"]["name"].value;
+        if (name == "") {
+            document.forms["contact"]["name"].focus();
+            alert("Tên không được trống!");
+            return false;
+        }
+
+        let content = document.forms["contact"]["contact-content"].value;
+        if (content == "") {
+            document.forms["contact"]["contact-content"].focus();
+            alert("Nội dung không được trống!");
+            return false;
+        }
+
+        let email = document.forms["contact"]["mail"].value;
+        if (email == "") {
+            document.forms["contact"]["mail"].focus();
+            alert("Email không được trống!");
+            return false;
+        }
+        else{
+            if(!email.endsWith('@gmail.com')){
+                document.forms["contact"]["mail"].focus();
+                alert("Email phải đúng định dạng! xxxxxxs@gmail.com");
+                return false;
+            }
+        }
+    }
+</script>
 <script>
     window.addEventListener('scroll', function () {
         var scroll = document.querySelector('.scrollTop');

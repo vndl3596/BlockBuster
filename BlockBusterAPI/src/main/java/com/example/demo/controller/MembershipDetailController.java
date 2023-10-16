@@ -24,6 +24,12 @@ public class MembershipDetailController {
         return new ResponseEntity<>(membershipDetailService.buyMembership(idAcc, idMembershipDetail), HttpStatus.OK);
     }
 
+    @CrossOrigin("*")
+    @GetMapping("/getByMembershipId/{id}")
+    public ResponseEntity<List<MembershipDetailDTO>> getMembershipDetailByMembershipId(@PathVariable int id) {
+        return new ResponseEntity<>(membershipDetailService.getMembershipDetailByMembershipId(id), HttpStatus.OK);
+    }
+
     @PostMapping("/add")
     public ResponseEntity<MembershipDetailDTO> addMembershipDetail(@RequestBody MembershipDetailDTO membershipDetailDTO) throws Exception {
         return new ResponseEntity<>(membershipDetailService.addMembershipDetail(membershipDetailDTO), HttpStatus.OK);

@@ -1,6 +1,7 @@
 package com.example.blockbuster.util;
 
 public class MessageUtil {
+    public static final String VALIDATION_CONTACT_SUCCESS = "Liên hệ thành công!!!";
     public static final String VALIDATION_LOGIN_ERR01 = "Tài khoản chưa được kích hoạt!";
     public static final String VALIDATION_LOGIN_ERR02 = "Sai tài khoản hoặc mật khẩu!";
     public static final String VALIDATION_LOGIN_ERR03 = "Không đủ quyền truy cập!";
@@ -10,7 +11,15 @@ public class MessageUtil {
     public static final String VALIDATION_REGISTER_SUCCESS = "Đăng ký thành công!!! Check Email để kích hoạt tài khoản!";
     public static final String VALIDATION_REGISTER_ERR01 = "Đăng ký thất bại!!! Tài khoản đã có người sử dụng!";
     public static final String VALIDATION_REGISTER_ERR02 = "Đăng ký thất bại!!! Email đã có người sử dụng!";
+    public static final String VALIDATION_REGISTER_ERR03 = "Họ chưa được nhập!";
+    public static final String VALIDATION_REGISTER_ERR04 = "Tên chưa được nhập!";
+    public static final String VALIDATION_REGISTER_ERR05 = "Ngày sinh chưa được nhập!";
+    public static final String VALIDATION_REGISTER_ERR06 = "Thị trấn chưa được chọn!";
+    public static final String VALIDATION_REGISTER_ERR07 = "Email chưa được nhập!";
+    public static final String VALIDATION_REGISTER_ERR08 = "Username chưa được nhập!";
+    public static final String VALIDATION_REGISTER_ERR09 = "Password chưa được nhập!";
     public static final String VALIDATION_USERPROFILE_ERR01 = "Thay đổi thông tin thất bại!!! Email đã có người sử dụng!!!";
+    public static final String VALIDATION_USERPROFILE_SUCCESS = "Thay đổi thông tin thành công!";
     public static final String VALIDATION_CHANGEPASS_SUCCESS = "Đổi mật khẩu thành công!";
     public static final String VALIDATION_CHANGEPASS_ERR01 = "Đổi mật khẩu thất bại!";
     public static final String VALIDATION_CHANGEPASS_ERR02 = "Đổi mật khẩu thất bại! Mật khẩu hiện tại sai!";
@@ -36,4 +45,7 @@ public class MessageUtil {
     public static final String VALIDATION_MEMBERSHIPDETAIL_UPDATE_SUCCESS = "Sửa chi tiết gói thành công!!!";
     public static final String VALIDATION_MOVIE_ADD_SUCCESS = "Thêm phim thành công!!!";
     public static final String VALIDATION_MOVIE_UPDATE_SUCCESS = "Sửa phim thành công!!!";
+    public static final String VALIDATION_VOUCHER_AU_ERR01 = "Code gói giảm giá trùng!!!";
+    public static final String VALIDATION_VOUCHER_ADD_SUCCESS = "Thêm gói giảm giá thành công!!!";
+    public static final String VALIDATION_VOUCHER_UPDATE_SUCCESS = "Sửa gói giảm giá thành công!!!";
 }

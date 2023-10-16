@@ -142,6 +142,8 @@
                             <li class="active"><a href="/user-profile">Thông tin</a></li>
                             <li><a href="/user-history/page=1">Lịch sử xem phim</a></li>
                             <li><a href="/user-rating/page=1">Lịch sử đánh giá</a></li>
+                            <li><a href="/user-buy-history/page=1">Lịch sử mua gói</a></li>
+                            <li><a href="/user-membership">Gói trong tài khoản</a></li>
                         </ul>
                     </div>
                     <div class="user-fav">
@@ -478,6 +480,13 @@
             document.forms["user-profile"]["email"].focus();
             alert("Email không được trống!");
             return false;
+        }
+        else{
+            if(!email.endsWith('@gmail.com')){
+                document.forms["user-profile"]["email"].focus();
+                alert("Email phải đúng định dạng! xxxxxxs@gmail.com");
+                return false;
+            }
         }
     }
 </script>

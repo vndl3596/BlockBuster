@@ -86,7 +86,7 @@
                         <i class="mdi mdi-home menu-icon"></i>
                     </a>
                 </li>
-                <li class="nav-item active">
+                <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic" aria-expanded="false"
                        aria-controls="ui-basic">
                         <span class="menu-title">Thống kê</span>
@@ -99,8 +99,8 @@
                             </li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/mva">Phim theo diễn viên</a>
                             </li>
-                            <li class="nav-item"><a class="nav-link active" href="/admin/report/mvd">Phim theo đạo
-                                diễn</a></li>
+                            <li class="nav-item"><a class="nav-link" href="/admin/report/mvd">Phim theo đạo diễn</a>
+                            </li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/rating">Phim theo đánh giá</a>
                             </li>
                             <li class="nav-item"><a class="nav-link" href="/admin/report/revenue">Doanh thu</a>
@@ -168,7 +168,7 @@
                         </ul>
                     </div>
                 </li>
-                <li class="nav-item">
+                <li class="nav-item active">
                     <a class="nav-link" href="/admin/voucher">
                         <span class="menu-title">Gói giảm giá</span>
                         <i class="mdi mdi-arrow-down-bold menu-icon"></i>
@@ -195,76 +195,79 @@
         <!-- partial -->
         <div class="main-panel">
             <div class="content-wrapper">
-                <div class="page-header">
-                    <h3 class="page-title">
-                <span class="page-title-icon bg-gradient-primary text-white me-2">
-                  <i class="mdi mdi-chart-bar"></i>
-                </span>
-                        <span style="color: white;">
-                  Thống kê danh sách phim theo đạo diễn
-                </span>
-                    </h3>
-                </div>
                 <div class="row">
-                    <div class="col-3  grid-margin">
-                        <div class="card" style="max-height: 400px;">
+                    <div class="col-12 grid-margin">
+                        <div class="card">
                             <div class="card-body">
+                                <h5 class="card-title" style="text-align: center" th:utext="${'Voucher: ' + viewVoucher.getVoucherCode()}"></h5>
                                 <form class="forms-sample">
                                     <div class="form-group">
+                                        <label>Tên voucher</label>
+                                        <input type="text" class="form-control" th:value="${viewVoucher.voucherName}" readonly>
+                                    </div>
+                                    <div class="form-group">
                                         <div class="row">
-                                            <div class="input-group col-xs-4"
-                                                 style="align-items: center; justify-content: center; margin-bottom: 10px;">
-                                                <img class="file-upload-img" th:src="${dir.avatar}" alt="image"
-                                                     style="width: 150px; height: 200px;">
+                                            <div class="col-6">
+                                                <label>Thời gian bắt đầu</label>
+                                                <input type="text" class="form-control"
+                                                       th:value="${inputDateTimeFormat.format(viewVoucher.timeFrom)}" readonly>
                                             </div>
-                                            <input type="file" name="img[]" class="file-upload-default" id="file-input"
-                                                   accept="image/gif, image/jpeg, image/png">
+                                            <div class="col-6">
+                                                <label>Thời gian kết thúc</label>
+                                                <input type="text" class="form-control"
+                                                       th:value="${inputDateTimeFormat.format(viewVoucher.timeTo)}" readonly>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" th:if="${viewVoucher.status == true}">
+                                        <label>Trạng thái</label>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <input type="radio" name="status" style="margin: 5px;" checked disabled><span
+                                                    style="font-size: 14px;">Đang hoạt động</span>
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="radio" name="status" style="margin: 5px;" disabled><span
+                                                    style="font-size: 14px;">Tạm ngưng</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group" th:if="${viewVoucher.status == false}">
+                                        <label>Trạng thái</label>
+                                        <div class="row">
+                                            <div class="col-2">
+                                                <input type="radio" name="status" style="margin: 5px;" disabled><span
+                                                    style="font-size: 14px;">Đang hoạt động</span>
+                                            </div>
+                                            <div class="col-2">
+                                                <input type="radio" name="status" style="margin: 5px;" checked disabled><span
+                                                    style="font-size: 14px;">Tạm ngưng</span>
+                                            </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <input type="text" class="form-control" th:value="${dir.name}" readonly>
+                                        <label>Giảm</label>
+                                        <input type="text" class="form-control" th:if="${viewVoucher.getType() == 1}" th:value="${viewVoucher.reduce + '%'}"
+                                               readonly>
+                                        <input type="text" class="form-control" th:if="${viewVoucher.getType() == 2}" th:value="${viewVoucher.reduce + ' VND'}"
+                                        readonly>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <label>Gói</label>
+                                                <input type="text" class="form-control"
+                                                       th:value="${membershipOfVoucher.detail}" readonly>
+                                            </div>
+                                            <div class="col-6">
+                                                <label>Chi tiết gói giảm giá</label>
+                                                <input type="text" class="form-control"
+                                                       th:value="${membershipDetailOfVoucher.day + ' Ngày ' + membershipDetailOfVoucher.month + ' Tháng ' + membershipDetailOfVoucher.year + ' Năm'}" readonly>
+                                            </div>
+                                        </div>
                                     </div>
                                 </form>
                                 <div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-9 grid-margin">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">Danh sách phim</h4>
-                                <div>
-                                    <table class="table" id="table">
-                                        <thead>
-                                        <tr>
-                                            <th> Tên phim</th>
-                                            <th> Status</th>
-                                            <th> Ngày phát hành</th>
-                                            <th> Lượt xem</th>
-                                            <th> CRUD</th>
-                                        </tr>
-                                        </thead>
-                                        <tbody>
-                                        <tr th:each="movie, state : ${listMovieOnDir}">
-                                            <td>
-                                                <img th:src="${movie.poster}" class="me-2" alt="image"
-                                                     style="width: 70px; height: 100px; border-radius: 0px;"> <span
-                                                    th:utext="${movie.title}"></span>
-                                            </td>
-                                            <td>
-                                                <label class="badge badge-gradient-success"
-                                                       th:if="${movie.movieStatus == true}">Đang chiếu</label>
-                                                <label class="badge badge-gradient-danger"
-                                                       th:if="${movie.movieStatus == false}">Sắp chiếu</label>
-                                            </td>
-                                            <td th:utext="${format.format(movie.releaseDate)}"></td>
-                                            <td th:utext="${movie.viewNumber}"></td>
-                                            <td><a th:href="${'/admin/movie/view/idMov=' + movie.id}"
-                                                   style="color:cornflowerblue;" target=”_blank”>Xem chi tiết</a></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
                                 </div>
                             </div>
                         </div>
@@ -298,34 +301,6 @@
 <script src="/admin/js/file-upload.js"></script>
 <script src="cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $('#table').DataTable(
-            {
-                lengthMenu: [
-                    [5, 10, 20, 50, 100, -1],
-                    [5, 10, 20, 50, 100, 'Tất cả'],
-                ],
-                "aaSorting": [],
-                "info": false,
-                "language": {
-                    "lengthMenu": "Hiển thị _MENU_ mẩu tin mỗi trang",
-                    "zeroRecords": "Rỗng",
-                    "info": "Trang hiện tại _PAGE_: Hiển thị _START_ -> _END_ trên _TOTAL_",
-                    "infoFiltered": "(lọc từ _MAX_ mẩu tin)",
-                    "infoEmpty": "Không tìm thấy",
-                    "paginate": {
-                        "first": "First",
-                        "last": "Last",
-                        "next": "Trang kế",
-                        "previous": "Trang trước"
-                    },
-                    "search": "Tìm kiếm:",
-                }
-            }
-        );
-    });
-</script>
 <!-- End custom js for this page -->
 </body>
 </html>

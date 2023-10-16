@@ -87,7 +87,7 @@ public class AdminMembershipController {
         if (check == true) {
             err += MessageUtil.VALIDATION_MEMBERSHIP_ADD_SUCCESS;
             String urlAddMembership = "http://localhost:8080/api/membership/add";
-            MembershipDTO membershipDTO = new MembershipDTO(0, membershipName.toUpperCase(), membershipDetail, null);
+            MembershipDTO membershipDTO = new MembershipDTO(0, membershipName.toUpperCase().replaceAll(" ", ""), membershipDetail, null);
             HttpEntity<MembershipDTO> requestAddMembership = new HttpEntity<>(membershipDTO);
             ResponseEntity<MembershipDTO> responseAddGenre = restTemplate.postForEntity(urlAddMembership, requestAddMembership, MembershipDTO.class);
             listAllMembership.add(0, responseAddGenre.getBody());
@@ -218,7 +218,7 @@ public class AdminMembershipController {
         if (check == true) {
             err += MessageUtil.VALIDATION_MEMBERSHIP_UPDATE_SUCCESS;
             String urlEditMembership = "http://localhost:8080/api/membership/edit";
-            MembershipDTO membershipDTO = new MembershipDTO(id, membershipName.toUpperCase(), membershipDetail, null);
+            MembershipDTO membershipDTO = new MembershipDTO(id, membershipName.toUpperCase().replaceAll(" ", ""), membershipDetail, null);
             HttpEntity<MembershipDTO> requestEditMembership = new HttpEntity<>(membershipDTO);
             restTemplate.postForEntity(urlEditMembership, requestEditMembership, MembershipDTO.class);
             listAllMembership.set(listAllMembership.indexOf(membershipEdit), membershipDTO);

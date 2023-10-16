@@ -1,4 +1,4 @@
-package com.example.demo.dto;
+package com.example.blockbuster.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

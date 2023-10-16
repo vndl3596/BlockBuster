@@ -6756,8 +6756,8 @@ ul {
 }
 .userrate {
   align-items: flex-start;
-  border-bottom: 1px solid #405266;
-  padding-bottom: 30px;
+  border: 1px solid #405266;
+  padding: 10px;
 }
 .userrate img {
   width: 100px;

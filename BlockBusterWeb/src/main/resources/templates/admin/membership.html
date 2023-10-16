@@ -168,6 +168,12 @@
                     </div>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link" href="/admin/voucher">
+                        <span class="menu-title">Gói giảm giá</span>
+                        <i class="mdi mdi-arrow-down-bold menu-icon"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a class="nav-link" data-bs-toggle="collapse" href="#ui-basic-eva" aria-expanded="false"
                        aria-controls="ui-basic">
                         <span class="menu-title">Bình luận</span>
@@ -376,10 +382,16 @@
 </script>
 <script>
     function membershipSubmit() {
-        let name = document.forms["membership"]["genreName"].value;
+        let name = document.forms["membership"]["membershipName"].value;
         if (name == "") {
-            document.forms["membership"]["genreName"].focus();
-            alert("Tên thể loại không được trống!");
+            document.forms["membership"]["membershipName"].focus();
+            alert("Tên gói xem phim không được trống!");
+            return false;
+        }
+        let detail = document.forms["membership"]["membershipDetail"].value;
+        if (detail == "") {
+            document.forms["membership"]["membershipDetail"].focus();
+            alert("Mô tả gói xem phim không được trống!");
             return false;
         }
     }

@@ -61,10 +61,49 @@ public class RegisterController {
                                  HttpServletResponse res) throws ParseException, IOException {
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         RestTemplate restTemplate = new RestTemplate();
+        boolean validation = true;
+
         String urlTown = "http://localhost:8080/api/address/getTownById/" + town;
         ResponseEntity<TownDTO> responseTown = restTemplate.getForEntity(urlTown, TownDTO.class);
 
         signUpAcc = new RegisterRequest(username, password, email, "", firstname, lastname, responseTown.getBody(), "", new SimpleDateFormat("yyyy-MM-dd").parse(birth), false, true);
+
+        if(lastname == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_REGISTER_ERR03);
+            validation = false;
+        }
+        if(firstname == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_REGISTER_ERR04);
+            validation = false;
+        }
+        if(birth == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_REGISTER_ERR05);
+            validation = false;
+        }
+        if(town == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_REGISTER_ERR06);
+            validation = false;
+        }
+        if(email == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_REGISTER_ERR07);
+            validation = false;
+        }
+        if(username == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_REGISTER_ERR08);
+            validation = false;
+        }
+        if(password == ""){
+            model.addAttribute("error", MessageUtil.VALIDATION_REGISTER_ERR09);
+            validation = false;
+        }
+
+        if(validation == false){
+            model.addAttribute("format", format);
+            model.addAttribute("signUpAcc", signUpAcc);
+            model.addAttribute("listCity", listCity);
+            return new ModelAndView("register");
+        }
+
         if (gender.equals("true")) {
             signUpAcc.setGender(true);
         } else signUpAcc.setGender(false);

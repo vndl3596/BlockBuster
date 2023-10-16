@@ -96,14 +96,15 @@ public class WatchMovieController {
                     }
                 }
                 if(checkMembership == false){
-                    response.sendRedirect("/membership");
+                    session.setAttribute("movieWatching", mv.getId());
+                    response.sendRedirect("/membership/idMember=" + mv.getRequireMember().getId());
                 }
             }
 
             String urlIncreaseView = "http://localhost:8080/api/movieDetail/addView/" + id;
             restTemplate.getForEntity(urlIncreaseView, Integer.class);
 
-            String urlGetHistoryByAccountAndMovie = "http://localhost:8080/api/history/getHistoryBy/" + id + "/" + loginAcc.getId();
+            String urlGetHistoryByAccountAndMovie = "http://localhost:8080/api/history/getHistoryBy/" + loginAcc.getId() + "/" + id;
             ResponseEntity<UserHistoryDTO> responseGetHistoryByAccountAndMovie = restTemplate.getForEntity(urlGetHistoryByAccountAndMovie, UserHistoryDTO.class);
 
             if (responseGetHistoryByAccountAndMovie.getBody() == null) {
